@@ -39,7 +39,7 @@ public class DatabaseHelper {
         this.dos = dos;
         this.ois = ois;
         this.oos = oos;
-        System.out.println("ASDasdasd");
+
     }
 
     public static Map<String, Object> getEntityManager() {
