@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"db","l":"DatabaseHelper"},{"p":"connexions","l":"LoginError"},{"p":"connexions","l":"Options"},{"p":"connexions","l":"ServerConnexion"},{"p":"connexions","l":"ServerThread"},{"p":"views","l":"ServerView"},{"p":"data","l":"User"}];updateSearchResults();

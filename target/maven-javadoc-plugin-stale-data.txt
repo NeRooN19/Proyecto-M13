@@ -1,0 +1,71 @@
+@options
+@packages
+@argfile
+-classpath
+'C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/eclipselink/2.7.9/eclipselink-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/jakarta.persistence/2.2.3/jakarta.persistence-2.2.3.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/commonj.sdo/2.1.1/commonj.sdo-2.1.1.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.core/2.7.9/org.eclipse.persistence.core-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.asm/9.1.0/org.eclipse.persistence.asm-9.1.0.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.antlr/2.7.9/org.eclipse.persistence.antlr-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa/2.7.9/org.eclipse.persistence.jpa-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa.jpql/2.7.9/org.eclipse.persistence.jpa.jpql-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.moxy/2.7.9/org.eclipse.persistence.moxy-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/javax.persistence/2.2.1/javax.persistence-2.2.1.jar;C:/Users/NeRooN/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa.modelgen.processor/2.7.9/org.eclipse.persistence.jpa.modelgen.processor-2.7.9.jar;C:/Users/NeRooN/.m2/repository/org/postgresql/postgresql/42.4.1/postgresql-42.4.1.jar;C:/Users/NeRooN/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar;C:/Users/NeRooN/.m2/repository/net/bytebuddy/byte-buddy/1.12.16/byte-buddy-1.12.16.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2022. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Ludox 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Ludox 1.0-SNAPSHOT API'
+connexions
+data
+db
+views
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/connexions/LoginError.java'
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/connexions/Options.java'
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/connexions/ServerConnexion.java'
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/connexions/ServerThread.java'
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/data/User.java'
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/db/DatabaseHelper.java'
+'C:/Users/NeRooN/Documents/NetBeansProjects/Ludox/src/main/java/views/ServerView.java'
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\eclipselink\2.7.9\eclipselink-2.7.9.jar = 1665168258114
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\jakarta.persistence\2.2.3\jakarta.persistence-2.2.3.jar = 1665162646415
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\commonj.sdo\2.1.1\commonj.sdo-2.1.1.jar = 1649899279439
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.core\2.7.9\org.eclipse.persistence.core-2.7.9.jar = 1665162646571
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.asm\9.1.0\org.eclipse.persistence.asm-9.1.0.jar = 1665162646376
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.antlr\2.7.9\org.eclipse.persistence.antlr-2.7.9.jar = 1665162646434
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa\2.7.9\org.eclipse.persistence.jpa-2.7.9.jar = 1665162646530
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.jpql\2.7.9\org.eclipse.persistence.jpa.jpql-2.7.9.jar = 1665162646642
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.moxy\2.7.9\org.eclipse.persistence.moxy-2.7.9.jar = 1665162646524
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\javax.persistence\2.2.1\javax.persistence-2.2.1.jar = 1665162646553
+C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.modelgen.processor\2.7.9\org.eclipse.persistence.jpa.modelgen.processor-2.7.9.jar = 1665162646651
+C:\Users\NeRooN\.m2\repository\org\postgresql\postgresql\42.4.1\postgresql-42.4.1.jar = 1665168414798
+C:\Users\NeRooN\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar = 1666466730181
+C:\Users\NeRooN\.m2\repository\net\bytebuddy\byte-buddy\1.12.16\byte-buddy-1.12.16.jar = 1666520470065
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\src\main\java = 1666527354544
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\allclasses-index.html = 1666542363431
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\allpackages-index.html = 1666542363434
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\element-list = 1666542363301
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\help-doc.html = 1666542363462
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\index-all.html = 1666542363456
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\index.html = 1666542363419
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\jquery-ui.overrides.css = 1666542363500
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\member-search-index.js = 1666542363441
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\module-search-index.js = 1666542363435
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\overview-summary.html = 1666542363459
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\overview-tree.html = 1666542363415
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\package-search-index.js = 1666542363437
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\script.js = 1666542363468
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\search.js = 1666542363470
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\serialized-form.html = 1666542363363
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\stylesheet.css = 1666542363466
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\tag-search-index.js = 1666542363443
+C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\site\apidocs\type-search-index.js = 1666542363439
