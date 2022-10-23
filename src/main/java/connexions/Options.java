@@ -5,7 +5,8 @@
 package connexions;
 
 /**
- *
+ *  Enum to have a fast acces to petitions code
+ * 
  * @author NeRooN
  */
 public enum Options {

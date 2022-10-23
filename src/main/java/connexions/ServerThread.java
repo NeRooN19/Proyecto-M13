@@ -19,11 +19,17 @@ import views.ServerView;
 public class ServerThread extends Thread {
 
     private ServerSocket server;
-    private ArrayList<Socket> sockets = new ArrayList<>();
+    private ArrayList<Socket> socketList = new ArrayList<>();
     private final int portNumber;
     private Socket socket;
     private ServerView serverView;
 
+    /**
+     * Constructor
+     *
+     * @param portNumber
+     * @param serverView
+     */
     public ServerThread(int portNumber, ServerView serverView) {
         this.portNumber = portNumber;
         this.serverView = serverView;
@@ -35,15 +41,15 @@ public class ServerThread extends Thread {
             server = new ServerSocket(portNumber);
             while (true) {
                 socket = server.accept();
-                sockets.add(socket);
-                updateList();
+                socketList.add(socket);
+                serverView.updateList();
 
-                new ServerConnexion(socket, sockets, serverView).start();
+                new ServerConnexion(socket, socketList, serverView).start();
             }
         } catch (IOException ex) {
             try {
-                sockets.remove(socket);
-                updateList();
+                socketList.remove(socket);
+                serverView.updateList();
                 socket.close();
             } catch (IOException ex1) {
                 Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex1);
@@ -51,18 +57,22 @@ public class ServerThread extends Thread {
         }
     }
 
-    public void updateList() {
-        if (serverView != null) {
-            serverView.updateList();
-        }
-    }
-
+    /**
+     * Getter
+     *
+     * @return server sicket
+     */
     public ServerSocket getServer() {
         return server;
     }
 
+    /**
+     * Getter
+     *
+     * @return socket list
+     */
     public ArrayList<Socket> getSockets() {
-        return sockets;
+        return socketList;
     }
 
 }

@@ -37,6 +37,13 @@ public class ServerConnexion extends Thread {
     private EntityManager em;
     private ServerView serverView;
 
+    /**
+     * Constructor
+     *
+     * @param socket
+     * @param sockets
+     * @param serverView
+     */
     public ServerConnexion(Socket socket, ArrayList<Socket> sockets, ServerView serverView) {
         try {
             this.socket = socket;
@@ -55,6 +62,9 @@ public class ServerConnexion extends Thread {
         }
     }
 
+    /**
+     * Overrided run method to handle all petitions from the clients
+     */
     @Override
     public void run() {
         try {
@@ -81,7 +91,7 @@ public class ServerConnexion extends Thread {
             try {
                 end();
                 sockets.remove(socket);
-                updateList();
+                serverView.updateList();
                 socket.close();
             } catch (IOException ex1) {
                 Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex1);
@@ -89,12 +99,9 @@ public class ServerConnexion extends Thread {
         }
     }
 
-    private void updateList() {
-        if (serverView != null) {
-            serverView.updateList();
-        }
-    }
-
+    /**
+     * Method to close all existing connections
+     */
     private void end() {
         try {
             dis.close();

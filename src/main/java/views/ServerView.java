@@ -5,13 +5,11 @@
 package views;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import connexions.ServerThread;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -136,6 +134,10 @@ public class ServerView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Method to close or start the server
+     * @param evt 
+     */
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         // TODO add your handling code here:
         if (!statusOn) {
@@ -168,11 +170,19 @@ public class ServerView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_startButtonActionPerformed
 
+    /**
+     * method to update the ip list on click
+     * @param evt 
+     */
     private void updateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateListActionPerformed
         // TODO add your handling code here:
         updateList();
     }//GEN-LAST:event_updateListActionPerformed
 
+    /**
+     * Method to disconnect the selected socket
+     * @param evt 
+     */
     private void disconnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectBtnActionPerformed
         // TODO add your handling code here:
         int socket = socketList.getSelectedIndex();
@@ -185,6 +195,9 @@ public class ServerView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_disconnectBtnActionPerformed
 
+    /**
+     * Method to update the ip list connexions to display in the ListModel
+     */
     public void updateList() {
 
         if (serverThread == null) {
@@ -204,6 +217,10 @@ public class ServerView extends javax.swing.JFrame {
         }
     }
 
+    /**
+     *
+     * @return the port from the text input or the default port in case nothing is written
+     */
     public int getPort() {
         try {
             return Integer.parseInt(this.portNumber.getText());
@@ -212,7 +229,6 @@ public class ServerView extends javax.swing.JFrame {
             portNumber.setText(DEFAULT_PORT + "");
             return DEFAULT_PORT;
         }
-
     }
 
     /**

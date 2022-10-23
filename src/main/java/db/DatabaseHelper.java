@@ -33,6 +33,15 @@ public class DatabaseHelper {
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
+    /**
+     * Constructor
+     *
+     * @param em
+     * @param dis
+     * @param dos
+     * @param ois
+     * @param oos
+     */
     public DatabaseHelper(EntityManager em, DataInputStream dis, DataOutputStream dos, ObjectInputStream ois, ObjectOutputStream oos) {
         this.em = em;
         this.dis = dis;
@@ -42,6 +51,11 @@ public class DatabaseHelper {
 
     }
 
+    /**
+     * Method to get the entity manager config from a given file
+     *
+     * @return Map with the entity manager config
+     */
     public static Map<String, Object> getEntityManager() {
         Map<String, Object> persistenceConfig = new HashMap<>();
         Properties properties = getConfig();
@@ -54,19 +68,31 @@ public class DatabaseHelper {
         return persistenceConfig;
     }
 
+    /**
+     * Method to get the file where the entitiy manager config is
+     *
+     * @return Properties file
+     */
     public static Properties getConfig() {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(new File(CONFIG)));
             return properties;
-        } catch (FileNotFoundException e) {
-            // e.printStackTrace();
-        } catch (IOException e) {
-            //  e.printStackTrace();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * Method to get the User given an username and password.
+     *
+     * @param username the username from the user
+     * @param password the password from the user
+     * @return Null if the user doesn't exist or the user if it exist
+     */
     public User checkLogin(String username, String password) {
         User user = em.find(User.class, username);
         if (user != null && user.getPassword().equals(password)) {
@@ -75,6 +101,10 @@ public class DatabaseHelper {
         return null;
     }
 
+    /**
+     * Method to manage the petitions from a login It will receive the username and the password as a plain string Then it checks if the user exists Finally it
+     * will send a boolean to the client. If its true, it will also send the user.
+     */
     public void doLogin() {
         try {
             String username = dis.readUTF();
@@ -86,13 +116,20 @@ public class DatabaseHelper {
                 dos.writeBoolean(false);
             } else {
                 dos.writeBoolean(true);
+                user.setPassword(null);
                 oos.writeObject(user);
             }
         } catch (IOException ex) {
-            // Logger.getLogger(ServerConnexion.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
+    /**
+     * Method to register an user into the databse.
+     *
+     * @param user User object to register into the database
+     * @return a byte code for the client to be able to check if it succeeded or not
+     */
     public int tryRegister(User user) {
         try {
             em.getTransaction().begin();
