@@ -28,6 +28,7 @@ public class ServerView extends javax.swing.JFrame {
      */
     public ServerView() {
         initComponents();
+        this.setVisible(true);
         disconnectBtn.setEnabled(false);
         setResizable(false);
     }

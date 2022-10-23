@@ -112,11 +112,11 @@ public class ServerTest {
         try {
             dos.writeByte(1);
             dos.writeUTF("admin");
-            dos.writeUTF("admin");
+            dos.writeUTF("123456");
             assertTrue(dis.readBoolean());
             user = (User) ois.readObject();
-            assertEquals("Ludox", user.getName());
-            assertEquals("admin@admin.com", user.getMail());
+            assertEquals("admin", user.getName());
+            assertEquals("admin", user.getMail());
             assertTrue(user.isIsAdmin());
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ServerTest.class.getName()).log(Level.SEVERE, null, ex);
