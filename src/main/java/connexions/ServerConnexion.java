@@ -81,11 +81,17 @@ public class ServerConnexion extends Thread {
             try {
                 end();
                 sockets.remove(socket);
-                serverView.updateList();
+                updateList();
                 socket.close();
             } catch (IOException ex1) {
                 Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        }
+    }
+
+    private void updateList() {
+        if (serverView != null) {
+            serverView.updateList();
         }
     }
 

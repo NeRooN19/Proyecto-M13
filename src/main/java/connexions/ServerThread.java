@@ -36,18 +36,24 @@ public class ServerThread extends Thread {
             while (true) {
                 socket = server.accept();
                 sockets.add(socket);
-                serverView.updateList();
+                updateList();
 
                 new ServerConnexion(socket, sockets, serverView).start();
             }
         } catch (IOException ex) {
             try {
                 sockets.remove(socket);
-                serverView.updateList();
+                updateList();
                 socket.close();
             } catch (IOException ex1) {
                 Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        }
+    }
+
+    public void updateList() {
+        if (serverView != null) {
+            serverView.updateList();
         }
     }
 

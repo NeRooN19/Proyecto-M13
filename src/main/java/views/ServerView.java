@@ -169,7 +169,6 @@ public class ServerView extends javax.swing.JFrame {
 
     private void updateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateListActionPerformed
         // TODO add your handling code here:
-        System.out.println("update");
         updateList();
     }//GEN-LAST:event_updateListActionPerformed
 
@@ -177,14 +176,12 @@ public class ServerView extends javax.swing.JFrame {
         // TODO add your handling code here:
         int socket = socketList.getSelectedIndex();
         if (socket >= 0) {
-            System.out.println("--------");
             try {
                 serverThread.getSockets().get(socket).close();
             } catch (IOException ex) {
                 Logger.getLogger(ServerView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
     }//GEN-LAST:event_disconnectBtnActionPerformed
 
     public void updateList() {
@@ -194,24 +191,19 @@ public class ServerView extends javax.swing.JFrame {
         }
 
         DefaultListModel<String> model = new DefaultListModel<>();
-
         socketList.setModel(model);
-
         String[] socketIPs = serverThread.getSockets().stream().map(s -> s.getInetAddress().toString()).toArray(size -> new String[size]);
-
         if (socketIPs == null || socketIPs.length == 0) {
             disconnectBtn.setEnabled(false);
             return;
         }
-
         disconnectBtn.setEnabled(true);
-
         for (int i = 0; i < socketIPs.length; i++) {
             model.addElement(socketIPs[i]);
         }
     }
 
-    private int getPort() {
+    public int getPort() {
         try {
             return Integer.parseInt(this.portNumber.getText());
         } catch (NumberFormatException ex) {
