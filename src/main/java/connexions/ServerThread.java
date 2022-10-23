@@ -42,7 +42,7 @@ public class ServerThread extends Thread {
             while (true) {
                 socket = server.accept();
                 socketList.add(socket);
-                serverView.updateList();
+                updateList();
 
                 new ServerConnexion(socket, socketList, serverView).start();
             }
@@ -54,6 +54,12 @@ public class ServerThread extends Thread {
             } catch (IOException ex1) {
                 Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        }
+    }
+
+    private void updateList() {
+        if (serverView != null) {
+            serverView.updateList();
         }
     }
 

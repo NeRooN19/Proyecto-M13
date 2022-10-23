@@ -99,6 +99,12 @@ public class ServerConnexion extends Thread {
         }
     }
 
+    private void updateList() {
+        if (serverView != null) {
+            serverView.updateList();
+        }
+    }
+
     /**
      * Method to close all existing connections
      */
