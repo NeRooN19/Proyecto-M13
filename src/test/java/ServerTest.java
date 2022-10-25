@@ -56,6 +56,13 @@ public class ServerTest {
     public static void setUpClass() {
         try {
             //User to test register ok
+            user = new User();
+            user.setIsAdmin(true);
+            user.setMail("mock@mock.com");
+            user.setName("Mock");
+            user.setPassword("123456");
+            user.setUsername("mock");
+
             userRegOk = new User();
             userRegOk.setIsAdmin(true);
             userRegOk.setMail("mock@mock.com");
@@ -94,7 +101,6 @@ public class ServerTest {
         } catch (IOException ex) {
             Logger.getLogger(ServerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /*

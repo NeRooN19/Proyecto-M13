@@ -38,11 +38,11 @@ public class ServerConnexion extends Thread {
     private ServerView serverView;
 
     /**
-     * Constructor
+     * Constructor of the class
      *
-     * @param socket
-     * @param sockets
-     * @param serverView
+     * @param socket connection from the client
+     * @param sockets list that contains all socket ip's
+     * @param serverView view to show the ip list
      */
     public ServerConnexion(Socket socket, ArrayList<Socket> sockets, ServerView serverView) {
         try {
@@ -63,7 +63,7 @@ public class ServerConnexion extends Thread {
     }
 
     /**
-     * Overrided run method to handle all petitions from the clients
+     * Overrided run method to handle all petitions from the clients with a switch, dependending on the petition, it will do an action or another
      */
     @Override
     public void run() {
@@ -85,7 +85,7 @@ public class ServerConnexion extends Thread {
         } catch (IOException ex) {
 
         } catch (ClassNotFoundException ex) {
-            // Logger.getLogger(ServerConnexion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServerConnexion.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             System.out.println("Conexió amb " + socket.getInetAddress() + " acabada");
             try {
@@ -99,6 +99,9 @@ public class ServerConnexion extends Thread {
         }
     }
 
+    /**
+     * Update the list of ip's
+     */
     private void updateList() {
         if (serverView != null) {
             serverView.updateList();

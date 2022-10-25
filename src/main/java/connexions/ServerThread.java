@@ -25,16 +25,19 @@ public class ServerThread extends Thread {
     private ServerView serverView;
 
     /**
-     * Constructor
+     * Constructor of the class
      *
-     * @param portNumber
-     * @param serverView
+     * @param portNumber to start the server socket
+     * @param serverView view to show the ip list
      */
     public ServerThread(int portNumber, ServerView serverView) {
         this.portNumber = portNumber;
         this.serverView = serverView;
     }
 
+    /**
+     * Overrided run method that will accept all client socket connections and execute a new thread to handle petitions
+     */
     @Override
     public void run() {
         try {
@@ -57,6 +60,9 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     * Update the list of ip's
+     */
     private void updateList() {
         if (serverView != null) {
             serverView.updateList();
@@ -66,7 +72,7 @@ public class ServerThread extends Thread {
     /**
      * Getter
      *
-     * @return server sicket
+     * @return server socket
      */
     public ServerSocket getServer() {
         return server;
@@ -75,7 +81,7 @@ public class ServerThread extends Thread {
     /**
      * Getter
      *
-     * @return socket list
+     * @return socket ip list
      */
     public ArrayList<Socket> getSockets() {
         return socketList;

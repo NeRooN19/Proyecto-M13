@@ -34,13 +34,13 @@ public class DatabaseHelper {
     private ObjectOutputStream oos;
 
     /**
-     * Constructor
+     * Constructor of the class
      *
-     * @param em
-     * @param dis
-     * @param dos
-     * @param ois
-     * @param oos
+     * @param em Entity manager
+     * @param dis data input stream
+     * @param dos data output stream
+     * @param ois object input stream
+     * @param oos object output stream
      */
     public DatabaseHelper(EntityManager em, DataInputStream dis, DataOutputStream dos, ObjectInputStream ois, ObjectOutputStream oos) {
         this.em = em;
