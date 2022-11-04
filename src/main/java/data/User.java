@@ -8,12 +8,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author NeRooN
  */
-@Entity(name = "usuarios")
+@Entity
+@Table(name = "usuarios")
 public class User implements Serializable {
 
     private String password;
@@ -21,6 +25,7 @@ public class User implements Serializable {
     private String name;
     private String mail;
     private boolean isAdmin;
+    private List<Rental> rental;
     private static final long serialVersionUID = 123456789;
 
     public User() {
@@ -31,12 +36,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String password, String username, String name, String mail, boolean isAdmin) {
+    public User(String password, String username, String name, String mail, boolean isAdmin, List<Rental> rental) {
         this.password = password;
         this.username = username;
         this.name = name;
         this.mail = mail;
         this.isAdmin = isAdmin;
+        this.rental = rental;
     }
 
     @Id
@@ -85,4 +91,12 @@ public class User implements Serializable {
         this.isAdmin = isAdmin;
     }
 
+    @OneToMany(mappedBy = "user")
+    public List<Rental> getRental() {
+        return rental;
+    }
+
+    public void setRental(List<Rental> rental) {
+        this.rental = rental;
+    }
 }

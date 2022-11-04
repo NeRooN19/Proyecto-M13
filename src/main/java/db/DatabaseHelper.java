@@ -64,6 +64,8 @@ public class DatabaseHelper {
         persistenceConfig.put("javax.persistence.schema-generation.database.action", properties.get("GENERATE"));
         persistenceConfig.put("javax.persistence.jdbc.url", properties.get("JDBC"));
         persistenceConfig.put("javax.persistence.jdbc.user", properties.get("USER"));
+        
+        System.out.println(properties.get("GENERATE"));
 
         return persistenceConfig;
     }
