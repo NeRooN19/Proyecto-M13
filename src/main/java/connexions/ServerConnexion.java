@@ -6,6 +6,7 @@ package connexions;
 
 import db.DatabaseHelper;
 import data.User;
+import db.VideogameQuery;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -28,8 +29,8 @@ public class ServerConnexion extends Thread {
 
     private ArrayList<Socket> sockets;
     private DatabaseHelper dbHelp;
-    private Socket socket;
-    private DataInputStream dis;
+    private static Socket socket;
+    private static DataInputStream dis;
     private DataOutputStream dos;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
@@ -47,14 +48,11 @@ public class ServerConnexion extends Thread {
     public ServerConnexion(Socket socket, ArrayList<Socket> sockets, ServerView serverView) {
         try {
             this.socket = socket;
-            System.out.println("Connected");
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
             oos = new ObjectOutputStream(socket.getOutputStream());
-            emf = Persistence.createEntityManagerFactory("ludox", DatabaseHelper.getEntityManager());
-            em = emf.createEntityManager();
-            dbHelp = new DatabaseHelper(em, dis, dos, ois, oos);
+            dbHelp = new DatabaseHelper(dis, dos, ois, oos);
             this.sockets = sockets;
             this.serverView = serverView;
         } catch (IOException ex) {
@@ -77,6 +75,18 @@ public class ServerConnexion extends Thread {
                         User user = (User) ois.readObject();
                         byte registerComplete = (byte) dbHelp.tryRegister(user);
                         dos.writeByte(registerComplete);
+                    }
+                    case VIDEOGAME -> {
+
+                    }
+                    case VIDEOGAMES_PAGINATION -> {
+
+                    }
+                    case VIDEOGAME_TOP -> {
+                        oos.writeObject(VideogameQuery.getGamesTop5());
+                    }
+                    case EDIT_USER -> {
+
                     }
                     default ->
                         System.out.println("");

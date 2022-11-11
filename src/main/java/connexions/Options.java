@@ -5,14 +5,17 @@
 package connexions;
 
 /**
- *  Enum to have a fast acces to petitions code
- * 
+ * Enum to have a fast acces to petitions code
+ *
  * @author NeRooN
  */
 public enum Options {
     REGISTER((byte) 0),
     LOGIN((byte) 1),
-    EDIT_USER((byte) 2);
+    VIDEOGAMES_PAGINATION((byte) 2),
+    VIDEOGAME((byte) 3),
+    VIDEOGAME_TOP((byte) 5),
+    EDIT_USER((byte) 1111);
 
     private byte value;
 

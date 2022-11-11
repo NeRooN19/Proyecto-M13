@@ -5,9 +5,11 @@
 package data;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,7 +18,6 @@ import javax.persistence.Table;
  * @author NeRooN
  */
 @Entity
-@Table(name = "alquiler")
 public class Rental {
 
     private int rentalID;
@@ -28,8 +29,7 @@ public class Rental {
     public Rental() {
     }
 
-    public Rental(int rentalID, Date rentalDate, Date finalDate, Videogame videogame, User user) {
-        this.rentalID = rentalID;
+    public Rental(Date rentalDate, Date finalDate, Videogame videogame, User user) {
         this.rentalDate = rentalDate;
         this.finalDate = finalDate;
         this.videogame = videogame;
@@ -37,6 +37,7 @@ public class Rental {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getRentalID() {
         return rentalID;
     }
@@ -61,7 +62,7 @@ public class Rental {
         this.finalDate = finalDate;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public Videogame getVideogame() {
         return videogame;
     }
@@ -70,7 +71,7 @@ public class Rental {
         this.videogame = videogame;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public User getUser() {
         return user;
     }

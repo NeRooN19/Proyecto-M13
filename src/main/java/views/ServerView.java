@@ -42,8 +42,6 @@ public class ServerView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         startButton = new javax.swing.JButton();
         statusText = new javax.swing.JLabel();
-        portText = new javax.swing.JLabel();
-        portNumber = new javax.swing.JTextField();
         updateList = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         socketList = new javax.swing.JList<>();
@@ -59,8 +57,6 @@ public class ServerView extends javax.swing.JFrame {
         });
 
         statusText.setText("Server offline");
-
-        portText.setText("Port number");
 
         updateList.setText("Update");
         updateList.addActionListener(new java.awt.event.ActionListener() {
@@ -84,17 +80,13 @@ public class ServerView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(portText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(statusText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addComponent(statusText)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(portNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
+                        .addGap(140, 140, 140)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(215, 215, 215)
+                        .addGap(233, 233, 233)
                         .addComponent(disconnectBtn)
                         .addGap(18, 18, 18)
                         .addComponent(updateList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -106,11 +98,7 @@ public class ServerView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(portText)
-                        .addComponent(portNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
@@ -136,7 +124,8 @@ public class ServerView extends javax.swing.JFrame {
 
     /**
      * Method to close or start the server
-     * @param evt 
+     *
+     * @param evt
      */
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         // TODO add your handling code here:
@@ -146,13 +135,11 @@ public class ServerView extends javax.swing.JFrame {
             statusText.setText("Server Online");
             startButton.setText("Stop");
             statusOn = true;
-            portNumber.setEditable(false);
         } else if (statusOn) {
             try {
                 statusText.setText("Server Offline");
                 startButton.setText("Start");
                 statusOn = false;
-                portNumber.setEditable(true);
 
                 serverThread.getSockets().forEach(s -> {
                     try {
@@ -172,7 +159,8 @@ public class ServerView extends javax.swing.JFrame {
 
     /**
      * method to update the ip list on click
-     * @param evt 
+     *
+     * @param evt
      */
     private void updateListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateListActionPerformed
         // TODO add your handling code here:
@@ -181,7 +169,8 @@ public class ServerView extends javax.swing.JFrame {
 
     /**
      * Method to disconnect the selected socket
-     * @param evt 
+     *
+     * @param evt
      */
     private void disconnectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectBtnActionPerformed
         // TODO add your handling code here:
@@ -222,13 +211,9 @@ public class ServerView extends javax.swing.JFrame {
      * @return the port from the text input or the default port in case nothing is written
      */
     public int getPort() {
-        try {
-            return Integer.parseInt(this.portNumber.getText());
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error parsing port number. Server started with port " + DEFAULT_PORT);
-            portNumber.setText(DEFAULT_PORT + "");
-            return DEFAULT_PORT;
-        }
+
+        return Integer.parseInt(DEFAULT_PORT + "");
+
     }
 
     /**
@@ -270,8 +255,6 @@ public class ServerView extends javax.swing.JFrame {
     private javax.swing.JButton disconnectBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField portNumber;
-    private javax.swing.JLabel portText;
     private javax.swing.JList<String> socketList;
     private javax.swing.JButton startButton;
     private javax.swing.JLabel statusText;

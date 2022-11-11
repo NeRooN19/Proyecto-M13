@@ -16,9 +16,9 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -27,7 +27,8 @@ import javax.persistence.EntityManager;
 public class DatabaseHelper {
 
     private static final String CONFIG = "config.properties";
-    private EntityManager em;
+    public static EntityManager em;
+    private static EntityManagerFactory emf;
     private DataInputStream dis;
     private DataOutputStream dos;
     private ObjectInputStream ois;
@@ -42,8 +43,9 @@ public class DatabaseHelper {
      * @param ois object input stream
      * @param oos object output stream
      */
-    public DatabaseHelper(EntityManager em, DataInputStream dis, DataOutputStream dos, ObjectInputStream ois, ObjectOutputStream oos) {
-        this.em = em;
+    public DatabaseHelper(DataInputStream dis, DataOutputStream dos, ObjectInputStream ois, ObjectOutputStream oos) {
+        emf = Persistence.createEntityManagerFactory("ludox", getEntityManager());
+        em = emf.createEntityManager();
         this.dis = dis;
         this.dos = dos;
         this.ois = ois;
@@ -64,8 +66,6 @@ public class DatabaseHelper {
         persistenceConfig.put("javax.persistence.schema-generation.database.action", properties.get("GENERATE"));
         persistenceConfig.put("javax.persistence.jdbc.url", properties.get("JDBC"));
         persistenceConfig.put("javax.persistence.jdbc.user", properties.get("USER"));
-        
-        System.out.println(properties.get("GENERATE"));
 
         return persistenceConfig;
     }
