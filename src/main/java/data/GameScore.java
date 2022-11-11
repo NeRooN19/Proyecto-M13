@@ -27,7 +27,7 @@ public class GameScore {
         this.score = score;
         this.user = user;
         this.videogame = videogame;
-        this.videogame.updateScore();
+        //this.videogame.updateScore();
     }
 
     public GameScore(int id, double score, User user, Videogame videogame) {
