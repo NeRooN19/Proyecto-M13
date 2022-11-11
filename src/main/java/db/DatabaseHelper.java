@@ -5,6 +5,7 @@
 package db;
 
 import data.User;
+import data.User;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;

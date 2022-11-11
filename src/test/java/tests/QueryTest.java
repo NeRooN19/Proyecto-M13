@@ -1,3 +1,5 @@
+package tests;
+
 
 import connexions.ServerThread;
 import data.Videogame;
@@ -37,10 +39,10 @@ public class QueryTest {
     @BeforeAll
     public static void setUpClass() {
         try {
+            System.out.println("-------------");
             //Server conexion to test real database acces
             svThread = new ServerThread(5000, null);
             svThread.start();
-
             //client conexion to send petitions to the server
             socket = new Socket("localhost", 5000);
 
