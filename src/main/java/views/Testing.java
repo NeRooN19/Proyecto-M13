@@ -1,4 +1,8 @@
-package tests;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package views;
 
 import connexions.ServerThread;
 import data.Videogame;
@@ -11,22 +15,12 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.jupiter.api.AfterAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 /**
  *
  * @author NeRooN
  */
-@DisplayName("Database query testing")
-public class QueryTest {
+public class Testing {
 
     private static Socket socket;
     private static DataInputStream dis;
@@ -35,8 +29,7 @@ public class QueryTest {
     private static ObjectOutputStream oos;
     private static ServerThread svThread;
 
-    @BeforeAll
-    public static void setUpClass() {
+    public static void main(String[] args) {
         try {
             //Server conexion to test real database acces
             svThread = new ServerThread(5000, null);
@@ -49,40 +42,23 @@ public class QueryTest {
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
-            Logger.getLogger(ServerTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Testing.class.getName()).log(Level.SEVERE, null, ex);
         }
+        getTop5();
     }
 
-    @AfterAll
-    public static void tearDownClass() {
-        try {
-            dis.close();
-            dos.close();
-            ois.close();
-            oos.close();
-            socket.close();
-            svThread.getServer().close();
-        } catch (IOException ex) {
-            Logger.getLogger(ServerTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Test
-    @DisplayName("Top 5")
     public static void getTop5() {
         try {
             System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             dos.write((byte) 4);
             List<Videogame> vi = (List<Videogame>) ois.readObject();
 
-            assertEquals(vi.get(0), "a");
-
             vi.forEach(v -> System.out.println(v.getName()));
 
         } catch (IOException ex) {
-            Logger.getLogger(QueryTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Testing.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(QueryTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Testing.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
