@@ -126,7 +126,9 @@ public class VideogameQuery {
     }
 
     public static List<Videogame> getGamesTop5() {
-        Query query = DatabaseHelper.em.createNativeQuery("SELECT * FROM Videogame order by Videogame.finalscore limit 5", Videogame.class);
+        Query query = DatabaseHelper.em.createNativeQuery("SELECT * FROM Videogame order by Videogame.finalscore DESC limit 5", Videogame.class);
+        List<Videogame> vi = query.getResultList();
+        vi.forEach(v -> System.out.println(v.getName()));
         return query.getResultList();
     }
 

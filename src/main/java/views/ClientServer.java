@@ -4,8 +4,9 @@
  */
 package views;
 
-import connexions.ServerThread;
+import data.User;
 import data.Videogame;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,20 +21,17 @@ import java.util.logging.Logger;
  *
  * @author NeRooN
  */
-public class Testing {
+public class ClientServer {
 
     private static Socket socket;
     private static DataInputStream dis;
     private static DataOutputStream dos;
     private static ObjectInputStream ois;
     private static ObjectOutputStream oos;
-    private static ServerThread svThread;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
             //Server conexion to test real database acces
-            svThread = new ServerThread(5000, null);
-            svThread.start();
             //client conexion to send petitions to the server
             socket = new Socket("localhost", 5000);
 
@@ -42,23 +40,34 @@ public class Testing {
             oos = new ObjectOutputStream(socket.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
-            Logger.getLogger(Testing.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         getTop5();
+        //tryReg();
     }
 
     public static void getTop5() {
         try {
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             dos.write((byte) 4);
             List<Videogame> vi = (List<Videogame>) ois.readObject();
 
             vi.forEach(v -> System.out.println(v.getName()));
 
         } catch (IOException ex) {
-            Logger.getLogger(Testing.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Testing.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientServer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private static void tryReg() throws IOException {
+        User user = new User();
+        user.setPassword("123456");
+        user.setUsername("admin6");
+        user.setIsAdmin(true);
+
+        dos.writeByte((byte)0);
+        oos.writeObject(user);
+        byte a = dis.readByte();
     }
 }

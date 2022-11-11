@@ -14,7 +14,7 @@ public enum Options {
     LOGIN((byte) 1),
     VIDEOGAMES_PAGINATION((byte) 2),
     VIDEOGAME((byte) 3),
-    VIDEOGAME_TOP((byte) 5),
+    VIDEOGAME_TOP((byte) 4),
     EDIT_USER((byte) 1111);
 
     private byte value;

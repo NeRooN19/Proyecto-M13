@@ -38,7 +38,6 @@ public class DatabaseHelper {
     /**
      * Constructor of the class
      *
-     * @param em Entity manager
      * @param dis data input stream
      * @param dos data output stream
      * @param ois object input stream
@@ -72,7 +71,7 @@ public class DatabaseHelper {
     }
 
     /**
-     * Method to get the file where the entitiy manager config is
+     * Method to get the file where the entity manager config is
      *
      * @return Properties file
      */
@@ -90,14 +89,15 @@ public class DatabaseHelper {
     }
 
     /**
-     * Method to get the User given an username and password.
+     * Method to get the User given a username and password.
      *
      * @param username the username from the user
      * @param password the password from the user
-     * @return Null if the user doesn't exist or the user if it exist
+     * @return Null if the user doesn't exist or the user if it exists
      */
     public User checkLogin(String username, String password) {
-        User user = em.find(User.class, username);
+        User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username = ?1").setParameter(1, username).getSingleResult();
+        em.detach(user);
         if (user != null && user.getPassword().equals(password)) {
             return user;
         }
@@ -106,7 +106,7 @@ public class DatabaseHelper {
 
     /**
      * Method to manage the petitions from a login It will receive the username and the password as a plain string Then it checks if the user exists Finally it
-     * will send a boolean to the client. If its true, it will also send the user.
+     * will send a boolean to the client. If it's true, it will also send the user.
      */
     public void doLogin() {
         try {
@@ -128,7 +128,7 @@ public class DatabaseHelper {
     }
 
     /**
-     * Method to register an user into the databse.
+     * Method to register a user into the databse.
      *
      * @param user User object to register into the database
      * @return a byte code for the client to be able to check if it succeeded or not

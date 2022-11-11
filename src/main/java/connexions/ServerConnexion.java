@@ -6,6 +6,7 @@ package connexions;
 
 import db.DatabaseHelper;
 import data.User;
+import data.Videogame;
 import db.VideogameQuery;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,6 +18,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import views.ServerView;
@@ -83,7 +85,8 @@ public class ServerConnexion extends Thread {
 
                     }
                     case VIDEOGAME_TOP -> {
-                        oos.writeObject(VideogameQuery.getGamesTop5());
+                        List<Videogame> vi = VideogameQuery.getGamesTop5();
+                        oos.writeObject(vi);
                     }
                     case EDIT_USER -> {
 

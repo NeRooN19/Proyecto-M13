@@ -69,15 +69,11 @@ public class QueryTest {
 
     @Test
     @DisplayName("Top 5")
-    public static void getTop5() {
+    public void getTop5() {
         try {
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             dos.write((byte) 4);
             List<Videogame> vi = (List<Videogame>) ois.readObject();
-
-            assertEquals(vi.get(0), "a");
-
-            vi.forEach(v -> System.out.println(v.getName()));
+            assertEquals(vi.get(0).getName(), "a");
 
         } catch (IOException ex) {
             Logger.getLogger(QueryTest.class.getName()).log(Level.SEVERE, null, ex);
