@@ -4,6 +4,7 @@
  */
 package data;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,12 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
  * @author NeRooN
  */
 @Entity
-public class Rental {
-
+public class Rental implements Serializable {
+    private static final long serialVersionUID = 6;
     private int rentalID;
     private Date rentalDate;
     private Date finalDate;

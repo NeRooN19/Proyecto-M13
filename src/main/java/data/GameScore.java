@@ -10,14 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 /**
- *
  * @author NeRooN
  */
 @Entity
-public class GameScore {
-
+public class GameScore implements Serializable {
+    private static final long serialVersionUID = 4;
     private int id;
     private double score;
     private User user;

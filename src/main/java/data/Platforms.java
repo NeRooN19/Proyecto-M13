@@ -9,14 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  *
  * @author NeRooN
  */
 @Entity
-public class Platforms {
-
+public class Platforms implements Serializable {
+    private static final long serialVersionUID = 5;
     private int ID;
     private String name;
 
