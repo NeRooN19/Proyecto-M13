@@ -1,7 +1,11 @@
 package tests;
 
 import connexions.ServerThread;
+import data.Category;
+import data.Platforms;
 import data.Videogame;
+
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,18 +15,19 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.jupiter.api.AfterAll;
+
+import db.VideogameQuery;
+import org.eclipse.persistence.jpa.jpql.Assert;
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 /**
- *
  * @author NeRooN
  */
 @DisplayName("Database query testing")
@@ -38,10 +43,8 @@ public class QueryTest {
     @BeforeAll
     public static void setUpClass() {
         try {
-            //Server conexion to test real database acces
             svThread = new ServerThread(5000, null);
             svThread.start();
-            //client conexion to send petitions to the server
             socket = new Socket("localhost", 5000);
 
             dis = new DataInputStream(socket.getInputStream());
@@ -69,9 +72,9 @@ public class QueryTest {
 
     @Test
     @DisplayName("Top 5")
-    public void getTop5() {
+    public void getTop5Test() {
         try {
-            dos.write((byte) 4);
+            dos.write((byte) 3);
             List<Videogame> vi = (List<Videogame>) ois.readObject();
             assertEquals(vi.get(0).getName(), "a");
 
@@ -80,5 +83,26 @@ public class QueryTest {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(QueryTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Test
+    @DisplayName("Query paginated")
+    public void getQueryPaginatedTest() {
+        List<Videogame> a = VideogameQuery.getGamesPaginated(1, "Switch", "Plataforma", 0);
+        assertEquals("a", a.get(0).getName());
+    }
+
+    @Test
+    @DisplayName("Categories")
+    public void getCategoriesTest() {
+        List<Category> cat = VideogameQuery.getAllCategories();
+        assertEquals("Plataforma", cat.get(0).getCategory());
+    }
+
+    @Test
+    @DisplayName("Platforms")
+    public void getPlatformsTest() {
+        List<Platforms> plat = VideogameQuery.getAllPlatforms();
+        assertEquals("Switch", plat.get(0).getName());
     }
 }

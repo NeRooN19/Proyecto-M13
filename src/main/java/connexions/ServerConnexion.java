@@ -4,13 +4,15 @@
  */
 package connexions;
 
+import data.Category;
+import data.Platforms;
 import db.DatabaseHelper;
 import data.User;
 import data.Videogame;
 import db.VideogameQuery;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import views.ServerView;
 
 /**
- *
  * @author NeRooN
  */
 public class ServerConnexion extends Thread {
@@ -43,8 +45,8 @@ public class ServerConnexion extends Thread {
     /**
      * Constructor of the class
      *
-     * @param socket connection from the client
-     * @param sockets list that contains all socket ip's
+     * @param socket     connection from the client
+     * @param sockets    list that contains all socket ip's
      * @param serverView view to show the ip list
      */
     public ServerConnexion(Socket socket, ArrayList<Socket> sockets, ServerView serverView) {
@@ -71,28 +73,27 @@ public class ServerConnexion extends Thread {
             while (true) {
                 Options option = Options.values()[dis.readByte()];
                 switch (option) {
-                    case LOGIN ->
-                        dbHelp.doLogin();
                     case REGISTER -> {
                         User user = (User) ois.readObject();
                         byte registerComplete = (byte) dbHelp.tryRegister(user);
                         dos.writeByte(registerComplete);
                     }
-                    case VIDEOGAME -> {
-
-                    }
+                    case LOGIN -> dbHelp.doLogin();
                     case VIDEOGAMES_PAGINATION -> {
 
                     }
-                    case VIDEOGAME_TOP -> {
+                    case INITIALIZATION -> {
                         List<Videogame> vi = VideogameQuery.getGamesTop5();
                         oos.writeObject(vi);
+                        List<Category> cat = VideogameQuery.getAllCategories();
+                        oos.writeObject(cat);
+                        List<Platforms> plat = VideogameQuery.getAllPlatforms();
+                        oos.writeObject(plat);
                     }
                     case EDIT_USER -> {
 
                     }
-                    default ->
-                        System.out.println("");
+                    default -> System.out.println("");
                 }
             }
         } catch (IOException ex) {

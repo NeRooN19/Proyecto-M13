@@ -5,7 +5,10 @@ package tests;
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
 import connexions.ServerThread;
+import data.Category;
+import data.Platforms;
 import data.User;
+import data.Videogame;
 import db.DatabaseHelper;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,8 +16,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import db.VideogameQuery;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -140,8 +146,8 @@ public class ServerTest {
             assertTrue(dis.readBoolean());
             user = (User) ois.readObject();
 
-            assertEquals("admin", user.getName());
-            assertEquals("admin", user.getMail());
+            assertEquals("Ludox", user.getName());
+            assertEquals(null, user.getMail());
             assertTrue(user.isIsAdmin());
             assertNull(user.getPassword());
         } catch (IOException | ClassNotFoundException ex) {
@@ -222,6 +228,27 @@ public class ServerTest {
         Mockito.when(dbHelper.checkLogin("admin5", "admin")).thenReturn(null);
         User user = dbHelper.checkLogin("admin5", "admin");
         assertNull(user);
+    }
+
+    @Test
+    @DisplayName("Query paginated")
+    public void getQueryPaginatedTest() {
+        List<Videogame> a = VideogameQuery.getGamesPaginated(1, "Switch", "Plataforma", 0);
+        assertEquals("a", a.get(0).getName());
+    }
+
+    @Test
+    @DisplayName("Categories")
+    public void getCategoriesTest() {
+        List<Category> cat = VideogameQuery.getAllCategories();
+        assertEquals("Plataforma", cat.get(0).getCategory());
+    }
+
+    @Test
+    @DisplayName("Platforms")
+    public void getPlatformsTest() {
+        List<Platforms> plat = VideogameQuery.getAllPlatforms();
+        assertEquals("Switch", plat.get(0).getName());
     }
 
 }

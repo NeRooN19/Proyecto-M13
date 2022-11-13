@@ -5,13 +5,14 @@
 package db;
 
 import data.Category;
+import data.Platforms;
 import data.Videogame;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 
 /**
- *
  * @author NeRooN
  */
 public class VideogameQuery {
@@ -115,13 +116,43 @@ public class VideogameQuery {
         return DatabaseHelper.em.createQuery(query).getResultList();
     }
 
-    /*public static List<Videogame> getGameByPlatform(String platformName) {
+    public static List<Videogame> getGameByPlatform(String platformName) {
         Platforms platform = getPlatform(platformName);
         Query query = DatabaseHelper.em.createQuery("SELECT v FROM Videogame WHERE v.platforms = ?1");
         return query.setParameter(1, platform).getResultList();
-    }*/
-    public static List<Videogame> getGamesPaginated(int page) {
-        Query query = DatabaseHelper.em.createNativeQuery("SELECT * FROM Videogame order by Videogame.id OFFSET " + ((page - 1) * OFFSET) + " FETCH NEXT " + OFFSET + " ROWS ONLY", Videogame.class);
+    }
+
+    public static List<Videogame> getGamesPaginated(int page, String platform, String category, float score) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Videogame");
+        if (platform != null) {
+            queryBuilder.append(" LEFT JOIN videogame_platforms on videogame_platforms.videogame_id = Videogame.id LEFT JOIN platforms on videogame_platforms.platforms_id = platforms.id");
+        }
+
+        if (category != null) {
+            queryBuilder.append(" LEFT JOIN videogame_category on videogame_category.videogame_id = Videogame.id LEFT JOIN category on videogame_category.category_id = category.id");
+        }
+
+
+
+        if (platform != null) {
+            queryBuilder.append(" WHERE platforms.name = '" + platform + "'");
+        }
+
+        if (platform != null && category != null) {
+            queryBuilder.append(" AND category.category = '" + category + "'");
+        }
+
+        if (platform == null && category != null) {
+            queryBuilder.append(" WHERE category.category = '" + category + "'");
+        }
+
+
+
+        queryBuilder.append(" ORDER BY Videogame.id OFFSET " + ((page - 1) * OFFSET) + " FETCH NEXT " + OFFSET + " ROWS ONLY");
+
+        System.out.println(queryBuilder.toString());
+
+        Query query = DatabaseHelper.em.createNativeQuery(queryBuilder.toString(), Videogame.class);
         return query.getResultList();
     }
 
@@ -132,7 +163,15 @@ public class VideogameQuery {
         return query.getResultList();
     }
 
-    /*public static Platforms getPlatform(String platform) {
+    public static List<Category> getAllCategories() {
+        return DatabaseHelper.em.createQuery("SELECT c FROM Category c").getResultList();
+    }
+
+    public static List<Platforms> getAllPlatforms() {
+        return DatabaseHelper.em.createQuery("SELECT p FROM Platforms p").getResultList();
+    }
+
+    public static Platforms getPlatform(String platform) {
         return (Platforms) DatabaseHelper.em.createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
-    }*/
+    }
 }
