@@ -4,8 +4,11 @@
  */
 package db;
 
+import data.EditUser;
 import data.User;
 import data.User;
+import encrypt.Encrypter;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -22,7 +25,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- *
  * @author NeRooN
  */
 public class DatabaseHelper {
@@ -50,7 +52,7 @@ public class DatabaseHelper {
         this.dos = dos;
         this.ois = ois;
         this.oos = oos;
-        if(em != null){
+        if (em != null) {
             System.out.println("not null");
         }
     }
@@ -98,9 +100,9 @@ public class DatabaseHelper {
      * @return Null if the user doesn't exist or the user if it exists
      */
     public User checkLogin(String username, String password) {
-        User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username = ?1").setParameter(1, username).getSingleResult();
+        User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
         em.detach(user);
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
             return user;
         }
         return null;
@@ -137,6 +139,7 @@ public class DatabaseHelper {
      */
     public int tryRegister(User user) {
         try {
+            user.setPassword(Encrypter.getEncodedString(user.getPassword()));
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
@@ -155,4 +158,60 @@ public class DatabaseHelper {
         return 3;
     }
 
+    private static User getUser(String username) {
+        User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
+        return user;
+    }
+
+    public static void updateUser(EditUser editData) {
+        try {
+            User user = getUser(editData.getUsername());
+
+            if (user != null) {
+                StringBuilder query = new StringBuilder("UPDATE User SET");
+
+                if (editData.getName() != null) {
+                    query.append(" name = '" + editData.getName() + "'");
+                }
+
+                if (editData.getMail() != null) {
+                    if (editData.getName() != null) {
+                        query.append(",");
+                    }
+                    query.append(" mail = '" + editData.getMail() + "'");
+                }
+
+                if (editData.getPassword() != null) {
+                    if (editData.getName() != null) {
+                        query.append(",");
+                    } else if (editData.getMail() != null) {
+                        query.append(",");
+                    }
+                    query.append(" password = '" + Encrypter.getEncodedString(editData.getPassword()) + "'");
+                }
+
+                query.append(" WHERE username = '" + editData.getUsername() + "'");
+
+                em.getTransaction().begin();
+                em.createQuery(query.toString()).executeUpdate();
+                em.getTransaction().commit();
+            }
+        } catch (Exception ex) {
+
+        }
+    }
+
+    public static void makeAdmin(String username, boolean admin) {
+        try {
+            User user = getUser(username);
+            if (user != null) {
+                StringBuilder query = new StringBuilder("UPDATE User SET isAdmin = " + admin + " WHERE username = '" + username + "'");
+                em.getTransaction().begin();
+                em.createQuery(query.toString()).executeUpdate();
+                em.getTransaction().commit();
+            }
+        } catch (Exception ex) {
+
+        }
+    }
 }

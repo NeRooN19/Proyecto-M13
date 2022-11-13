@@ -55,10 +55,12 @@ public class Videogame implements Serializable {
         this.scores = new ArrayList<>();
         this.rentals = new ArrayList<>();
         this.platforms = new ArrayList<>();
-        try {
-            this.gameImage = ImageIO.read(new File(this.imagePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (this.imagePath != null) {
+            try {
+                this.gameImage = ImageIO.read(new File(this.imagePath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -207,6 +209,7 @@ public class Videogame implements Serializable {
         double finalScore = 0;
         if (this.scores == null) {
             this.scores = new ArrayList<>();
+            return;
         }
 
         for (GameScore gameScore : scores) {
@@ -219,12 +222,16 @@ public class Videogame implements Serializable {
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-        ImageIO.write(this.gameImage, "png", out); // png is lossless
+        if (this.imagePath != null) {
+            ImageIO.write(this.gameImage, "png", out); // png is lossless
+        }
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        this.gameImage = ImageIO.read(in);
+        if (this.imagePath != null) {
+            this.gameImage = ImageIO.read(in);
+        }
     }
 
 }

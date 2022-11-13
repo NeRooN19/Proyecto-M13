@@ -6,6 +6,7 @@ package db;
 
 import data.Category;
 import data.Platforms;
+import data.QueryFilter;
 import data.Videogame;
 
 import java.util.ArrayList;
@@ -18,51 +19,6 @@ import javax.persistence.Query;
 public class VideogameQuery {
 
     private static final int OFFSET = 10;
-
-    public static List<Videogame> getGamesByCategory(List<String> queries) {
-
-        List<String> existCategory = existingCategories(queries);
-
-        Query filter = DatabaseHelper.em.createQuery(categortyFilterBuilder(existCategory));
-
-        int[] i = {1};
-
-        existCategory.forEach(q -> {
-            Category cat = getCategory(q);
-            filter.setParameter(i[0]++, cat);
-        });
-
-        return (List<Videogame>) filter.getResultList();
-    }
-
-    public static String categortyFilterBuilder(List<String> categories) {
-        int[] i = {2};
-        StringBuilder baseQuery = new StringBuilder("SELECT v FROM Videogame v WHERE v.category = ?1");
-        String filteredQuery = baseQuery.toString();
-
-        if (categories.size() > 1) {
-            categories.forEach(q -> {
-                baseQuery.append(" AND v.category = ?" + i[0]++);
-            });
-            filteredQuery = baseQuery.substring(0, baseQuery.length() - 20);
-        }
-        return filteredQuery;
-    }
-
-    public static List<String> existingCategories(List<String> categories) {
-
-        List<String> existingCategories = new ArrayList<>();
-
-        categories.forEach(q -> {
-            try {
-                Category cat = getCategory(q);
-                existingCategories.add(q);
-            } catch (Exception ex) {
-
-            }
-        });
-        return existingCategories;
-    }
 
     private static Category getCategory(String category) {
         return (Category) DatabaseHelper.em.createQuery("SELECT s FROM Category s WHERE LOWER(s.category) = LOWER('" + category + "')").getSingleResult();
@@ -91,62 +47,65 @@ public class VideogameQuery {
         });
     }
 
-    public static List<Videogame> getGameByMinScore(float score) {
-        String query = "SELECT v FROM Videogame v WHERE v.finalScore >= " + score;
-        return DatabaseHelper.em.createQuery(query).getResultList();
-    }
-
-    public static List<Videogame> getGameByMaxScore(float score) {
-        String query = "SELECT v FROM Videogame v WHERE v.finalScore <= " + score;
-        return DatabaseHelper.em.createQuery(query).getResultList();
-    }
-
-    public static List<Videogame> getGameByExactScore(float score) {
-        String query = "SELECT v FROM Videogame v WHERE v.finalScore = " + score;
-        return DatabaseHelper.em.createQuery(query).getResultList();
-    }
-
-    public static List<Videogame> getGameByRangeScore(float min, float max) {
-        String query = "SELECT v FROM Videogame v WHERE v.finalScore >= " + min + " AND v.finalScore <= " + max;
-        return DatabaseHelper.em.createQuery(query).getResultList();
-    }
-
-    public static List<Videogame> getGameByScoreAndDate(float score, String date) {
-        String query = "SELECT v FROM Videogame v WHERE v.finalScore >= " + score + " AND v.releaseDate >= '" + date + "'";
-        return DatabaseHelper.em.createQuery(query).getResultList();
-    }
-
-    public static List<Videogame> getGameByPlatform(String platformName) {
-        Platforms platform = getPlatform(platformName);
-        Query query = DatabaseHelper.em.createQuery("SELECT v FROM Videogame WHERE v.platforms = ?1");
-        return query.setParameter(1, platform).getResultList();
-    }
-
-    public static List<Videogame> getGamesPaginated(int page, String platform, String category, float score) {
+    public static List<Videogame> getGamesPaginated(int page, QueryFilter filter) {
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Videogame");
-        if (platform != null) {
+        if (filter.getPlatformName() != null) {
             queryBuilder.append(" LEFT JOIN videogame_platforms on videogame_platforms.videogame_id = Videogame.id LEFT JOIN platforms on videogame_platforms.platforms_id = platforms.id");
         }
 
-        if (category != null) {
+        if (filter.getCategoryName() != null) {
             queryBuilder.append(" LEFT JOIN videogame_category on videogame_category.videogame_id = Videogame.id LEFT JOIN category on videogame_category.category_id = category.id");
         }
 
+        queryBuilder.append(" WHERE 1=1");
 
 
-        if (platform != null) {
-            queryBuilder.append(" WHERE platforms.name = '" + platform + "'");
+        if (filter.getPlatformName() != null) {
+            queryBuilder.append(" AND platforms.name = '" + filter.getPlatformName() + "'");
         }
 
-        if (platform != null && category != null) {
-            queryBuilder.append(" AND category.category = '" + category + "'");
-        }
-
-        if (platform == null && category != null) {
-            queryBuilder.append(" WHERE category.category = '" + category + "'");
+        if (filter.getCategoryName() != null) {
+            queryBuilder.append(" AND category.category = '" + filter.getCategoryName() + "'");
         }
 
 
+        if (filter.getScoreSearchParam() == null) filter.setScoreSearchParam("");
+        switch (filter.getScoreSearchParam()) {
+            case "mayor" -> queryBuilder.append(" AND videogame.finalscore >= " + filter.getMinScore());
+            case "menor" -> queryBuilder.append(" AND videogame.finalscore <= " + filter.getMaxScore());
+            case "igual" -> queryBuilder.append(" AND videogame.finalscore = " + filter.getMinScore());
+            case "entre" ->
+                    queryBuilder.append(" AND videogame.finalscore >= " + filter.getMinScore() + " AND videogame.finalscore <= " + filter.getMaxScore());
+            default -> {
+                if (filter.getMinScore() > 0) {
+                    queryBuilder.append(" AND videogame.finalscore >= " + filter.getMinScore());
+                }
+            }
+        }
+
+        if (filter.getDateSearchParam() == null) filter.setDateSearchParam("");
+        switch (filter.getDateSearchParam()) {
+            case "menor" -> {
+                if (filter.getMaxDate() != null) {
+                    queryBuilder.append(" AND videogame.releasedate <= '" + filter.getMaxDate() + "'");
+                }
+            }
+            case "igual" -> {
+                if (filter.getMinDate() != null) {
+                    queryBuilder.append(" AND videogame.releasedate = '" + filter.getMinDate() + "'");
+                }
+            }
+            case "entre" -> {
+                if (filter.getMinDate() != null && filter.getMaxDate() != null) {
+                    queryBuilder.append(" AND videogame.releasedate >= '" + filter.getMinDate() + "'" + " AND videogame.releasedate <= '" + filter.getMaxDate() + "'");
+                }
+            }
+            default -> {
+                if (filter.getMinDate() != null) {
+                    queryBuilder.append(" AND videogame.releasedate >= '" + filter.getMinDate() + "'");
+                }
+            }
+        }
 
         queryBuilder.append(" ORDER BY Videogame.id OFFSET " + ((page - 1) * OFFSET) + " FETCH NEXT " + OFFSET + " ROWS ONLY");
 
@@ -174,4 +133,6 @@ public class VideogameQuery {
     public static Platforms getPlatform(String platform) {
         return (Platforms) DatabaseHelper.em.createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
     }
+
+
 }

@@ -4,12 +4,11 @@ package tests;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
+
 import connexions.ServerThread;
-import data.Category;
-import data.Platforms;
-import data.User;
-import data.Videogame;
+import data.*;
 import db.DatabaseHelper;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,13 +23,14 @@ import db.VideogameQuery;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 /**
- *
  * @author NeRooN
  */
 @DisplayName("Database connections testing")
@@ -130,8 +130,8 @@ public class ServerTest {
     /*
      * Test en el que comprobarem, mitjançant una conexió i una petició real, si l'usuari existeix.
      * Enviant l'usuari admin amb contasenya admin rebrem un objecte de tipus
-     * User amb les dades: 
-     * User: admin 
+     * User amb les dades:
+     * User: admin
      * Mail: admin
      * Administrador: true
      * Password: null
@@ -174,7 +174,7 @@ public class ServerTest {
     }
 
     /*
-     * Mitjançant Mockito, simularem un registre dbHelper la base de dades. 
+     * Mitjançant Mockito, simularem un registre dbHelper la base de dades.
      * Si envien un User userRegOk, ens retornará 0 indicant que s'ha registrat sense problemes.
      */
     @Test
@@ -233,8 +233,9 @@ public class ServerTest {
     @Test
     @DisplayName("Query paginated")
     public void getQueryPaginatedTest() {
-        List<Videogame> a = VideogameQuery.getGamesPaginated(1, "Switch", "Plataforma", 0);
-        assertEquals("a", a.get(0).getName());
+        QueryFilter q = new QueryFilter(null, null, 0, 0, null, null, null, null);
+        List<Videogame> a = VideogameQuery.getGamesPaginated(1, q);
+        a.forEach(v -> System.out.println(v.getName()));
     }
 
     @Test
@@ -251,4 +252,20 @@ public class ServerTest {
         assertEquals("Switch", plat.get(0).getName());
     }
 
+    @Test
+    @DisplayName("Update User")
+    public void updateUserInfo() {
+    }
+
+    @Test
+    @DisplayName("Make admin")
+    public void makeAdminTest() {
+        DatabaseHelper.makeAdmin("admin6", true);
+    }
+
+    @Test
+    @DisplayName("Remove admin")
+    public void removeAdminTest() {
+       DatabaseHelper.makeAdmin("admin7", false);
+    }
 }

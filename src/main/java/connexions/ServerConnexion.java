@@ -4,11 +4,8 @@
  */
 package connexions;
 
-import data.Category;
-import data.Platforms;
+import data.*;
 import db.DatabaseHelper;
-import data.User;
-import data.Videogame;
 import db.VideogameQuery;
 
 import javax.persistence.EntityManager;
@@ -80,7 +77,9 @@ public class ServerConnexion extends Thread {
                     }
                     case LOGIN -> dbHelp.doLogin();
                     case VIDEOGAMES_PAGINATION -> {
-
+                        int page = dis.readInt();
+                        QueryFilter query = (QueryFilter) ois.readObject();
+                        oos.writeObject(VideogameQuery.getGamesPaginated(page, query));
                     }
                     case INITIALIZATION -> {
                         List<Videogame> vi = VideogameQuery.getGamesTop5();
@@ -90,8 +89,19 @@ public class ServerConnexion extends Thread {
                         List<Platforms> plat = VideogameQuery.getAllPlatforms();
                         oos.writeObject(plat);
                     }
-                    case EDIT_USER -> {
+                    case EDIT_USER -> DatabaseHelper.updateUser((EditUser) ois.readObject());
 
+                    case EDIT_GAME -> {
+
+                    }
+                    case NEW_GAME -> {
+
+                    }
+
+                    case MAKE_ADMIN -> {
+                        String user = dis.readUTF();
+                        boolean admin = dis.readBoolean();
+                        DatabaseHelper.makeAdmin(user, admin);
                     }
                     default -> System.out.println("");
                 }

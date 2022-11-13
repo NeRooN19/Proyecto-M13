@@ -88,8 +88,7 @@ public class QueryTest {
     @Test
     @DisplayName("Query paginated")
     public void getQueryPaginatedTest() {
-        List<Videogame> a = VideogameQuery.getGamesPaginated(1, "Switch", "Plataforma", 0);
-        assertEquals("a", a.get(0).getName());
+
     }
 
     @Test
