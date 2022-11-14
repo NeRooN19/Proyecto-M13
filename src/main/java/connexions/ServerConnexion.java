@@ -97,17 +97,16 @@ public class ServerConnexion extends Thread {
                     case NEW_GAME -> {
 
                     }
+                    case MAKE_ADMIN -> {
+                        String user = dis.readUTF();
+                        boolean admin = dis.readBoolean();
+                        DatabaseHelper.makeAdmin(user, admin);
+                    }
                     case NEW_RENTAL -> {
 
                     }
                     case NEW_SCORE -> {
 
-                    }
-
-                    case MAKE_ADMIN -> {
-                        String user = dis.readUTF();
-                        boolean admin = dis.readBoolean();
-                        DatabaseHelper.makeAdmin(user, admin);
                     }
                     default -> System.out.println("");
                 }
