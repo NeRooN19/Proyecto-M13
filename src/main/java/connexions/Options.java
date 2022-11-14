@@ -17,7 +17,9 @@ public enum Options {
     EDIT_USER((byte) 4),
     EDIT_GAME((byte) 5),
     NEW_GAME((byte) 6),
-    MAKE_ADMIN((byte) 7);
+    MAKE_ADMIN((byte) 7),
+    NEW_RENTAL((byte) 8),
+    NEW_SCORE((byte) 9);
 
     private byte value;
 

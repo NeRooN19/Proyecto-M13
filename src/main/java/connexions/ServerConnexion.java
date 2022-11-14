@@ -97,6 +97,12 @@ public class ServerConnexion extends Thread {
                     case NEW_GAME -> {
 
                     }
+                    case NEW_RENTAL -> {
+
+                    }
+                    case NEW_SCORE -> {
+
+                    }
 
                     case MAKE_ADMIN -> {
                         String user = dis.readUTF();
