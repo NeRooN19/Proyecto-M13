@@ -10,7 +10,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2022-11-13T15:21:45", comments="EclipseLink-2.7.9.v20210604-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2022-11-16T22:39:30", comments="EclipseLink-2.7.9.v20210604-rNA")
 @StaticMetamodel(Videogame.class)
 public class Videogame_ { 
 
@@ -24,8 +24,8 @@ public class Videogame_ {
     public static volatile SingularAttribute<Videogame, String> name;
     public static volatile SingularAttribute<Videogame, String> publisher;
     public static volatile SingularAttribute<Videogame, String> developer;
+    public static volatile ListAttribute<Videogame, Category> categories;
     public static volatile SingularAttribute<Videogame, Integer> ID;
     public static volatile SingularAttribute<Videogame, Integer> stock;
-    public static volatile ListAttribute<Videogame, Category> category;
 
 }

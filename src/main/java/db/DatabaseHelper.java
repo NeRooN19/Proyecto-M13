@@ -4,22 +4,12 @@
  */
 package db;
 
-import data.EditUser;
-import data.User;
+import data.*;
 import data.User;
 import encrypt.Encrypter;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -29,13 +19,14 @@ import javax.persistence.Persistence;
  */
 public class DatabaseHelper {
 
+    private static final String PATH = "img\\";
     private static final String CONFIG = "config.properties";
     public static EntityManager em;
     private static EntityManagerFactory emf;
-    private DataInputStream dis;
-    private DataOutputStream dos;
-    private ObjectInputStream ois;
-    private ObjectOutputStream oos;
+    private final DataInputStream dis;
+    private final DataOutputStream dos;
+    private final ObjectInputStream ois;
+    private final ObjectOutputStream oos;
 
     /**
      * Constructor of the class
@@ -82,12 +73,12 @@ public class DatabaseHelper {
     public static Properties getConfig() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File(CONFIG)));
+            properties.load(new FileInputStream(CONFIG));
             return properties;
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -205,13 +196,72 @@ public class DatabaseHelper {
         try {
             User user = getUser(username);
             if (user != null) {
-                StringBuilder query = new StringBuilder("UPDATE User SET isAdmin = " + admin + " WHERE username = '" + username + "'");
+                String query = "UPDATE User SET isAdmin = " + admin + " WHERE username = '" + username + "'";
                 em.getTransaction().begin();
-                em.createQuery(query.toString()).executeUpdate();
+                em.createQuery(query).executeUpdate();
                 em.getTransaction().commit();
             }
         } catch (Exception ex) {
 
         }
+    }
+
+    public static int saveNewGame(Videogame videogame) {
+        if (VideogameQuery.getVideogameByName(videogame.getName()) == null) {
+            videogame.setCategories(checkGameCategories(videogame.getCategories()));
+            videogame.setPlatforms(checkGamePlatforms(videogame.getPlatforms()));
+            if (videogame.getGameImage() != null) {
+                videogame.setImagePath(PATH + pathName(videogame.getName()));
+                saveImage(videogame);
+            } else {
+                videogame.setImagePath("");
+            }
+            em.getTransaction().begin();
+            em.persist(videogame);
+            em.getTransaction().commit();
+            return 0;
+        }
+        return 1;
+    }
+
+    private static List<Platforms> checkGamePlatforms(List<Platforms> platforms) {
+        List<Platforms> plats = new ArrayList<>();
+        if (platforms.size() != 0) {
+            platforms.forEach(p -> {
+                Platforms pl = VideogameQuery.getPlatform(p.getName());
+                if (pl != null) {
+                    plats.add(pl);
+                }
+            });
+        }
+        return plats;
+    }
+
+    private static List<Category> checkGameCategories(List<Category> categories) {
+        List<Category> cats = new ArrayList<>();
+        if (categories.size() != 0) {
+            categories.forEach(c -> {
+                Category cat = VideogameQuery.getCategory(c.getCategory());
+                if (cat != null) {
+                    cats.add(cat);
+                }
+            });
+        }
+        return cats;
+    }
+
+    private static void saveImage(Videogame videogame) {
+
+        try (FileOutputStream stream = new FileOutputStream(videogame.getImagePath())) {
+            stream.write(videogame.getGameImage());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String pathName(String gameName) {
+        return gameName.replaceAll("[^a-zA-Z0-9 ]", "").replaceAll(" ", "-").toLowerCase() + ".png";
     }
 }

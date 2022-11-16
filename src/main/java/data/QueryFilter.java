@@ -1,8 +1,10 @@
 package data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class QueryFilter implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8;
 
     private String platformName;
@@ -13,12 +15,9 @@ public class QueryFilter implements Serializable {
     private String maxDate;
     private String dateSearchParam;
     private String scoreSearchParam;
+    private String name;
 
-
-    public QueryFilter() {
-    }
-
-    public QueryFilter(String platformName, String categoryName, float minScore, float maxScore, String minDate, String maxDate, String dateSearchParam, String scoreSearchParam) {
+    public QueryFilter(String platformName, String categoryName, float minScore, float maxScore, String minDate, String maxDate, String dateSearchParam, String scoreSearchParam, String name) {
         this.platformName = platformName;
         this.categoryName = categoryName;
         this.minScore = minScore;
@@ -27,6 +26,7 @@ public class QueryFilter implements Serializable {
         this.maxDate = maxDate;
         this.dateSearchParam = dateSearchParam;
         this.scoreSearchParam = scoreSearchParam;
+        this.name = name;
     }
 
     public String getPlatformName() {
@@ -91,5 +91,13 @@ public class QueryFilter implements Serializable {
 
     public void setScoreSearchParam(String scoreSearchParam) {
         this.scoreSearchParam = scoreSearchParam;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

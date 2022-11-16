@@ -8,8 +8,6 @@ import data.*;
 import db.DatabaseHelper;
 import db.VideogameQuery;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,8 +33,6 @@ public class ServerConnexion extends Thread {
     private DataOutputStream dos;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
-    private EntityManagerFactory emf;
-    private EntityManager em;
     private ServerView serverView;
 
     /**
@@ -77,8 +73,9 @@ public class ServerConnexion extends Thread {
                     }
                     case LOGIN -> dbHelp.doLogin();
                     case VIDEOGAMES_PAGINATION -> {
-                        int page = dis.readInt();
                         QueryFilter query = (QueryFilter) ois.readObject();
+                        dos.write(VideogameQuery.getGamesCount(query));
+                        int page = dis.readInt();
                         oos.writeObject(VideogameQuery.getGamesPaginated(page, query));
                     }
                     case INITIALIZATION -> {
@@ -95,7 +92,8 @@ public class ServerConnexion extends Thread {
 
                     }
                     case NEW_GAME -> {
-
+                        Videogame videogame = (Videogame) ois.readObject();
+                        dos.writeByte(DatabaseHelper.saveNewGame(videogame));
                     }
                     case MAKE_ADMIN -> {
                         String user = dis.readUTF();
@@ -125,15 +123,6 @@ public class ServerConnexion extends Thread {
             } catch (IOException ex1) {
                 Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex1);
             }
-        }
-    }
-
-    /**
-     * Update the list of ip's
-     */
-    private void updateList() {
-        if (serverView != null) {
-            serverView.updateList();
         }
     }
 

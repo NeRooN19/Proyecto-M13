@@ -9,12 +9,11 @@ import connexions.ServerThread;
 import data.*;
 import db.DatabaseHelper;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import javax.imageio.ImageIO;
 
 /**
  * @author NeRooN
@@ -233,7 +234,7 @@ public class ServerTest {
     @Test
     @DisplayName("Query paginated")
     public void getQueryPaginatedTest() {
-        QueryFilter q = new QueryFilter(null, null, 0, 0, null, null, null, null);
+        QueryFilter q = new QueryFilter(null, null, 0, 0, null, null, null, null, null);
         List<Videogame> a = VideogameQuery.getGamesPaginated(1, q);
         a.forEach(v -> System.out.println(v.getName()));
     }
@@ -266,6 +267,52 @@ public class ServerTest {
     @Test
     @DisplayName("Remove admin")
     public void removeAdminTest() {
-       DatabaseHelper.makeAdmin("admin7", false);
+        DatabaseHelper.makeAdmin("admin7", false);
+    }
+
+    @Test
+    @DisplayName("Create videogame")
+    public void addVideogame() {
+        try {
+            String filePath = "imgtest\\BOTW-Share_icon.jpg";
+            BufferedImage b = null;
+            byte[] img;
+            if (filePath != null && !filePath.trim().isEmpty()) {
+                b = ImageIO.read(new File(filePath));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(b, "png", bos);
+                img = bos.toByteArray();
+            } else {
+                img = null;
+            }
+            List<Platforms> platforms = new ArrayList<>();
+            platforms.add(new Platforms("Switch"));
+
+            Videogame videogame = new Videogame("Zelda test", "Nintendo", "BOtW test 2", "Nintendo", new Date(), platforms, null, img);
+            DatabaseHelper.saveNewGame(videogame);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    @DisplayName("Get game")
+    public void getGameTest() {
+        QueryFilter filter = new QueryFilter(null, null, 0, 0, null, null, null, null, "bot");
+        List<Videogame> a = VideogameQuery.getGamesPaginated(0, filter);
+        a.forEach(v -> {
+            if (v.getGameImage() != null) {
+                System.out.println(v.getGameImage());
+                FileOutputStream stream = null;
+                try {
+                    stream = new FileOutputStream("a.png");
+                    stream.write(v.getGameImage());
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 }

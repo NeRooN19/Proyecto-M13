@@ -9,8 +9,14 @@ import data.Platforms;
 import data.QueryFilter;
 import data.Videogame;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -20,7 +26,7 @@ public class VideogameQuery {
 
     private static final int OFFSET = 10;
 
-    private static Category getCategory(String category) {
+    public static Category getCategory(String category) {
         return (Category) DatabaseHelper.em.createQuery("SELECT s FROM Category s WHERE LOWER(s.category) = LOWER('" + category + "')").getSingleResult();
     }
 
@@ -48,6 +54,23 @@ public class VideogameQuery {
     }
 
     public static List<Videogame> getGamesPaginated(int page, QueryFilter filter) {
+
+        StringBuilder queryBuilder = getGamesWithoutPagination(filter);
+        if (page <= 0) page = 1;
+        queryBuilder.append(" ORDER BY Videogame.id OFFSET " + ((page - 1) * OFFSET) + " FETCH NEXT " + OFFSET + " ROWS ONLY");
+
+        System.out.println(queryBuilder);
+
+        Query query = DatabaseHelper.em.createNativeQuery(queryBuilder.toString(), Videogame.class);
+        return (List<Videogame>) getGamesWithImage(query.getResultList());
+    }
+
+    public static int getGamesCount(QueryFilter filter) {
+        return (int) Math.ceil((double) DatabaseHelper.em.createNativeQuery(getGamesWithoutPagination(filter).toString(), Videogame.class)
+                .getResultList().size() / 10);
+    }
+
+    private static StringBuilder getGamesWithoutPagination(QueryFilter filter) {
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Videogame");
         if (filter.getPlatformName() != null) {
             queryBuilder.append(" LEFT JOIN videogame_platforms on videogame_platforms.videogame_id = Videogame.id LEFT JOIN platforms on videogame_platforms.platforms_id = platforms.id");
@@ -59,7 +82,6 @@ public class VideogameQuery {
 
         queryBuilder.append(" WHERE 1=1");
 
-
         if (filter.getPlatformName() != null) {
             queryBuilder.append(" AND platforms.name = '" + filter.getPlatformName() + "'");
         }
@@ -68,6 +90,9 @@ public class VideogameQuery {
             queryBuilder.append(" AND category.category = '" + filter.getCategoryName() + "'");
         }
 
+        if (filter.getName() != null && !filter.getName().trim().equals("")) {
+            queryBuilder.append(" AND LOWER(videogame.name) LIKE '%" + filter.getName().toLowerCase() + "%'");
+        }
 
         if (filter.getScoreSearchParam() == null) filter.setScoreSearchParam("");
         switch (filter.getScoreSearchParam()) {
@@ -106,13 +131,7 @@ public class VideogameQuery {
                 }
             }
         }
-
-        queryBuilder.append(" ORDER BY Videogame.id OFFSET " + ((page - 1) * OFFSET) + " FETCH NEXT " + OFFSET + " ROWS ONLY");
-
-        System.out.println(queryBuilder.toString());
-
-        Query query = DatabaseHelper.em.createNativeQuery(queryBuilder.toString(), Videogame.class);
-        return query.getResultList();
+        return queryBuilder;
     }
 
     public static List<Videogame> getGamesTop5() {
@@ -132,6 +151,32 @@ public class VideogameQuery {
 
     public static Platforms getPlatform(String platform) {
         return (Platforms) DatabaseHelper.em.createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
+    }
+
+    public static Videogame getVideogameByName(String name) {
+        try {
+            return (Videogame) DatabaseHelper.em.createQuery("SELECT v FROM Videogame v WHERE v.name = '" + name + "'").getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    private static List<Videogame> getGamesWithImage(List<Videogame> videogames) {
+        videogames.forEach(v -> {
+            if (v.getImagePath() != null && !v.getImagePath().equals("")) {
+                try {
+                    BufferedImage b = ImageIO.read(new File(v.getImagePath()));
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    ImageIO.write(b, "png", bos);
+                    byte[] img = bos.toByteArray();
+                    v.setGameImage(img);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        return videogames;
     }
 
 

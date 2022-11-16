@@ -4,19 +4,11 @@
  */
 package data;
 
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 /**
  * @author NeRooN
@@ -24,6 +16,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Videogame implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 2;
 
     private String description;
@@ -38,34 +31,34 @@ public class Videogame implements Serializable {
     private List<Rental> rentals;
     private List<GameScore> scores;
     private List<Platforms> platforms;
-    private List<Category> category;
-    private transient BufferedImage gameImage;
+    private List<Category> categories;
+    private transient byte[] gameImage;
 
     public Videogame() {
     }
 
-    public Videogame(String description, String developer, String name, String publisher, Date releaseDate, String imagePath) {
+    public Videogame(String description, String developer, String name, String publisher, Date releaseDate, List<Platforms> platforms, List<Category> categories, byte[] gameImage) {
         this.description = description;
         this.developer = developer;
         this.name = name;
         this.publisher = publisher;
         this.releaseDate = releaseDate;
-        this.imagePath = imagePath;
-        this.category = new ArrayList<>();
+        this.platforms = platforms;
+        this.categories = categories;
+        this.gameImage = gameImage;
         this.scores = new ArrayList<>();
         this.rentals = new ArrayList<>();
-        this.platforms = new ArrayList<>();
-        if (this.imagePath != null) {
-            try {
-                this.gameImage = ImageIO.read(new File(this.imagePath));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (platforms == null) {
+            this.platforms = new ArrayList<>();
+        }
+        if (categories == null) {
+            this.categories = new ArrayList<>();
         }
     }
 
-    public Videogame(List<Category> category, String description, String developer, double finalScore, int ID, String imagePath, String name, String publisher, Date releaseDate, List<Rental> rentals, List<GameScore> scores, int stock, List<Platforms> platforms) {
-        this.category = category;
+    //Constructor de EclipseLink - Base Datos
+    public Videogame(List<Category> categories, String description, String developer, double finalScore, int ID, String imagePath, String name, String publisher, Date releaseDate, List<Rental> rentals, List<GameScore> scores, int stock, List<Platforms> platforms) {
+        this.categories = categories;
         this.description = description;
         this.developer = developer;
         this.finalScore = finalScore;
@@ -126,12 +119,12 @@ public class Videogame implements Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL)
-    public List<Category> getCategory() {
-        return category;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategory(List<Category> category) {
-        this.category = category;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     public int getStock() {
@@ -192,10 +185,14 @@ public class Videogame implements Serializable {
         this.platforms = platforms;
     }
 
-    public BufferedImage getObra() {
+    @Transient
+    public byte[] getGameImage() {
         return this.gameImage;
     }
 
+    public void setGameImage(byte[] gameImage) {
+        this.gameImage = gameImage;
+    }
 
     public void addScore(User user, double score) {
         if (this.scores == null) {
@@ -218,20 +215,6 @@ public class Videogame implements Serializable {
         finalScore /= scores.size();
         finalScore = Math.round(finalScore * 100.0) / 100.0;
         setFinalScore(finalScore);
-    }
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
-        if (this.imagePath != null) {
-            ImageIO.write(this.gameImage, "png", out); // png is lossless
-        }
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        if (this.imagePath != null) {
-            this.gameImage = ImageIO.read(in);
-        }
     }
 
 }
