@@ -4,12 +4,12 @@
  */
 package views;
 
+import connexions.ServerThread;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import connexions.ServerThread;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 
 /**
  *

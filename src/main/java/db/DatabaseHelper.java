@@ -5,14 +5,13 @@
 package db;
 
 import data.*;
-import data.User;
 import encrypt.Encrypter;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import java.io.*;
 import java.util.*;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  * @author NeRooN
@@ -56,11 +55,11 @@ public class DatabaseHelper {
     public static Map<String, Object> getEntityManager() {
         Map<String, Object> persistenceConfig = new HashMap<>();
         Properties properties = getConfig();
-        persistenceConfig.put("javax.persistence.jdbc.driver", properties.get("DRIVER"));
-        persistenceConfig.put("javax.persistence.jdbc.password", properties.get("PASS"));
-        persistenceConfig.put("javax.persistence.schema-generation.database.action", properties.get("GENERATE"));
-        persistenceConfig.put("javax.persistence.jdbc.url", properties.get("JDBC"));
-        persistenceConfig.put("javax.persistence.jdbc.user", properties.get("USER"));
+        persistenceConfig.put("jakarta.persistence.jdbc.driver", properties.get("DRIVER"));
+        persistenceConfig.put("jakarta.persistence.jdbc.password", properties.get("PASS"));
+        persistenceConfig.put("jakarta.persistence.schema-generation.database.action", properties.get("GENERATE"));
+        persistenceConfig.put("jakarta.persistence.jdbc.url", properties.get("JDBC"));
+        persistenceConfig.put("jakarta.persistence.jdbc.user", properties.get("USER"));
 
         return persistenceConfig;
     }

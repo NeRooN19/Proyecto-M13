@@ -8,16 +8,16 @@ import data.Category;
 import data.Platforms;
 import data.QueryFilter;
 import data.Videogame;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 
 /**
  * @author NeRooN
@@ -175,9 +175,25 @@ public class VideogameQuery {
                 }
             }
         });
-
         return videogames;
     }
 
+    private byte[] getImageAsBytes(String path) {
+        try {
+            BufferedImage b = null;
+            byte[] img;
+            if (path != null && !path.trim().isEmpty()) {
+                b = ImageIO.read(new File(path));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(b, "png", bos);
+                img = bos.toByteArray();
+                return img;
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

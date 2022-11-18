@@ -4,11 +4,12 @@
  */
 package data;
 
-import java.io.*;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
 
 /**
  * @author NeRooN
@@ -16,7 +17,6 @@ import javax.persistence.*;
 @Entity
 public class Videogame implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 2;
 
     private String description;
@@ -32,7 +32,7 @@ public class Videogame implements Serializable {
     private List<GameScore> scores;
     private List<Platforms> platforms;
     private List<Category> categories;
-    private transient byte[] gameImage;
+    private byte[] gameImage;
 
     public Videogame() {
     }
