@@ -94,7 +94,6 @@ public class DatabaseHelper {
             User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
             if (user != null && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
                 em.detach(user);
-                System.out.println("user: " + user.getUsername());
                 return user;
             }
         }catch (Exception ex){
