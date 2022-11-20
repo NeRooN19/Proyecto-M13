@@ -57,7 +57,7 @@ public class Videogame implements Serializable {
     }
 
     //Constructor de EclipseLink - Base Datos
-    public Videogame(List<Category> categories, String description, String developer, double finalScore, int ID, String imagePath, String name, String publisher, Date releaseDate, List<Rental> rentals, List<GameScore> scores, int stock, List<Platforms> platforms) {
+    public Videogame(List<Category> categories, String description, String developer, double finalScore, int ID, String imagePath, String name, String publisher, Date releaseDate, int stock, List<Platforms> platforms) {
         this.categories = categories;
         this.description = description;
         this.developer = developer;
@@ -67,8 +67,6 @@ public class Videogame implements Serializable {
         this.name = name;
         this.publisher = publisher;
         this.releaseDate = releaseDate;
-        this.rentals = rentals;
-        this.scores = scores;
         this.stock = stock;
         this.platforms = platforms;
     }
@@ -105,7 +103,7 @@ public class Videogame implements Serializable {
         this.releaseDate = releaseDate;
     }
 
-    @OneToMany(mappedBy = "videogame", cascade = CascadeType.ALL)
+    @Transient
     public List<Rental> getRentals() {
         return rentals;
     }
@@ -167,7 +165,7 @@ public class Videogame implements Serializable {
         this.publisher = publisher;
     }
 
-    @OneToMany(mappedBy = "videogame", cascade = CascadeType.ALL)
+    @Transient
     public List<GameScore> getScores() {
         return scores;
     }

@@ -57,9 +57,9 @@ public class DatabaseHelper {
         Properties properties = getConfig();
         persistenceConfig.put("jakarta.persistence.jdbc.driver", properties.get("DRIVER"));
         persistenceConfig.put("jakarta.persistence.jdbc.password", properties.get("PASS"));
-        persistenceConfig.put("jakarta.persistence.schema-generation.database.action", properties.get("GENERATE"));
         persistenceConfig.put("jakarta.persistence.jdbc.url", properties.get("JDBC"));
         persistenceConfig.put("jakarta.persistence.jdbc.user", properties.get("USER"));
+        persistenceConfig.put("jakarta.persistence.schema-generation.database.action", properties.get("GENERATE"));
 
         return persistenceConfig;
     }
@@ -89,11 +89,16 @@ public class DatabaseHelper {
      * @param password the password from the user
      * @return Null if the user doesn't exist or the user if it exists
      */
-    public User checkLogin(String username, String password) {
-        User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
-        em.detach(user);
-        if (user != null && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
-            return user;
+    public static User checkLogin(String username, String password) {
+        try {
+            User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
+            if (user != null && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
+                em.detach(user);
+                System.out.println("user: " + user.getUsername());
+                return user;
+            }
+        }catch (Exception ex){
+            return null;
         }
         return null;
     }

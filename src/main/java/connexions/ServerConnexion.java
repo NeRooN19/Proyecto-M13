@@ -23,8 +23,8 @@ public class ServerConnexion extends Thread {
 
     private ArrayList<Socket> sockets;
     private DatabaseHelper dbHelp;
-    private static Socket socket;
-    private static DataInputStream dis;
+    private Socket socket;
+    private DataInputStream dis;
     private DataOutputStream dos;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
@@ -65,6 +65,7 @@ public class ServerConnexion extends Thread {
                         User user = (User) ois.readObject();
                         byte registerComplete = (byte) dbHelp.tryRegister(user);
                         dos.writeByte(registerComplete);
+                        oos.writeObject(user);
                     }
                     case LOGIN -> dbHelp.doLogin();
                     case VIDEOGAMES_PAGINATION -> {

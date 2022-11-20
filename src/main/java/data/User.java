@@ -4,13 +4,16 @@
  */
 package data;
 
-import jakarta.persistence.*;
-
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
+
 /**
- *
  * @author NeRooN
  */
 @Entity
@@ -30,25 +33,22 @@ public class User implements Serializable {
 
     public User() {
     }
-    
-    public User(String password, String username, String name, String mail, boolean isAdmin) {
+
+    public User(String password, String username, String name, String mail) {
         this.password = password;
         this.username = username;
         this.name = name;
         this.mail = mail;
-        this.isAdmin = isAdmin;
-        rental = null;
+        this.isAdmin = false;
     }
 
-    public User(int id, String password, String username, String name, String mail, boolean isAdmin, List<Rental> rental, List<GameScore> scores) {
+    public User(int id, String password, String username, String name, String mail, boolean isAdmin) {
         this.id = id;
         this.password = password;
         this.username = username;
         this.name = name;
         this.mail = mail;
         this.isAdmin = isAdmin;
-        this.rental = rental;
-        this.scores = scores;
     }
 
     @Column(name = "username", unique = true)
@@ -56,9 +56,17 @@ public class User implements Serializable {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Column(name = "password")
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Column(name = "name")
@@ -66,9 +74,17 @@ public class User implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Column(name = "mail", unique = true)
     public String getMail() {
         return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     @Column(name = "admin")
@@ -76,27 +92,11 @@ public class User implements Serializable {
         return isAdmin;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Transient
     public List<Rental> getRental() {
         return rental;
     }
@@ -105,7 +105,7 @@ public class User implements Serializable {
         this.rental = rental;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Transient
     public List<GameScore> getScores() {
         return scores;
     }
@@ -122,6 +122,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
     }
 
 }

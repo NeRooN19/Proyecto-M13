@@ -155,7 +155,7 @@ public class VideogameQuery {
 
     public static Videogame getVideogameByName(String name) {
         try {
-            return (Videogame) DatabaseHelper.em.createQuery("SELECT v FROM Videogame v WHERE v.name = '" + name + "'").getSingleResult();
+            return (Videogame) DatabaseHelper.em.createQuery("SELECT v FROM Videogame v WHERE LOWER(v.name) = '" + name.toLowerCase() + "'").getSingleResult();
         } catch (NoResultException e) {
             return null;
         }

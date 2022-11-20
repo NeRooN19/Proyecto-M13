@@ -312,4 +312,15 @@ public class ServerTest {
             }
         });
     }
+
+    @Test
+    @DisplayName("Add Score")
+    public void addScoreTest() {
+        User user = DatabaseHelper.checkLogin("admin", "MTIzNDU2");
+        Videogame v = VideogameQuery.getVideogameByName("a");
+        v.addScore(user, 1);
+        DatabaseHelper.em.getTransaction().begin();
+        DatabaseHelper.em.merge(v);
+        DatabaseHelper.em.getTransaction().commit();
+    }
 }
