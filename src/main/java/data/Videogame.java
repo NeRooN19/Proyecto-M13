@@ -53,8 +53,6 @@ public class Videogame implements Serializable {
         this.name = name;
         this.publisher = publisher;
         this.releaseDate = releaseDate;
-        this.platforms = platforms;
-        this.categories = categories;
         this.gameImage = gameImage;
         this.scores = new ArrayList<>();
         this.rentals = new ArrayList<>();
