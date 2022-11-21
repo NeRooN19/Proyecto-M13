@@ -237,6 +237,41 @@ public class ServerTest {
     }
 
     @Test
+    @DisplayName("Update User")
+    public void updateUserInfo() {
+    }
+
+    @Test
+    @DisplayName("Make admin")
+    public void makeAdminTest() {
+        DatabaseHelper.makeAdmin("admin", true);
+    }
+
+    @Test
+    @DisplayName("Remove admin")
+    public void removeAdminTest() {
+        DatabaseHelper.makeAdmin("carla", false);
+    }
+
+    @Test
+    @DisplayName("Create platform")
+    public void createPlatform() {
+        Platforms plat = new Platforms("Switch");
+        DatabaseHelper.em.getTransaction().begin();
+        DatabaseHelper.em.merge(plat);
+        DatabaseHelper.em.getTransaction().commit();
+    }
+
+    @Test
+    @DisplayName("Create category")
+    public void createCategory() {
+        Category cat = new Category("Plataforma");
+        DatabaseHelper.em.getTransaction().begin();
+        DatabaseHelper.em.merge(cat);
+        DatabaseHelper.em.getTransaction().commit();
+    }
+
+    @Test
     @DisplayName("Categories")
     public void getCategoriesTest() {
         List<Category> cat = VideogameQuery.getAllCategories();
@@ -248,23 +283,6 @@ public class ServerTest {
     public void getPlatformsTest() {
         List<Platforms> plat = VideogameQuery.getAllPlatforms();
         assertEquals("Switch", plat.get(0).getName());
-    }
-
-    @Test
-    @DisplayName("Update User")
-    public void updateUserInfo() {
-    }
-
-    @Test
-    @DisplayName("Make admin")
-    public void makeAdminTest() {
-        DatabaseHelper.makeAdmin("admin6", true);
-    }
-
-    @Test
-    @DisplayName("Remove admin")
-    public void removeAdminTest() {
-        DatabaseHelper.makeAdmin("admin7", false);
     }
 
     @Test
@@ -285,7 +303,8 @@ public class ServerTest {
             List<Platforms> platforms = new ArrayList<>();
             platforms.add(new Platforms("Switch"));
 
-            Videogame videogame = new Videogame("Zelda test", "Nintendo", "BOtW test 2", "Nintendo", new Date(), platforms, null, img);
+            Videogame videogame = new Videogame("Zelda test", "Nintendo", "BOtW test 2", "Nintendo", new Date(), img);
+            videogame.setPlatforms(platforms);
             DatabaseHelper.saveNewGame(videogame);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -311,16 +330,5 @@ public class ServerTest {
                 }
             }
         });
-    }
-
-    @Test
-    @DisplayName("Add Score")
-    public void addScoreTest() {
-        User user = DatabaseHelper.checkLogin("admin", "MTIzNDU2");
-        Videogame v = VideogameQuery.getVideogameByName("a");
-        v.addScore(user, 1);
-        DatabaseHelper.em.getTransaction().begin();
-        DatabaseHelper.em.merge(v);
-        DatabaseHelper.em.getTransaction().commit();
     }
 }

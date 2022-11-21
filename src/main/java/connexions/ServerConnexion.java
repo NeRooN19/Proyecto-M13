@@ -101,6 +101,9 @@ public class ServerConnexion extends Thread {
                     case NEW_SCORE -> {
 
                     }
+                    case GET_USER_LIST -> {
+                        oos.writeObject(DatabaseHelper.getUsers());
+                    }
                     default -> System.out.println("");
                 }
             }

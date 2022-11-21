@@ -19,7 +19,10 @@ public enum Options {
     NEW_GAME((byte) 6),
     MAKE_ADMIN((byte) 7),
     NEW_RENTAL((byte) 8),
-    NEW_SCORE((byte) 9);
+    NEW_SCORE((byte) 9),
+    DELETE_GAME((byte) 10),
+    GET_USER_LIST((byte) 11);
+
 
     private byte value;
 

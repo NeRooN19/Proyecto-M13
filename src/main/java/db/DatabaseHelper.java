@@ -96,7 +96,7 @@ public class DatabaseHelper {
                 em.detach(user);
                 return user;
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return null;
         }
         return null;
@@ -157,6 +157,11 @@ public class DatabaseHelper {
         return user;
     }
 
+    public static List<User> getUsers() {
+        return (List<User>) em.createQuery("SELECT u FROM User u").getResultList();
+
+    }
+
     public static void updateUser(EditUser editData) {
         try {
             User user = getUser(editData.getUsername());
@@ -211,8 +216,12 @@ public class DatabaseHelper {
 
     public static int saveNewGame(Videogame videogame) {
         if (VideogameQuery.getVideogameByName(videogame.getName()) == null) {
-            videogame.setCategories(checkGameCategories(videogame.getCategories()));
-            videogame.setPlatforms(checkGamePlatforms(videogame.getPlatforms()));
+            if (videogame.getCategories() != null) {
+                videogame.setCategories(checkGameCategories(videogame.getCategories()));
+            }
+            if (videogame.getPlatforms() != null) {
+                videogame.setPlatforms(checkGamePlatforms(videogame.getPlatforms()));
+            }
             if (videogame.getGameImage() != null) {
                 videogame.setImagePath(PATH + pathName(videogame.getName()));
                 saveImage(videogame);
