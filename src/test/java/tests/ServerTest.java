@@ -9,11 +9,13 @@ import connexions.ServerThread;
 import data.*;
 import db.DatabaseHelper;
 import db.VideogameQuery;
+import encrypt.Encrypter;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import javax.imageio.ImageIO;
@@ -140,12 +142,12 @@ public class ServerTest {
         try {
             dos.writeByte(1);
             dos.writeUTF("admin");
-            dos.writeUTF("123456");
+            dos.writeUTF(Encrypter.getEncodedString("123456"));
             assertTrue(dis.readBoolean());
             user = (User) ois.readObject();
 
             assertEquals("Ludox", user.getName());
-            assertEquals(null, user.getMail());
+            assertEquals("mail@mail.com", user.getMail());
             assertTrue(user.isIsAdmin());
             assertNull(user.getPassword());
         } catch (IOException | ClassNotFoundException ex) {
@@ -211,9 +213,11 @@ public class ServerTest {
     @Test
     @DisplayName("Check existing user")
     public void checkLoginOk() {
-        Mockito.when(dbHelper.checkLogin("admin", "admin")).thenReturn(user);
-        User user = dbHelper.checkLogin("admin", "admin");
-        assertEquals(this.user, user);
+        try (MockedStatic<DatabaseHelper> mocked = Mockito.mockStatic(DatabaseHelper.class, Mockito.CALLS_REAL_METHODS)) {
+            mocked.when(() -> DatabaseHelper.checkLogin("admin", "admin")).thenReturn(user);
+            User user = DatabaseHelper.checkLogin("admin", "admin");
+            assertEquals(this.user, user);
+        }
     }
 
     /*
@@ -223,9 +227,99 @@ public class ServerTest {
     @Test
     @DisplayName("Check non existing user")
     public void checkLoginNoOk() {
-        Mockito.when(dbHelper.checkLogin("admin5", "admin")).thenReturn(null);
-        User user = dbHelper.checkLogin("admin5", "admin");
-        assertNull(user);
+        try (MockedStatic<DatabaseHelper> mocked = Mockito.mockStatic(DatabaseHelper.class, Mockito.CALLS_REAL_METHODS)) {
+            mocked.when(() -> DatabaseHelper.checkLogin("admin5", "admin")).thenReturn(null);
+            assertNull(DatabaseHelper.checkLogin("admin5", "admin"));
+        }
+    }
+
+    /* TEA 3 */
+
+    @Test
+    @DisplayName("Get user by name")
+    public void getUserTest() {
+        User user = DatabaseHelper.getUser("admin");
+        assertEquals("Ludox", user.getName());
+    }
+
+    @Test
+    @DisplayName("Get all users")
+    public void getUsersTest() {
+        List<User> users = DatabaseHelper.getUsers();
+        assertEquals(4, users.size());
+    }
+
+    @Test
+    @DisplayName("")
+    public void updateUserTest() {
+        EditUser editUser = new EditUser();
+        editUser.setUsername("admin");
+        editUser.setMail("ioc@test.com");
+        DatabaseHelper.updateUser(editUser);
+        User user = DatabaseHelper.getUser("admin");
+        assertEquals(editUser.getMail(), user.getMail());
+    }
+
+    @Test
+    @DisplayName("Make admin True")
+    public void makeAdminTrueTest() {
+        DatabaseHelper.makeAdmin("admin", true);
+        User user = DatabaseHelper.getUser("admin");
+        assertTrue(user.isIsAdmin());
+    }
+
+    @Test
+    @DisplayName("")
+    public void saveNewGameTest() {
+        //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
+        Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null);
+        int result = DatabaseHelper.saveNewGame(videogame);
+        assertEquals(0, result);
+    }
+
+    @Test
+    @DisplayName("")
+    public void saveExistingGameTest() {
+        //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
+        Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null);
+        int result = DatabaseHelper.saveNewGame(videogame);
+        assertEquals(1, result);
+    }
+
+    @Test
+    @DisplayName("")
+    public void checkGameNoExistPlatformsTest() {
+        List<Platforms> platformsList = new ArrayList<>();
+        platformsList.add(new Platforms("Plataforma Test"));
+        List<Platforms> listResult = DatabaseHelper.checkGamePlatforms(platformsList);
+        assertEquals(0, listResult.size());
+    }
+
+    @Test
+    @DisplayName("")
+    public void checkGameExistPlatformsTest() {
+        List<Platforms> platformsList = new ArrayList<>();
+        platformsList.add(new Platforms("Switch"));
+        List<Platforms> listResult = DatabaseHelper.checkGamePlatforms(platformsList);
+        assertEquals(1, listResult.size());
+    }
+
+    @Test
+    @DisplayName("")
+    public void checkGameNoExistCategoriesTest() {
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(new Category("Category Test"));
+        List<Category> listResult = DatabaseHelper.checkGameCategories(categoryList);
+        assertEquals(0, listResult.size());
+    }
+
+    @Test
+    @DisplayName("")
+    public void checkGameExistCategoriesTest() {
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(new Category("Plataforma"));
+        List<Category> listResult = DatabaseHelper.checkGameCategories(categoryList);
+        assertEquals(1, listResult.size());
     }
 
     @Test
@@ -237,59 +331,10 @@ public class ServerTest {
     }
 
     @Test
-    @DisplayName("Update User")
-    public void updateUserInfo() {
-    }
-
-    @Test
-    @DisplayName("Make admin")
-    public void makeAdminTest() {
-        DatabaseHelper.makeAdmin("admin", true);
-    }
-
-    @Test
-    @DisplayName("Remove admin")
-    public void removeAdminTest() {
-        DatabaseHelper.makeAdmin("carla", false);
-    }
-
-    @Test
-    @DisplayName("Create platform")
-    public void createPlatform() {
-        Platforms plat = new Platforms("Switch");
-        DatabaseHelper.em.getTransaction().begin();
-        DatabaseHelper.em.merge(plat);
-        DatabaseHelper.em.getTransaction().commit();
-    }
-
-    @Test
-    @DisplayName("Create category")
-    public void createCategory() {
-        Category cat = new Category("Plataforma");
-        DatabaseHelper.em.getTransaction().begin();
-        DatabaseHelper.em.merge(cat);
-        DatabaseHelper.em.getTransaction().commit();
-    }
-
-    @Test
-    @DisplayName("Categories")
-    public void getCategoriesTest() {
-        List<Category> cat = VideogameQuery.getAllCategories();
-        assertEquals("Plataforma", cat.get(0).getCategory());
-    }
-
-    @Test
-    @DisplayName("Platforms")
-    public void getPlatformsTest() {
-        List<Platforms> plat = VideogameQuery.getAllPlatforms();
-        assertEquals("Switch", plat.get(0).getName());
-    }
-
-    @Test
-    @DisplayName("Create videogame")
-    public void addVideogame() {
+    @DisplayName("Save image method test")
+    public void saveImageTest() {
         try {
-            String filePath = "imgtest\\BOTW-Share_icon.jpg";
+            String filePath = "imagetest\\test-pic.png";
             BufferedImage b = null;
             byte[] img;
             if (filePath != null && !filePath.trim().isEmpty()) {
@@ -303,7 +348,7 @@ public class ServerTest {
             List<Platforms> platforms = new ArrayList<>();
             platforms.add(new Platforms("Switch"));
 
-            Videogame videogame = new Videogame("Zelda test", "Nintendo", "BOtW test 2", "Nintendo", new Date(), img);
+            Videogame videogame = new Videogame("test", "test", "test game 1", "test", new Date(), img);
             videogame.setPlatforms(platforms);
             DatabaseHelper.saveNewGame(videogame);
         } catch (IOException e) {
@@ -311,24 +356,98 @@ public class ServerTest {
         }
     }
 
+    /* VideogameQuery */
+
     @Test
-    @DisplayName("Get game")
-    public void getGameTest() {
-        QueryFilter filter = new QueryFilter(null, null, 0, 0, null, null, null, null, "bot");
-        List<Videogame> a = VideogameQuery.getGamesPaginated(0, filter);
-        a.forEach(v -> {
-            if (v.getGameImage() != null) {
-                System.out.println(v.getGameImage());
-                FileOutputStream stream = null;
-                try {
-                    stream = new FileOutputStream("a.png");
-                    stream.write(v.getGameImage());
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+    @DisplayName("Categories")
+    public void getCategoryTest() {
+        Category category = VideogameQuery.getCategory("Plataforma");
+        assertEquals("Plataforma", category.getCategory());
     }
+
+    @Test
+    @DisplayName("Categories")
+    public void createCategoryTest() {
+        VideogameQuery.createCategory("Test");
+        Category category = VideogameQuery.getCategory("Test");
+        assertEquals("Test", category.getCategory());
+    }
+
+    @Test
+    @DisplayName("Categories")
+    public void getCategoriesTest() {
+        List<Category> cat = VideogameQuery.getAllCategories();
+        assertEquals("Plataforma", cat.get(0).getCategory());
+    }
+
+    @Test
+    @DisplayName("Categories")
+    public void createMultipleCategoriesTest() {
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("Test 01");
+        categoryList.add("Test 02");
+        categoryList.add("Test 03");
+        VideogameQuery.createMultipleCategories(categoryList);
+
+        List<Category> categories = VideogameQuery.getAllCategories();
+        assertEquals("Test 01", categories.get(1).getCategory());
+    }
+
+    @Test
+    @DisplayName("Platforms")
+    public void getPlatformTest() {
+        Platforms platforms = VideogameQuery.getPlatform("Switch");
+        assertEquals("Switch", platforms.getName());
+    }
+
+    @Test
+    @DisplayName("Platforms")
+    public void createPlatformTest() {
+        VideogameQuery.createPlatform("Platform test");
+        Platforms platforms = VideogameQuery.getPlatform("Platform test");
+        assertEquals("Platform test", platforms.getName());
+    }
+
+    @Test
+    @DisplayName("Platforms")
+    public void getPlatformsTest() {
+        List<Platforms> plat = VideogameQuery.getAllPlatforms();
+        assertEquals("Switch", plat.get(0).getName());
+    }
+
+    static QueryFilter queryFilter = new QueryFilter();
+
+    @Test
+    @DisplayName("Videogame")
+    public void getGamesPaginatedTest() {
+        int page = 1;
+
+        List<Videogame> videogameList = VideogameQuery.getGamesPaginated(page, queryFilter);
+        assertEquals(10, videogameList.size());
+
+        List<Videogame> videogameList2 = VideogameQuery.getGamesPaginated(2, queryFilter);
+        assertEquals(4, videogameList2.size());
+    }
+
+    @Test
+    @DisplayName("Videogame")
+    public void getGamesTotalPageCountTest() {
+        int count = VideogameQuery.getGamesTotalPageCount(queryFilter);
+        assertEquals(2, count);
+    }
+
+    @Test
+    @DisplayName("Videogame")
+    public void getGamesTop5Test() {
+        List<Videogame> top5 = VideogameQuery.getGamesTop5();
+        assertEquals(5, top5.size());
+    }
+
+    @Test
+    @DisplayName("Videogame")
+    public void getVideogameByNameTest() {
+        Videogame videogame = VideogameQuery.getVideogameByName("Zelda");
+        assertEquals("Zelda", videogame.getName());
+    }
+
 }

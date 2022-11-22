@@ -69,7 +69,7 @@ public class ServerConnexion extends Thread {
                     case LOGIN -> dbHelp.doLogin();
                     case VIDEOGAMES_PAGINATION -> {
                         QueryFilter query = (QueryFilter) ois.readObject();
-                        dos.write(VideogameQuery.getGamesCount(query));
+                        dos.write(VideogameQuery.getGamesTotalPageCount(query));
                         int page = dis.readInt();
                         oos.writeObject(VideogameQuery.getGamesPaginated(page, query));
                     }

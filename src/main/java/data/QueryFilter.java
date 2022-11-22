@@ -16,6 +16,9 @@ public class QueryFilter implements Serializable {
     private String scoreSearchParam;
     private String name;
 
+    public QueryFilter() {
+    }
+
     public QueryFilter(String platformName, String categoryName, float minScore, float maxScore, String minDate, String maxDate, String dateSearchParam, String scoreSearchParam, String name) {
         this.platformName = platformName;
         this.categoryName = categoryName;

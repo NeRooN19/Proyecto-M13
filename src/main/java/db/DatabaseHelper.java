@@ -91,7 +91,7 @@ public class DatabaseHelper {
      */
     public static User checkLogin(String username, String password) {
         try {
-            User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
+            User user = getUser(username);
             if (user != null && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
                 em.detach(user);
                 return user;
@@ -152,22 +152,40 @@ public class DatabaseHelper {
         return 3;
     }
 
-    private static User getUser(String username) {
-        User user = (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
-        return user;
+    /**
+     * Nuevo para TEA3
+     */
+
+    /**
+     * Method to get a user from the database from a given String
+     *
+     * @param username
+     * @return User fetched from the database
+     */
+    public static User getUser(String username) {
+        return (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
     }
 
+    /**
+     * Method to get all the users from the database
+     *
+     * @return
+     */
     public static List<User> getUsers() {
         return (List<User>) em.createQuery("SELECT u FROM User u").getResultList();
-
     }
 
+    /**
+     * Method to update a specific user given a EditUser object, where the data to update is stored
+     *
+     * @param editData
+     */
     public static void updateUser(EditUser editData) {
         try {
             User user = getUser(editData.getUsername());
 
             if (user != null) {
-                StringBuilder query = new StringBuilder("UPDATE User SET");
+                StringBuilder query = new StringBuilder("UPDATE Usuarios SET");
 
                 if (editData.getName() != null) {
                     query.append(" name = '" + editData.getName() + "'");
@@ -191,15 +209,22 @@ public class DatabaseHelper {
 
                 query.append(" WHERE username = '" + editData.getUsername() + "'");
 
+                System.out.println(query);
                 em.getTransaction().begin();
                 em.createQuery(query.toString()).executeUpdate();
                 em.getTransaction().commit();
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
+    /**
+     * Method to update a user to make it admin true/false
+     *
+     * @param username
+     * @param admin
+     */
     public static void makeAdmin(String username, boolean admin) {
         try {
             User user = getUser(username);
@@ -214,6 +239,12 @@ public class DatabaseHelper {
         }
     }
 
+    /**
+     * Method to create a new videogame if it doesn't exist in the database
+     *
+     * @param videogame
+     * @return Int with the result value. 0 for an ok and 1 for error
+     */
     public static int saveNewGame(Videogame videogame) {
         if (VideogameQuery.getVideogameByName(videogame.getName()) == null) {
             if (videogame.getCategories() != null) {
@@ -236,7 +267,13 @@ public class DatabaseHelper {
         return 1;
     }
 
-    private static List<Platforms> checkGamePlatforms(List<Platforms> platforms) {
+    /**
+     * Method to check if a videogame has platforms stored that don't exist in the database and remove them
+     *
+     * @param platforms
+     * @return List of platforms
+     */
+    public static List<Platforms> checkGamePlatforms(List<Platforms> platforms) {
         List<Platforms> plats = new ArrayList<>();
         if (platforms.size() != 0) {
             platforms.forEach(p -> {
@@ -249,7 +286,13 @@ public class DatabaseHelper {
         return plats;
     }
 
-    private static List<Category> checkGameCategories(List<Category> categories) {
+    /**
+     * Method to check if a videogame has categories stored that don't exist in the database and remove them
+     *
+     * @param categories
+     * @return List of categories
+     */
+    public static List<Category> checkGameCategories(List<Category> categories) {
         List<Category> cats = new ArrayList<>();
         if (categories.size() != 0) {
             categories.forEach(c -> {
@@ -262,6 +305,11 @@ public class DatabaseHelper {
         return cats;
     }
 
+    /**
+     * Method to save a videogame image in the image folder
+     *
+     * @param videogame
+     */
     private static void saveImage(Videogame videogame) {
 
         try (FileOutputStream stream = new FileOutputStream(videogame.getImagePath())) {
@@ -273,6 +321,12 @@ public class DatabaseHelper {
         }
     }
 
+    /**
+     * Method to generate a name for the image file from the videogame name without symbols
+     *
+     * @param gameName
+     * @return String with the new path game for the videogame
+     */
     private static String pathName(String gameName) {
         return gameName.replaceAll("[^a-zA-Z0-9 ]", "").replaceAll(" ", "-").toLowerCase() + ".png";
     }
