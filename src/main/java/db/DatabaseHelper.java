@@ -211,7 +211,7 @@ public class DatabaseHelper {
 
                 System.out.println(query);
                 em.getTransaction().begin();
-                em.createQuery(query.toString()).executeUpdate();
+                em.createNativeQuery(query.toString()).executeUpdate();
                 em.getTransaction().commit();
             }
         } catch (Exception ex) {

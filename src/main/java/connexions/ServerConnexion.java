@@ -9,6 +9,7 @@ import db.DatabaseHelper;
 import db.VideogameQuery;
 import views.ServerView;
 
+import javax.net.ssl.SSLSocket;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class ServerConnexion extends Thread {
 
-    private ArrayList<Socket> sockets;
+    private ArrayList<SSLSocket> sockets;
     private DatabaseHelper dbHelp;
     private Socket socket;
     private DataInputStream dis;
@@ -37,7 +38,7 @@ public class ServerConnexion extends Thread {
      * @param sockets    list that contains all socket ip's
      * @param serverView view to show the ip list
      */
-    public ServerConnexion(Socket socket, ArrayList<Socket> sockets, ServerView serverView) {
+    public ServerConnexion(Socket socket, ArrayList<SSLSocket> sockets, ServerView serverView) {
         try {
             this.socket = socket;
             dis = new DataInputStream(socket.getInputStream());

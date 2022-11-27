@@ -10,10 +10,7 @@ import data.*;
 import db.DatabaseHelper;
 import db.VideogameQuery;
 import encrypt.Encrypter;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -147,7 +144,7 @@ public class ServerTest {
             user = (User) ois.readObject();
 
             assertEquals("Ludox", user.getName());
-            assertEquals("mail@mail.com", user.getMail());
+            assertEquals("ioc@test.com", user.getMail());
             assertTrue(user.isIsAdmin());
             assertNull(user.getPassword());
         } catch (IOException | ClassNotFoundException ex) {
@@ -234,7 +231,11 @@ public class ServerTest {
     }
 
     /* TEA 3 */
+    /* DatabaseHelper */
 
+    /*
+     * Indicant un nom d'usuari per String, ens retorna l'objecte usuari amb les seves dades
+     */
     @Test
     @DisplayName("Get user by name")
     public void getUserTest() {
@@ -242,6 +243,9 @@ public class ServerTest {
         assertEquals("Ludox", user.getName());
     }
 
+    /*
+     * Retorna tots els usuaris registrats a la base de dades
+     */
     @Test
     @DisplayName("Get all users")
     public void getUsersTest() {
@@ -249,17 +253,24 @@ public class ServerTest {
         assertEquals(4, users.size());
     }
 
+    /*
+     * Métode que actualitza les dades de l'usuari segons quines s'indtrodueixin a l'objecte EditUser.
+     * En aquest cas, s'actualitza l'email
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Update user mail")
     public void updateUserTest() {
         EditUser editUser = new EditUser();
         editUser.setUsername("admin");
-        editUser.setMail("ioc@test.com");
+        editUser.setMail("test@test.com");
         DatabaseHelper.updateUser(editUser);
         User user = DatabaseHelper.getUser("admin");
         assertEquals(editUser.getMail(), user.getMail());
     }
 
+    /*
+     * Indicant un nom d'usuari per String i un valor true o false, modificarem els permisos d'administrador d'aquest usuari.
+     */
     @Test
     @DisplayName("Make admin True")
     public void makeAdminTrueTest() {
@@ -268,8 +279,11 @@ public class ServerTest {
         assertTrue(user.isIsAdmin());
     }
 
+    /*
+     * Crearem un nou joc a la base de dades. El return ha de ser 0 si ha estat exitòs.
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Create new game")
     public void saveNewGameTest() {
         //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
         Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null);
@@ -277,8 +291,11 @@ public class ServerTest {
         assertEquals(0, result);
     }
 
+    /*
+     * Crearem un nou joc a la base de dades. El return ha de ser 1 si ja existeix aquest nom a la base de dades.
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Create repeated game")
     public void saveExistingGameTest() {
         //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
         Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null);
@@ -286,8 +303,11 @@ public class ServerTest {
         assertEquals(1, result);
     }
 
+    /*
+     * Comprovem que les diferents plataformes no son a la base de dades. Retorna una llista buida.
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Check not existing platform")
     public void checkGameNoExistPlatformsTest() {
         List<Platforms> platformsList = new ArrayList<>();
         platformsList.add(new Platforms("Plataforma Test"));
@@ -295,8 +315,11 @@ public class ServerTest {
         assertEquals(0, listResult.size());
     }
 
+    /*
+     * Comprovem que les diferents plataformes si son a la base de dades. Retorna una llista amb els valor existents.
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Check existing platform")
     public void checkGameExistPlatformsTest() {
         List<Platforms> platformsList = new ArrayList<>();
         platformsList.add(new Platforms("Switch"));
@@ -304,8 +327,11 @@ public class ServerTest {
         assertEquals(1, listResult.size());
     }
 
+    /*
+     * Comprovem que les diferents categories no son a la base de dades. Retorna una llista buida.
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Check not existing category")
     public void checkGameNoExistCategoriesTest() {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category("Category Test"));
@@ -313,8 +339,11 @@ public class ServerTest {
         assertEquals(0, listResult.size());
     }
 
+    /*
+     * Comprovem que les diferents categories si son a la base de dades. Retorna una llista amb els valor existents.
+     */
     @Test
-    @DisplayName("")
+    @DisplayName("Check existing category")
     public void checkGameExistCategoriesTest() {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category("Plataforma"));
@@ -322,14 +351,20 @@ public class ServerTest {
         assertEquals(1, listResult.size());
     }
 
+    /*
+     * Comprovem el resultat d'executar el query de paginació. Indicant un filtre buit i la pàgina 1, ens retorna els 10 primers videojocs.
+     */
     @Test
     @DisplayName("Query paginated")
     public void getQueryPaginatedTest() {
-        QueryFilter q = new QueryFilter(null, null, 0, 0, null, null, null, null, null);
+        QueryFilter q = new QueryFilter();
         List<Videogame> a = VideogameQuery.getGamesPaginated(1, q);
-        a.forEach(v -> System.out.println(v.getName()));
+        assertEquals(10, a.size());
     }
 
+    /*
+     * Crearem un videojoc amb una imatge. Es crearà aquesta mateixa imatge a la carpeta img i s'indicarà el path a la base de dades.
+     */
     @Test
     @DisplayName("Save image method test")
     public void saveImageTest() {
@@ -348,9 +383,10 @@ public class ServerTest {
             List<Platforms> platforms = new ArrayList<>();
             platforms.add(new Platforms("Switch"));
 
-            Videogame videogame = new Videogame("test", "test", "test game 1", "test", new Date(), img);
+            Videogame videogame = new Videogame("test", "test", "test: game 1", "test", new Date(), img);
             videogame.setPlatforms(platforms);
-            DatabaseHelper.saveNewGame(videogame);
+            int result = DatabaseHelper.saveNewGame(videogame);
+            assertEquals(0, result);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -358,30 +394,43 @@ public class ServerTest {
 
     /* VideogameQuery */
 
+
+    /*
+     * Cerca de categoria per nom
+     */
     @Test
-    @DisplayName("Categories")
+    @DisplayName("Get category by name")
     public void getCategoryTest() {
         Category category = VideogameQuery.getCategory("Plataforma");
         assertEquals("Plataforma", category.getCategory());
     }
 
+    /*
+     * Creació de categoria per nom
+     */
     @Test
-    @DisplayName("Categories")
+    @DisplayName("Create category by name")
     public void createCategoryTest() {
         VideogameQuery.createCategory("Test");
         Category category = VideogameQuery.getCategory("Test");
         assertEquals("Test", category.getCategory());
     }
 
+    /*
+     * Cerca de totes les categories existents
+     */
     @Test
-    @DisplayName("Categories")
+    @DisplayName("Get all categories")
     public void getCategoriesTest() {
         List<Category> cat = VideogameQuery.getAllCategories();
         assertEquals("Plataforma", cat.get(0).getCategory());
     }
 
+    /*
+     * Creació de categories a través d'una llista
+     */
     @Test
-    @DisplayName("Categories")
+    @DisplayName("Create multiple categories")
     public void createMultipleCategoriesTest() {
         List<String> categoryList = new ArrayList<>();
         categoryList.add("Test 01");
@@ -393,23 +442,32 @@ public class ServerTest {
         assertEquals("Test 01", categories.get(1).getCategory());
     }
 
+    /*
+     * Cerca de plataforma per nom
+     */
     @Test
-    @DisplayName("Platforms")
+    @DisplayName("Get platform by name")
     public void getPlatformTest() {
         Platforms platforms = VideogameQuery.getPlatform("Switch");
         assertEquals("Switch", platforms.getName());
     }
 
+    /*
+     * Creació de plataforma per nom
+     */
     @Test
-    @DisplayName("Platforms")
+    @DisplayName("Create platform by name")
     public void createPlatformTest() {
         VideogameQuery.createPlatform("Platform test");
         Platforms platforms = VideogameQuery.getPlatform("Platform test");
         assertEquals("Platform test", platforms.getName());
     }
 
+    /*
+     * Cerca de totes les plataformes existents
+     */
     @Test
-    @DisplayName("Platforms")
+    @DisplayName("Get all platforms")
     public void getPlatformsTest() {
         List<Platforms> plat = VideogameQuery.getAllPlatforms();
         assertEquals("Switch", plat.get(0).getName());
@@ -417,8 +475,11 @@ public class ServerTest {
 
     static QueryFilter queryFilter = new QueryFilter();
 
+    /*
+     * Mostra d'obtenció de videojocs paginats
+     */
     @Test
-    @DisplayName("Videogame")
+    @DisplayName("Get videogames paginated")
     public void getGamesPaginatedTest() {
         int page = 1;
 
@@ -429,22 +490,31 @@ public class ServerTest {
         assertEquals(4, videogameList2.size());
     }
 
+    /*
+     * Mostra d'obtenció del total de pàgines que ocupen els videojocs agrupats de 10 en 10
+     */
     @Test
-    @DisplayName("Videogame")
+    @DisplayName("Get total videogame pages")
     public void getGamesTotalPageCountTest() {
         int count = VideogameQuery.getGamesTotalPageCount(queryFilter);
         assertEquals(2, count);
     }
 
+    /*
+     * Obtenció del top 5 videojocs per nota mitja
+     */
     @Test
-    @DisplayName("Videogame")
+    @DisplayName("Get top 5 videogames")
     public void getGamesTop5Test() {
         List<Videogame> top5 = VideogameQuery.getGamesTop5();
         assertEquals(5, top5.size());
     }
 
+    /*
+     * Cerca de videojoc per nom
+     */
     @Test
-    @DisplayName("Videogame")
+    @DisplayName("Get videogame by name")
     public void getVideogameByNameTest() {
         Videogame videogame = VideogameQuery.getVideogameByName("Zelda");
         assertEquals("Zelda", videogame.getName());

@@ -6,6 +6,9 @@ package connexions;
 
 import views.ServerView;
 
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,15 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author NeRooN
  */
 public class ServerThread extends Thread {
 
-    private ServerSocket server;
-    private ArrayList<Socket> socketList = new ArrayList<>();
+    private SSLServerSocket server;
+    private SSLServerSocketFactory serverSocketFactory;
+    private ArrayList<SSLSocket> socketList = new ArrayList<>();
     private final int portNumber;
-    private Socket socket;
+    private SSLSocket socket;
     private ServerView serverView;
 
     /**
@@ -42,9 +45,16 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
-            server = new ServerSocket(portNumber);
+            System.setProperty("javax.net.ssl.keyStore", "Cert/mykeystore.jks");
+
+            System.setProperty("javax.net.ssl.keyStorePassword", "Ludox123.");
+
+            serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+
+            server = (SSLServerSocket) serverSocketFactory.createServerSocket(portNumber);
             while (true) {
-                socket = server.accept();
+                socket = (SSLSocket) server.accept();
+                socket.startHandshake();
                 socketList.add(socket);
                 updateList();
 
@@ -84,7 +94,7 @@ public class ServerThread extends Thread {
      *
      * @return socket ip list
      */
-    public ArrayList<Socket> getSockets() {
+    public ArrayList<SSLSocket> getSockets() {
         return socketList;
     }
 
