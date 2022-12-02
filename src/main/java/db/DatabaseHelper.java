@@ -36,8 +36,6 @@ public class DatabaseHelper {
      * @param oos object output stream
      */
     public DatabaseHelper(DataInputStream dis, DataOutputStream dos, ObjectInputStream ois, ObjectOutputStream oos) {
-        emf = Persistence.createEntityManagerFactory("ludox", getEntityManager());
-        em = emf.createEntityManager();
         this.dis = dis;
         this.dos = dos;
         this.ois = ois;
@@ -45,6 +43,11 @@ public class DatabaseHelper {
         if (em != null) {
             System.out.println("not null");
         }
+    }
+
+    public static void initDatabaseConnection() {
+        emf = Persistence.createEntityManagerFactory("ludox", getEntityManager());
+        em = emf.createEntityManager();
     }
 
     /**
@@ -131,7 +134,7 @@ public class DatabaseHelper {
      * @param user User object to register into the database
      * @return a byte code for the client to be able to check if it succeeded or not
      */
-    public int tryRegister(User user) {
+    public static int tryRegister(User user) {
         try {
             user.setPassword(Encrypter.getEncodedString(user.getPassword()));
             em.getTransaction().begin();
@@ -155,7 +158,6 @@ public class DatabaseHelper {
     /**
      * Nuevo para TEA3
      */
-
     /**
      * Method to get a user from the database from a given String
      *

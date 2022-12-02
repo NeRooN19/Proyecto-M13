@@ -4,6 +4,7 @@
  */
 package connexions;
 
+import db.DatabaseHelper;
 import views.ServerView;
 
 import javax.net.ssl.SSLServerSocket;
@@ -45,6 +46,7 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
+            DatabaseHelper.initDatabaseConnection();
             System.setProperty("javax.net.ssl.keyStore", "Cert/mykeystore.jks");
 
             System.setProperty("javax.net.ssl.keyStorePassword", "Ludox123.");

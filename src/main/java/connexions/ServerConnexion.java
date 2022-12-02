@@ -64,7 +64,7 @@ public class ServerConnexion extends Thread {
                 switch (option) {
                     case REGISTER -> {
                         User user = (User) ois.readObject();
-                        byte registerComplete = (byte) dbHelp.tryRegister(user);
+                        byte registerComplete = (byte) DatabaseHelper.tryRegister(user);
                         dos.writeByte(registerComplete);
                     }
                     case LOGIN -> dbHelp.doLogin();

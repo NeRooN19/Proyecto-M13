@@ -27,6 +27,7 @@ public class ServerView extends javax.swing.JFrame {
         initComponents();
         this.setVisible(true);
         disconnectBtn.setEnabled(false);
+        newAdmin.setEnabled(false);
         setResizable(false);
     }
 
@@ -45,7 +46,7 @@ public class ServerView extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         socketList = new javax.swing.JList<>();
         disconnectBtn = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        newAdmin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,10 +75,10 @@ public class ServerView extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("New Admin");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        newAdmin.setText("New Admin");
+        newAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                newAdminActionPerformed(evt);
             }
         });
 
@@ -89,7 +90,7 @@ public class ServerView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(statusText, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(216, 216, 216)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -107,7 +108,7 @@ public class ServerView extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(newAdmin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
@@ -144,11 +145,13 @@ public class ServerView extends javax.swing.JFrame {
             statusText.setText("Server Online");
             startButton.setText("Stop");
             statusOn = true;
+            newAdmin.setEnabled(true);
         } else if (statusOn) {
             try {
                 statusText.setText("Server Offline");
                 startButton.setText("Start");
                 statusOn = false;
+                newAdmin.setEnabled(false);
 
                 serverThread.getSockets().forEach(s -> {
                     try {
@@ -193,10 +196,10 @@ public class ServerView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_disconnectBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void newAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newAdminActionPerformed
         // TODO add your handling code here:
-        new NewAdmin();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new NewAdmin().setVisible(true);
+    }//GEN-LAST:event_newAdminActionPerformed
 
     /**
      * Method to update the ip list connexions to display in the ListModel
@@ -266,9 +269,9 @@ public class ServerView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton disconnectBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton newAdmin;
     private javax.swing.JList<String> socketList;
     private javax.swing.JButton startButton;
     private javax.swing.JLabel statusText;
