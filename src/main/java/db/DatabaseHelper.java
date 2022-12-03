@@ -4,8 +4,12 @@
  */
 package db;
 
-import data.*;
+import data.Category;
+import data.Platforms;
+import data.User;
+import data.Videogame;
 import encrypt.Encrypter;
+import helpers.EditUser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -182,7 +186,7 @@ public class DatabaseHelper {
      *
      * @param editData
      */
-    public static void updateUser(EditUser editData) {
+    public static boolean updateUser(EditUser editData) {
         try {
             User user = getUser(editData.getUsername());
 
@@ -190,34 +194,29 @@ public class DatabaseHelper {
                 StringBuilder query = new StringBuilder("UPDATE Usuarios SET");
 
                 if (editData.getName() != null) {
-                    query.append(" name = '" + editData.getName() + "'");
+                    query.append(" name = '" + editData.getName() + "',");
                 }
 
                 if (editData.getMail() != null) {
-                    if (editData.getName() != null) {
-                        query.append(",");
-                    }
-                    query.append(" mail = '" + editData.getMail() + "'");
+                    query.append(" mail = '" + editData.getMail() + "',");
                 }
 
                 if (editData.getPassword() != null) {
-                    if (editData.getName() != null) {
-                        query.append(",");
-                    } else if (editData.getMail() != null) {
-                        query.append(",");
-                    }
                     query.append(" password = '" + Encrypter.getEncodedString(editData.getPassword()) + "'");
                 }
 
                 query.append(" WHERE username = '" + editData.getUsername() + "'");
 
-                System.out.println(query);
+                String finalQuery = query.toString().replace(", WHERE", " WHERE");
+
                 em.getTransaction().begin();
-                em.createNativeQuery(query.toString()).executeUpdate();
+                em.createNativeQuery(finalQuery).executeUpdate();
                 em.getTransaction().commit();
             }
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
+            return false;
         }
     }
 

@@ -6,11 +6,19 @@ package tests;
  */
 
 import connexions.ServerThread;
-import data.*;
+import data.Category;
+import data.Platforms;
+import data.User;
+import data.Videogame;
 import db.DatabaseHelper;
 import db.VideogameQuery;
 import encrypt.Encrypter;
-import org.junit.jupiter.api.*;
+import helpers.EditUser;
+import helpers.QueryFilter;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -177,8 +185,8 @@ public class ServerTest {
     @Test
     @DisplayName("Register new user")
     public void registerOk() {
-        Mockito.when(dbHelper.tryRegister(userRegOk)).thenReturn(0);
-        assertEquals(0, dbHelper.tryRegister(userRegOk));
+        Mockito.when(DatabaseHelper.tryRegister(userRegOk)).thenReturn(0);
+        assertEquals(0, DatabaseHelper.tryRegister(userRegOk));
     }
 
     /*
@@ -188,8 +196,8 @@ public class ServerTest {
     @Test
     @DisplayName("Register username already exist")
     public void registerNoOkUser() {
-        Mockito.when(dbHelper.tryRegister(userRegNoOk)).thenReturn(1);
-        assertEquals(1, dbHelper.tryRegister(userRegNoOk));
+        Mockito.when(DatabaseHelper.tryRegister(userRegNoOk)).thenReturn(1);
+        assertEquals(1, DatabaseHelper.tryRegister(userRegNoOk));
     }
 
     /*
@@ -199,8 +207,8 @@ public class ServerTest {
     @Test
     @DisplayName("Register mail already exist")
     public void registerNoOkMail() {
-        Mockito.when(dbHelper.tryRegister(userRegNoMailOk)).thenReturn(2);
-        assertEquals(2, dbHelper.tryRegister(userRegNoMailOk));
+        Mockito.when(DatabaseHelper.tryRegister(userRegNoMailOk)).thenReturn(2);
+        assertEquals(2, DatabaseHelper.tryRegister(userRegNoMailOk));
     }
 
     /*
@@ -213,7 +221,7 @@ public class ServerTest {
         try (MockedStatic<DatabaseHelper> mocked = Mockito.mockStatic(DatabaseHelper.class, Mockito.CALLS_REAL_METHODS)) {
             mocked.when(() -> DatabaseHelper.checkLogin("admin", "admin")).thenReturn(user);
             User user = DatabaseHelper.checkLogin("admin", "admin");
-            assertEquals(this.user, user);
+            assertEquals(ServerTest.user, user);
         }
     }
 

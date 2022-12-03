@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 @Entity
 public class GameScore implements Serializable {
+
     private static final long serialVersionUID = 4;
     private int id;
     private double score;

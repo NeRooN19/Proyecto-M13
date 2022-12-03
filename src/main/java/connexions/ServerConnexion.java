@@ -4,9 +4,15 @@
  */
 package connexions;
 
-import data.*;
+import data.Category;
+import data.Platforms;
+import data.User;
+import data.Videogame;
 import db.DatabaseHelper;
 import db.VideogameQuery;
+import helpers.EditUser;
+import helpers.EditVideogame;
+import helpers.QueryFilter;
 import views.ServerView;
 
 import javax.net.ssl.SSLSocket;
@@ -67,13 +73,18 @@ public class ServerConnexion extends Thread {
                         byte registerComplete = (byte) DatabaseHelper.tryRegister(user);
                         dos.writeByte(registerComplete);
                     }
-                    case LOGIN -> dbHelp.doLogin();
+
+                    case LOGIN -> {
+                        dbHelp.doLogin();
+                    }
+
                     case VIDEOGAMES_PAGINATION -> {
                         QueryFilter query = (QueryFilter) ois.readObject();
                         dos.write(VideogameQuery.getGamesTotalPageCount(query));
                         int page = dis.readInt();
                         oos.writeObject(VideogameQuery.getGamesPaginated(page, query));
                     }
+
                     case INITIALIZATION -> {
                         List<Videogame> vi = VideogameQuery.getGamesTop5();
                         oos.writeObject(vi);
@@ -82,30 +93,41 @@ public class ServerConnexion extends Thread {
                         List<Platforms> plat = VideogameQuery.getAllPlatforms();
                         oos.writeObject(plat);
                     }
-                    case EDIT_USER -> DatabaseHelper.updateUser((EditUser) ois.readObject());
+
+                    case EDIT_USER -> {
+                        boolean succes = DatabaseHelper.updateUser((EditUser) ois.readObject());
+                        dos.writeBoolean(succes);
+                    }
 
                     case EDIT_GAME -> {
-
+                        boolean succes = VideogameQuery.updateGame((EditVideogame) ois.readObject());
+                        dos.writeBoolean(succes);
                     }
+
                     case NEW_GAME -> {
                         Videogame videogame = (Videogame) ois.readObject();
                         dos.writeByte(DatabaseHelper.saveNewGame(videogame));
                     }
+
                     case MAKE_ADMIN -> {
                         String user = dis.readUTF();
                         boolean admin = dis.readBoolean();
                         DatabaseHelper.makeAdmin(user, admin);
                     }
+
                     case NEW_RENTAL -> {
 
                     }
+
                     case NEW_SCORE -> {
 
                     }
+
                     case GET_USER_LIST -> {
                         oos.writeObject(DatabaseHelper.getUsers());
                     }
-                    default -> System.out.println("");
+
+                    default -> System.out.println();
                 }
             }
         } catch (IOException ex) {

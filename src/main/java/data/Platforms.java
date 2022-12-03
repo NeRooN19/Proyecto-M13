@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 /**
- *
  * @author NeRooN
  */
 @Entity

@@ -6,8 +6,9 @@ package db;
 
 import data.Category;
 import data.Platforms;
-import data.QueryFilter;
 import data.Videogame;
+import helpers.EditVideogame;
+import helpers.QueryFilter;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 
@@ -160,43 +161,14 @@ public class VideogameQuery {
             queryBuilder.append(" AND LOWER(videogame.name) LIKE '%" + filter.getName().toLowerCase() + "%'");
         }
 
-        if (filter.getScoreSearchParam() == null) filter.setScoreSearchParam("");
-        switch (filter.getScoreSearchParam()) {
-            case "mayor" -> queryBuilder.append(" AND videogame.finalscore >= " + filter.getMinScore());
-            case "menor" -> queryBuilder.append(" AND videogame.finalscore <= " + filter.getMaxScore());
-            case "igual" -> queryBuilder.append(" AND videogame.finalscore = " + filter.getMinScore());
-            case "entre" ->
-                    queryBuilder.append(" AND videogame.finalscore >= " + filter.getMinScore() + " AND videogame.finalscore <= " + filter.getMaxScore());
-            default -> {
-                if (filter.getMinScore() > 0) {
-                    queryBuilder.append(" AND videogame.finalscore >= " + filter.getMinScore());
-                }
-            }
+        if (filter.getScore() > -1) {
+            queryBuilder.append(" AND videogame.finalscore >= " + filter.getScore());
         }
 
-        if (filter.getDateSearchParam() == null) filter.setDateSearchParam("");
-        switch (filter.getDateSearchParam()) {
-            case "menor" -> {
-                if (filter.getMaxDate() != null) {
-                    queryBuilder.append(" AND videogame.releasedate <= '" + filter.getMaxDate() + "'");
-                }
-            }
-            case "igual" -> {
-                if (filter.getMinDate() != null) {
-                    queryBuilder.append(" AND videogame.releasedate = '" + filter.getMinDate() + "'");
-                }
-            }
-            case "entre" -> {
-                if (filter.getMinDate() != null && filter.getMaxDate() != null) {
-                    queryBuilder.append(" AND videogame.releasedate >= '" + filter.getMinDate() + "'" + " AND videogame.releasedate <= '" + filter.getMaxDate() + "'");
-                }
-            }
-            default -> {
-                if (filter.getMinDate() != null) {
-                    queryBuilder.append(" AND videogame.releasedate >= '" + filter.getMinDate() + "'");
-                }
-            }
+        if (filter.getDate() != null) {
+            queryBuilder.append(" AND videogame.releasedate >= '" + filter.getDate() + "'");
         }
+
         return queryBuilder;
     }
 
@@ -279,5 +251,46 @@ public class VideogameQuery {
             }
         });
         return videogames;
+    }
+
+    public static boolean updateGame(EditVideogame editVideogame) {
+        try {
+            Videogame game = getVideogameByName(editVideogame.getCurrentName());
+
+            if (game != null) {
+                StringBuilder query = new StringBuilder("UPDATE Videogame SET");
+
+                if (editVideogame.getNewName() != null) {
+                    query.append(" name = '" + editVideogame.getNewName() + "',");
+                }
+
+                if (editVideogame.getDescription() != null) {
+                    query.append(" description = '" + editVideogame.getDescription() + "',");
+                }
+
+                if (editVideogame.getDeveloper() != null) {
+                    query.append(" developer = '" + editVideogame.getDeveloper() + "',");
+                }
+
+                if (editVideogame.getPublisher() != null) {
+                    query.append(" publisher = '" + editVideogame.getPublisher() + "',");
+                }
+
+                if (editVideogame.getReleaseDate() != null) {
+                    query.append(" releasedate = '" + editVideogame.getReleaseDate() + "'");
+                }
+
+                query.append(" WHERE id = " + game.getID());
+
+                String finalQuery = query.toString().replace(", WHERE", " WHERE");
+                DatabaseHelper.em.getTransaction().begin();
+                DatabaseHelper.em.createNativeQuery(finalQuery).executeUpdate();
+                DatabaseHelper.em.getTransaction().commit();
+            }
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

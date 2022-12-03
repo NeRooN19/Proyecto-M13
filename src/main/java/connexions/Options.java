@@ -24,7 +24,7 @@ public enum Options {
     GET_USER_LIST((byte) 11);
 
 
-    private byte value;
+    private final byte value;
 
     Options(byte value) {
         this.value = value;

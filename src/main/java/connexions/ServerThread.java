@@ -12,7 +12,6 @@ import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,10 +23,10 @@ public class ServerThread extends Thread {
 
     private SSLServerSocket server;
     private SSLServerSocketFactory serverSocketFactory;
-    private ArrayList<SSLSocket> socketList = new ArrayList<>();
+    private final ArrayList<SSLSocket> socketList = new ArrayList<>();
     private final int portNumber;
     private SSLSocket socket;
-    private ServerView serverView;
+    private final ServerView serverView;
 
     /**
      * Constructor of the class
