@@ -319,7 +319,7 @@ public class ServerTest {
     public void checkGameNoExistPlatformsTest() {
         List<Platforms> platformsList = new ArrayList<>();
         platformsList.add(new Platforms("Plataforma Test"));
-        List<Platforms> listResult = DatabaseHelper.checkGamePlatforms(platformsList);
+        List<Platforms> listResult = VideogameQuery.getExistingGamePlatforms(platformsList);
         assertEquals(0, listResult.size());
     }
 
@@ -331,7 +331,7 @@ public class ServerTest {
     public void checkGameExistPlatformsTest() {
         List<Platforms> platformsList = new ArrayList<>();
         platformsList.add(new Platforms("Switch"));
-        List<Platforms> listResult = DatabaseHelper.checkGamePlatforms(platformsList);
+        List<Platforms> listResult = VideogameQuery.getExistingGamePlatforms(platformsList);
         assertEquals(1, listResult.size());
     }
 
@@ -343,7 +343,7 @@ public class ServerTest {
     public void checkGameNoExistCategoriesTest() {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category("Category Test"));
-        List<Category> listResult = DatabaseHelper.checkGameCategories(categoryList);
+        List<Category> listResult = VideogameQuery.getExistingGameCategories(categoryList);
         assertEquals(0, listResult.size());
     }
 
@@ -355,7 +355,7 @@ public class ServerTest {
     public void checkGameExistCategoriesTest() {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category("Plataforma"));
-        List<Category> listResult = DatabaseHelper.checkGameCategories(categoryList);
+        List<Category> listResult = VideogameQuery.getExistingGameCategories(categoryList);
         assertEquals(1, listResult.size());
     }
 

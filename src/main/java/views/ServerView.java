@@ -30,6 +30,8 @@ public class ServerView extends javax.swing.JFrame {
         disconnectBtn.setEnabled(false);
         newAdmin.setEnabled(false);
         test.setEnabled(false);
+        addCategories.setEnabled(false);
+        addPlatforms.setEnabled(false);
         setResizable(false);
     }
 
@@ -187,6 +189,8 @@ public class ServerView extends javax.swing.JFrame {
             startButton.setText("Stop");
             statusOn = true;
             newAdmin.setEnabled(true);
+            addCategories.setEnabled(true);
+            addPlatforms.setEnabled(true);
             test.setEnabled(true);
         } else if (statusOn) {
             try {
@@ -194,7 +198,8 @@ public class ServerView extends javax.swing.JFrame {
                 startButton.setText("Start");
                 statusOn = false;
                 newAdmin.setEnabled(false);
-
+                addCategories.setEnabled(false);
+                addPlatforms.setEnabled(false);
                 serverThread.getSockets().forEach(s -> {
                     try {
                         s.close();
@@ -245,10 +250,12 @@ public class ServerView extends javax.swing.JFrame {
 
     private void addPlatformsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPlatformsActionPerformed
         // TODO add your handling code here:
+        new AddPlatforms();
     }//GEN-LAST:event_addPlatformsActionPerformed
 
     private void addCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoriesActionPerformed
         // TODO add your handling code here:
+        new AddCategories();
     }//GEN-LAST:event_addCategoriesActionPerformed
 
     private void testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testActionPerformed

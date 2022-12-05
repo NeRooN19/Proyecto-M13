@@ -4,8 +4,6 @@
  */
 package db;
 
-import data.Category;
-import data.Platforms;
 import data.User;
 import data.Videogame;
 import encrypt.Encrypter;
@@ -15,6 +13,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -52,6 +52,7 @@ public class DatabaseHelper {
     public static void initDatabaseConnection() {
         emf = Persistence.createEntityManagerFactory("ludox", getEntityManager());
         em = emf.createEntityManager();
+        createPathFolder();
     }
 
     /**
@@ -253,10 +254,10 @@ public class DatabaseHelper {
     public static int saveNewGame(Videogame videogame) {
         if (VideogameQuery.getVideogameByName(videogame.getName()) == null) {
             if (videogame.getCategories() != null) {
-                videogame.setCategories(checkGameCategories(videogame.getCategories()));
+                videogame.setCategories(VideogameQuery.getExistingGameCategories(videogame.getCategories()));
             }
             if (videogame.getPlatforms() != null) {
-                videogame.setPlatforms(checkGamePlatforms(videogame.getPlatforms()));
+                videogame.setPlatforms(VideogameQuery.getExistingGamePlatforms(videogame.getPlatforms()));
             }
             if (videogame.getGameImage() != null) {
                 videogame.setImagePath(PATH + pathName(videogame.getName()));
@@ -270,44 +271,6 @@ public class DatabaseHelper {
             return 0;
         }
         return 1;
-    }
-
-    /**
-     * Method to check if a videogame has platforms stored that don't exist in the database and remove them
-     *
-     * @param platforms
-     * @return List of platforms
-     */
-    public static List<Platforms> checkGamePlatforms(List<Platforms> platforms) {
-        List<Platforms> plats = new ArrayList<>();
-        if (platforms.size() != 0) {
-            platforms.forEach(p -> {
-                Platforms pl = VideogameQuery.getPlatform(p.getName());
-                if (pl != null) {
-                    plats.add(pl);
-                }
-            });
-        }
-        return plats;
-    }
-
-    /**
-     * Method to check if a videogame has categories stored that don't exist in the database and remove them
-     *
-     * @param categories
-     * @return List of categories
-     */
-    public static List<Category> checkGameCategories(List<Category> categories) {
-        List<Category> cats = new ArrayList<>();
-        if (categories.size() != 0) {
-            categories.forEach(c -> {
-                Category cat = VideogameQuery.getCategory(c.getCategory());
-                if (cat != null) {
-                    cats.add(cat);
-                }
-            });
-        }
-        return cats;
     }
 
     /**
@@ -338,5 +301,15 @@ public class DatabaseHelper {
 
     public static EntityManager getEm() {
         return em;
+    }
+
+    public static void createPathFolder() {
+        try {
+            if (!new File(PATH).exists()) {
+                Files.createDirectories(Paths.get(PATH));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

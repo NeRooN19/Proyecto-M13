@@ -63,6 +63,56 @@ public class VideogameQuery {
     }
 
     /**
+     * Method to create multiple categories from a given List of Strings
+     *
+     * @param categories
+     */
+    public static void createMultipleCategories(List<String> categories) {
+        List<Category> cats = new ArrayList<>();
+
+        categories.forEach(s -> cats.add(new Category(s)));
+
+        List<Category> finalCats = checkExistsGameCategories(cats);
+        DatabaseHelper.getEm().getTransaction().begin();
+        finalCats.forEach(s -> {
+            DatabaseHelper.getEm().persist(s);
+        });
+        DatabaseHelper.getEm().getTransaction().commit();
+    }
+
+    /**
+     * Method to check if a videogame has categories stored that don't exist in the database and remove them
+     *
+     * @param categories
+     * @return List of categories
+     */
+    public static List<Category> getExistingGameCategories(List<Category> categories) {
+        List<Category> cats = new ArrayList<>();
+        if (categories.size() != 0) {
+            categories.forEach(c -> {
+                Category cat = VideogameQuery.getCategory(c.getCategory());
+                if (cat != null) {
+                    cats.add(cat);
+                }
+            });
+        }
+        return cats;
+    }
+
+    public static List<Category> checkExistsGameCategories(List<Category> categories) {
+        List<Category> cats = new ArrayList<>();
+        if (categories.size() != 0) {
+            categories.forEach(c -> {
+                Category cat = VideogameQuery.getCategory(c.getCategory());
+                if (cat == null) {
+                    cats.add(c);
+                }
+            });
+        }
+        return cats;
+    }
+
+    /**
      * Method to create a platform from a given String
      *
      * @param platform
@@ -82,25 +132,69 @@ public class VideogameQuery {
     }
 
     /**
+     * Method to get the platform from the String
+     *
+     * @param platform
+     * @return Platform fetched from the database
+     */
+    public static Platforms getPlatform(String platform) {
+        try {
+            return (Platforms) DatabaseHelper.getEm().createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    /**
      * Method to create multiple categories from a given List of Strings
      *
-     * @param categories
+     * @param platforms
      */
-    public static void createMultipleCategories(List<String> categories) {
-        List<Category> cats = new ArrayList<>();
+    public static void createMultiplePlatforms(List<String> platforms) {
+        List<Platforms> plats = new ArrayList<>();
 
-        categories.forEach(s -> cats.add(new Category(s)));
+        platforms.forEach(s -> plats.add(new Platforms(s)));
 
-        cats.forEach(s -> {
-            try {
-                DatabaseHelper.getEm().getTransaction().begin();
-                DatabaseHelper.getEm().persist(s);
-                DatabaseHelper.getEm().getTransaction().commit();
-            } catch (Exception ex) {
-                System.out.println("Ya existe la categoría " + s.getCategory());
-            }
+        List<Platforms> finalCats = checkExistPlatforms(plats);
+        DatabaseHelper.getEm().getTransaction().begin();
+        finalCats.forEach(s -> {
+            DatabaseHelper.getEm().persist(s);
         });
+        DatabaseHelper.getEm().getTransaction().commit();
     }
+
+    /**
+     * Method to check if a videogame has platforms stored that don't exist in the database and remove them
+     *
+     * @param platforms
+     * @return List of platforms
+     */
+    public static List<Platforms> getExistingGamePlatforms(List<Platforms> platforms) {
+        List<Platforms> plats = new ArrayList<>();
+        if (platforms.size() != 0) {
+            platforms.forEach(p -> {
+                Platforms pl = VideogameQuery.getPlatform(p.getName());
+                if (pl != null) {
+                    plats.add(pl);
+                }
+            });
+        }
+        return plats;
+    }
+
+    public static List<Platforms> checkExistPlatforms(List<Platforms> platforms) {
+        List<Platforms> plats = new ArrayList<>();
+        if (platforms.size() != 0) {
+            platforms.forEach(p -> {
+                Platforms pl = VideogameQuery.getPlatform(p.getName());
+                if (pl == null) {
+                    plats.add(p);
+                }
+            });
+        }
+        return plats;
+    }
+
 
     /**
      * Method to get a List of videogames with a query filter and pagination
@@ -205,20 +299,6 @@ public class VideogameQuery {
     }
 
     /**
-     * Method to get the platform from the String
-     *
-     * @param platform
-     * @return Platform fetched from the database
-     */
-    public static Platforms getPlatform(String platform) {
-        try {
-            return (Platforms) DatabaseHelper.getEm().createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
-        }
-    }
-
-    /**
      * Method to get the game from the String
      *
      * @param name
@@ -300,19 +380,21 @@ public class VideogameQuery {
 
         GameScore gameScore = findScore(usern, videogamen);
         User user = DatabaseHelper.getUser(usern);
-        if (user == null) return 2;
+        if (user == null) {
+            return 2;
+        }
 
         Videogame videogame = getVideogameByName(videogamen);
-        if (videogame == null) return 3;
+        if (videogame == null) {
+            return 3;
+        }
 
         try {
             if (gameScore == null) {
 
-
                 gameScore = new GameScore(score, usern, videogamen);
                 user.getScores().add(gameScore);
                 videogame.getScores().add(gameScore);
-
 
                 videogame.setFinalScore(getAverage(videogame));
 
@@ -350,7 +432,9 @@ public class VideogameQuery {
     }
 
     private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
 
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
