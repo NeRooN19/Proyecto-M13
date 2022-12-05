@@ -169,7 +169,11 @@ public class DatabaseHelper {
      * @return User fetched from the database
      */
     public static User getUser(String username) {
-        return (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
+        try {
+            return (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     /**
@@ -330,5 +334,9 @@ public class DatabaseHelper {
      */
     private static String pathName(String gameName) {
         return gameName.replaceAll("[^a-zA-Z0-9 ]", "").replaceAll(" ", "-").toLowerCase() + ".png";
+    }
+
+    public static EntityManager getEm() {
+        return em;
     }
 }

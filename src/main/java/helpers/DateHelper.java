@@ -7,6 +7,7 @@ package helpers;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,17 +22,17 @@ public class DateHelper {
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(dateStr);
+            return true;
         } catch (ParseException e) {
             return false;
         }
-        return true;
     }
 
     public static String convertDateToString(Calendar calendar) {
         return dateFormat.format(calendar.getTime());
     }
 
-    public static Calendar convertStringToCalendar(String date) {
+    private static Calendar convertStringToCalendar(String date) {
         if (!isValidDate(date)) {
             return null;
         }
@@ -79,5 +80,18 @@ public class DateHelper {
             case Calendar.SATURDAY -> "Sab";
             default -> "";
         };
+    }
+
+    public static boolean isDateCorrect(String date) {
+        Calendar calendar = convertStringToCalendar(date);
+        calendar.getTime();
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date());
+
+        return today.before(calendar);
+    }
+
+    public static Date getDate(String date) {
+        return convertStringToCalendar(date).getTime();
     }
 }

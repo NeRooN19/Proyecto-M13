@@ -4,7 +4,10 @@
  */
 package data;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.io.Serializable;
 
@@ -17,19 +20,28 @@ public class GameScore implements Serializable {
     private static final long serialVersionUID = 4;
     private int id;
     private double score;
-    private User user;
-    private Videogame videogame;
+    private String username;
+    private String videogame;
 
-    public GameScore(double score, User user, Videogame videogame) {
+    public GameScore(double score) {
         this.score = score;
-        this.user = user;
+    }
+
+    public GameScore(int id, double score) {
+        this.id = id;
+        this.score = score;
+    }
+
+    public GameScore(double score, String username, String videogame) {
+        this.score = score;
+        this.username = username;
         this.videogame = videogame;
     }
 
-    public GameScore(int id, double score, User user, Videogame videogame) {
+    public GameScore(int id, double score, String username, String videogame) {
         this.id = id;
         this.score = score;
-        this.user = user;
+        this.username = username;
         this.videogame = videogame;
     }
 
@@ -54,21 +66,19 @@ public class GameScore implements Serializable {
         this.score = score;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    public Videogame getVideogame() {
+    public String getVideogame() {
         return videogame;
     }
 
-    public void setVideogame(Videogame videogame) {
+    public void setVideogame(String videogame) {
         this.videogame = videogame;
     }
 

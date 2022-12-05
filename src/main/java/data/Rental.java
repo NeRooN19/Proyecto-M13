@@ -4,7 +4,10 @@
  */
 package data;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,17 +22,15 @@ public class Rental implements Serializable {
     private int rentalID;
     private Date rentalDate;
     private Date finalDate;
-    private Videogame videogame;
-    private User user;
+    private String username;
+    private String videogame;
 
     public Rental() {
     }
 
-    public Rental(Date rentalDate, Date finalDate, Videogame videogame, User user) {
+    public Rental(Date rentalDate, Date finalDate) {
         this.rentalDate = rentalDate;
         this.finalDate = finalDate;
-        this.videogame = videogame;
-        this.user = user;
     }
 
     @Id
@@ -56,24 +57,6 @@ public class Rental implements Serializable {
 
     public void setFinalDate(Date finalDate) {
         this.finalDate = finalDate;
-    }
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    public Videogame getVideogame() {
-        return videogame;
-    }
-
-    public void setVideogame(Videogame videogame) {
-        this.videogame = videogame;
-    }
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
 }

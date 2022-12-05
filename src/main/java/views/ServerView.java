@@ -5,6 +5,7 @@
 package views;
 
 import connexions.ServerThread;
+import db.VideogameQuery;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ServerView extends javax.swing.JFrame {
         this.setVisible(true);
         disconnectBtn.setEnabled(false);
         newAdmin.setEnabled(false);
+        test.setEnabled(false);
         setResizable(false);
     }
 
@@ -49,6 +51,7 @@ public class ServerView extends javax.swing.JFrame {
         newAdmin = new javax.swing.JButton();
         addPlatforms = new javax.swing.JButton();
         addCategories = new javax.swing.JButton();
+        test = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +101,13 @@ public class ServerView extends javax.swing.JFrame {
             }
         });
 
+        test.setText("test");
+        test.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -105,15 +115,17 @@ public class ServerView extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(14, 14, 14)
+                                                .addComponent(statusText, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(newAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(addPlatforms, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(addCategories, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(14, 14, 14)
-                                                .addComponent(statusText, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(216, 216, 216)
+                                                        .addComponent(addCategories, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(18, 18, 18)
+                                                .addComponent(test, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(101, 101, 101)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -131,7 +143,9 @@ public class ServerView extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(newAdmin)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(newAdmin)
+                                                        .addComponent(test))
                                                 .addGap(18, 18, 18)
                                                 .addComponent(addPlatforms)
                                                 .addGap(18, 18, 18)
@@ -173,6 +187,7 @@ public class ServerView extends javax.swing.JFrame {
             startButton.setText("Stop");
             statusOn = true;
             newAdmin.setEnabled(true);
+            test.setEnabled(true);
         } else if (statusOn) {
             try {
                 statusText.setText("Server Offline");
@@ -235,6 +250,12 @@ public class ServerView extends javax.swing.JFrame {
     private void addCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoriesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addCategoriesActionPerformed
+
+    private void testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testActionPerformed
+
+        int a = VideogameQuery.newScore(10, "asd", "name");
+        System.out.println(a);
+    }//GEN-LAST:event_testActionPerformed
 
     /**
      * Method to update the ip list connexions to display in the ListModel
@@ -312,6 +333,7 @@ public class ServerView extends javax.swing.JFrame {
     private javax.swing.JList<String> socketList;
     private javax.swing.JButton startButton;
     private javax.swing.JLabel statusText;
+    private javax.swing.JButton test;
     private javax.swing.JButton updateList;
     // End of variables declaration//GEN-END:variables
 }

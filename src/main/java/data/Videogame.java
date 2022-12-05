@@ -102,7 +102,7 @@ public class Videogame implements Serializable {
         this.releaseDate = releaseDate;
     }
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Rental> getRentals() {
         return rentals;
     }
@@ -160,7 +160,7 @@ public class Videogame implements Serializable {
         this.publisher = publisher;
     }
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     public List<GameScore> getScores() {
         return scores;
     }
@@ -191,8 +191,8 @@ public class Videogame implements Serializable {
         out.defaultWriteObject();
         if (this.categories != null && this.categories.size() > 0) {
             out.writeInt(this.categories.size());
-            for (int i = 0; i < this.categories.size(); i++) {
-                out.writeUTF(this.categories.get(i).getCategory());
+            for (Category cat : this.getCategories()) {
+                out.writeObject(cat);
             }
         } else {
             out.writeInt(0);
@@ -200,8 +200,17 @@ public class Videogame implements Serializable {
 
         if (this.platforms != null && this.platforms.size() > 0) {
             out.writeInt(this.platforms.size());
-            for (int i = 0; i < this.platforms.size(); i++) {
-                out.writeUTF(this.platforms.get(i).getName());
+            for (Platforms pl : this.getPlatforms()) {
+                out.writeObject(pl);
+            }
+        } else {
+            out.writeInt(0);
+        }
+
+        if (this.scores != null && this.scores.size() > 0) {
+            out.writeInt(this.scores.size());
+            for (GameScore gs : this.getScores()) {
+                out.writeObject(gs);
             }
         } else {
             out.writeInt(0);
@@ -217,9 +226,7 @@ public class Videogame implements Serializable {
         int catNum = in.readInt();
         if (catNum > 0) {
             for (int i = 0; i < catNum; i++) {
-                Category cat = new Category();
-                cat.setCategory(in.readUTF());
-                this.categories.add(cat);
+                this.categories.add((Category) in.readObject());
             }
         }
 
@@ -230,12 +237,19 @@ public class Videogame implements Serializable {
         int platNum = in.readInt();
         if (platNum > 0) {
             for (int i = 0; i < platNum; i++) {
-                Platforms plat = new Platforms();
-                plat.setName(in.readUTF());
-                this.platforms.add(plat);
+                this.platforms.add((Platforms) in.readObject());
+            }
+        }
+
+        if (this.scores == null) {
+            this.scores = new ArrayList<>();
+        }
+
+        int scoresNum = in.readInt();
+        if (scoresNum > 0) {
+            for (int i = 0; i < scoresNum; i++) {
+                this.scores.add((GameScore) in.readObject());
             }
         }
     }
-
-
 }

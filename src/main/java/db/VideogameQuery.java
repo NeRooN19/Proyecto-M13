@@ -4,9 +4,7 @@
  */
 package db;
 
-import data.Category;
-import data.Platforms;
-import data.Videogame;
+import data.*;
 import helpers.EditVideogame;
 import helpers.QueryFilter;
 import jakarta.persistence.NoResultException;
@@ -17,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class VideogameQuery {
      */
     public static Category getCategory(String category) {
         try {
-            return (Category) DatabaseHelper.em.createQuery("SELECT s FROM Category s WHERE LOWER(s.category) = LOWER('" + category + "')").getSingleResult();
+            return (Category) DatabaseHelper.getEm().createQuery("SELECT s FROM Category s WHERE LOWER(s.category) = LOWER('" + category + "')").getSingleResult();
         } catch (NoResultException ex) {
             return null;
         }
@@ -53,9 +53,9 @@ public class VideogameQuery {
     public static int createCategory(String category) {
         try {
             Category c = new Category(category);
-            DatabaseHelper.em.getTransaction().begin();
-            DatabaseHelper.em.persist(c);
-            DatabaseHelper.em.getTransaction().commit();
+            DatabaseHelper.getEm().getTransaction().begin();
+            DatabaseHelper.getEm().persist(c);
+            DatabaseHelper.getEm().getTransaction().commit();
             return 0;
         } catch (Exception ex) {
             return 1;
@@ -72,9 +72,9 @@ public class VideogameQuery {
         try {
             Platforms p = new Platforms(platform);
 
-            DatabaseHelper.em.getTransaction().begin();
-            DatabaseHelper.em.persist(p);
-            DatabaseHelper.em.getTransaction().commit();
+            DatabaseHelper.getEm().getTransaction().begin();
+            DatabaseHelper.getEm().persist(p);
+            DatabaseHelper.getEm().getTransaction().commit();
             return 0;
         } catch (Exception ex) {
             return 1;
@@ -93,9 +93,9 @@ public class VideogameQuery {
 
         cats.forEach(s -> {
             try {
-                DatabaseHelper.em.getTransaction().begin();
-                DatabaseHelper.em.persist(s);
-                DatabaseHelper.em.getTransaction().commit();
+                DatabaseHelper.getEm().getTransaction().begin();
+                DatabaseHelper.getEm().persist(s);
+                DatabaseHelper.getEm().getTransaction().commit();
             } catch (Exception ex) {
                 System.out.println("Ya existe la categoría " + s.getCategory());
             }
@@ -112,12 +112,14 @@ public class VideogameQuery {
     public static List<Videogame> getGamesPaginated(int page, QueryFilter filter) {
 
         StringBuilder queryBuilder = getGamesWithoutPagination(filter);
-        if (page <= 0) page = 1;
+        if (page <= 0) {
+            page = 1;
+        }
         queryBuilder.append(" ORDER BY Videogame.id OFFSET " + ((page - 1) * OFFSET) + " FETCH NEXT " + OFFSET + " ROWS ONLY");
 
         System.out.println(queryBuilder);
 
-        Query query = DatabaseHelper.em.createNativeQuery(queryBuilder.toString(), Videogame.class);
+        Query query = DatabaseHelper.getEm().createNativeQuery(queryBuilder.toString(), Videogame.class);
         return (List<Videogame>) getGamesWithImage(query.getResultList());
     }
 
@@ -128,7 +130,7 @@ public class VideogameQuery {
      * @return Total count of pages based on the total result and the offset
      */
     public static int getGamesTotalPageCount(QueryFilter filter) {
-        return (int) Math.ceil((double) DatabaseHelper.em.createNativeQuery(getGamesWithoutPagination(filter).toString(), Videogame.class).getResultList().size() / OFFSET);
+        return (int) Math.ceil((double) DatabaseHelper.getEm().createNativeQuery(getGamesWithoutPagination(filter).toString(), Videogame.class).getResultList().size() / OFFSET);
     }
 
     /**
@@ -178,7 +180,7 @@ public class VideogameQuery {
      * @return List of the top 5 videogames
      */
     public static List<Videogame> getGamesTop5() {
-        Query query = DatabaseHelper.em.createNativeQuery("SELECT * FROM Videogame order by Videogame.finalscore DESC limit 5", Videogame.class);
+        Query query = DatabaseHelper.getEm().createNativeQuery("SELECT * FROM Videogame order by Videogame.finalscore DESC limit 5", Videogame.class);
         List<Videogame> vi = query.getResultList();
         vi.forEach(v -> System.out.println(v.getName()));
         return getGamesWithImage(vi);
@@ -190,7 +192,7 @@ public class VideogameQuery {
      * @return List of all categories on the database
      */
     public static List<Category> getAllCategories() {
-        return DatabaseHelper.em.createQuery("SELECT c FROM Category c").getResultList();
+        return DatabaseHelper.getEm().createQuery("SELECT c FROM Category c").getResultList();
     }
 
     /**
@@ -199,7 +201,7 @@ public class VideogameQuery {
      * @return List of all platforms on the database
      */
     public static List<Platforms> getAllPlatforms() {
-        return DatabaseHelper.em.createQuery("SELECT p FROM Platforms p").getResultList();
+        return DatabaseHelper.getEm().createQuery("SELECT p FROM Platforms p").getResultList();
     }
 
     /**
@@ -210,7 +212,7 @@ public class VideogameQuery {
      */
     public static Platforms getPlatform(String platform) {
         try {
-            return (Platforms) DatabaseHelper.em.createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
+            return (Platforms) DatabaseHelper.getEm().createQuery("SELECT p FROM Platforms p WHERE LOWER(p.name) = LOWER('" + platform + "')").getSingleResult();
         } catch (NoResultException ex) {
             return null;
         }
@@ -224,7 +226,7 @@ public class VideogameQuery {
      */
     public static Videogame getVideogameByName(String name) {
         try {
-            return (Videogame) DatabaseHelper.em.createQuery("SELECT v FROM Videogame v WHERE LOWER(v.name) = '" + name.toLowerCase() + "'").getSingleResult();
+            return (Videogame) DatabaseHelper.getEm().createQuery("SELECT v FROM Videogame v WHERE LOWER(v.name) = '" + name.toLowerCase() + "'").getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
@@ -283,14 +285,87 @@ public class VideogameQuery {
                 query.append(" WHERE id = " + game.getID());
 
                 String finalQuery = query.toString().replace(", WHERE", " WHERE");
-                DatabaseHelper.em.getTransaction().begin();
-                DatabaseHelper.em.createNativeQuery(finalQuery).executeUpdate();
-                DatabaseHelper.em.getTransaction().commit();
+                DatabaseHelper.getEm().getTransaction().begin();
+                DatabaseHelper.getEm().createNativeQuery(finalQuery).executeUpdate();
+                DatabaseHelper.getEm().getTransaction().commit();
             }
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    public static int newScore(double score, String usern, String videogamen) {
+
+        GameScore gameScore = findScore(usern, videogamen);
+        User user = DatabaseHelper.getUser(usern);
+        if (user == null) return 2;
+
+        Videogame videogame = getVideogameByName(videogamen);
+        if (videogame == null) return 3;
+
+        try {
+            if (gameScore == null) {
+
+
+                gameScore = new GameScore(score, usern, videogamen);
+                user.getScores().add(gameScore);
+                videogame.getScores().add(gameScore);
+
+
+                videogame.setFinalScore(getAverage(videogame));
+
+                DatabaseHelper.getEm().getTransaction().begin();
+                DatabaseHelper.getEm().merge(videogame);
+                DatabaseHelper.getEm().merge(user);
+                DatabaseHelper.getEm().merge(gameScore);
+                DatabaseHelper.getEm().getTransaction().commit();
+                return 0;
+            }
+
+            if (gameScore != null) {
+                gameScore.setScore(score);
+                videogame.setFinalScore(getAverage(videogame));
+                DatabaseHelper.getEm().getTransaction().begin();
+                DatabaseHelper.getEm().merge(videogame);
+                DatabaseHelper.getEm().merge(gameScore);
+                DatabaseHelper.getEm().getTransaction().commit();
+
+                return 1;
+            }
+        } catch (Exception ex) {
+            return 4;
+        }
+        return -1;
+    }
+
+    public static GameScore findScore(String user, String videogame) {
+        try {
+            GameScore gs = (GameScore) DatabaseHelper.getEm().createNativeQuery("SELECT * FROM GameScore WHERE LOWER(username) = '" + user.toLowerCase() + "' and LOWER(videogame) = '" + videogame.toLowerCase() + "'", GameScore.class).getSingleResult();
+            return gs;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    private static double getAverage(Videogame videogame) {
+        double[] finalScore = {0};
+
+        videogame.getScores().forEach(s -> {
+            finalScore[0] += s.getScore();
+        });
+
+        finalScore[0] /= videogame.getScores().size();
+
+        return round(finalScore[0], 2);
     }
 }

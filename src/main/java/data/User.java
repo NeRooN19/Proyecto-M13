@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,8 +28,8 @@ public class User implements Serializable {
     private String name;
     private String mail;
     private boolean isAdmin;
-    private List<Rental> rental;
-    private List<GameScore> scores;
+    private transient List<Rental> rental;
+    private transient List<GameScore> scores;
 
     public User() {
     }
@@ -95,7 +96,7 @@ public class User implements Serializable {
         this.isAdmin = isAdmin;
     }
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Rental> getRental() {
         return rental;
     }
@@ -104,7 +105,7 @@ public class User implements Serializable {
         this.rental = rental;
     }
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
     public List<GameScore> getScores() {
         return scores;
     }
@@ -125,10 +126,28 @@ public class User implements Serializable {
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
+        if (this.scores != null && this.scores.size() > 0) {
+            out.writeInt(this.scores.size());
+            for (GameScore gs : this.getScores()) {
+                out.writeObject(gs);
+            }
+        } else {
+            out.writeInt(0);
+        }
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+        if (this.scores == null) {
+            this.scores = new ArrayList<>();
+        }
+
+        int scoresNum = in.readInt();
+        if (scoresNum > 0) {
+            for (int i = 0; i < scoresNum; i++) {
+                this.scores.add((GameScore) in.readObject());
+            }
+        }
     }
 
 }

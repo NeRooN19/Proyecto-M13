@@ -120,6 +120,10 @@ public class ServerConnexion extends Thread {
                     }
 
                     case NEW_SCORE -> {
+                        String username = dis.readUTF();
+                        String videogame = dis.readUTF();
+                        double score = dis.readDouble();
+                        dos.writeInt(VideogameQuery.newScore(score, username, videogame));
 
                     }
 
