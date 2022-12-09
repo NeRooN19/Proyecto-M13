@@ -5,7 +5,9 @@
 package views;
 
 import connexions.ServerThread;
-import db.VideogameQuery;
+import data.User;
+import db.DatabaseHelper;
+import encrypt.Encrypter;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -259,9 +261,8 @@ public class ServerView extends javax.swing.JFrame {
     }//GEN-LAST:event_addCategoriesActionPerformed
 
     private void testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testActionPerformed
-
-        int a = VideogameQuery.newScore(10, "asd", "name");
-        System.out.println(a);
+        DatabaseHelper.updateUserStatus("user", true);
+        User user = DatabaseHelper.checkLogin("user", Encrypter.getEncodedString("123456"));
     }//GEN-LAST:event_testActionPerformed
 
     /**

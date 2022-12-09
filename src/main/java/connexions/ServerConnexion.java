@@ -124,11 +124,15 @@ public class ServerConnexion extends Thread {
                         String videogame = dis.readUTF();
                         double score = dis.readDouble();
                         dos.writeInt(VideogameQuery.newScore(score, username, videogame));
-
                     }
 
                     case GET_USER_LIST -> {
                         oos.writeObject(DatabaseHelper.getUsers());
+                    }
+                    case UPDATE_USER_STATUS -> {
+                        String user = dis.readUTF();
+                        boolean isEnabled = dis.readBoolean();
+                        DatabaseHelper.updateUserStatus(user, isEnabled);
                     }
 
                     default -> System.out.println();

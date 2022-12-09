@@ -383,7 +383,7 @@ public class ServerTest {
             if (filePath != null && !filePath.trim().isEmpty()) {
                 b = ImageIO.read(new File(filePath));
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                ImageIO.write(b, "png", bos);
+                ImageIO.write(b, "jpeg", bos);
                 img = bos.toByteArray();
             } else {
                 img = null;

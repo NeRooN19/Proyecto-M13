@@ -10,6 +10,7 @@
         <class>data.Rental</class>
         <class>data.User</class>
         <class>data.Videogame</class>
+        <class>data.UserEnabled</class>
         <properties>
         </properties>
     </persistence-unit>

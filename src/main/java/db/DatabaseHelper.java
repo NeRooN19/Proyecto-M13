@@ -5,6 +5,7 @@
 package db;
 
 import data.User;
+import data.UserEnabled;
 import data.Videogame;
 import encrypt.Encrypter;
 import helpers.EditUser;
@@ -15,7 +16,10 @@ import jakarta.persistence.Persistence;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author NeRooN
@@ -100,7 +104,7 @@ public class DatabaseHelper {
     public static User checkLogin(String username, String password) {
         try {
             User user = getUser(username);
-            if (user != null && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
+            if (user != null && getUserStatus(username).isEnabled() && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
                 em.detach(user);
                 return user;
             }
@@ -296,7 +300,7 @@ public class DatabaseHelper {
      * @return String with the new path game for the videogame
      */
     private static String pathName(String gameName) {
-        return gameName.replaceAll("[^a-zA-Z0-9 ]", "").replaceAll(" ", "-").toLowerCase() + ".png";
+        return gameName.replaceAll("[^a-zA-Z0-9 ]", "").replaceAll(" ", "-").toLowerCase() + ".jpeg";
     }
 
     public static EntityManager getEm() {
@@ -312,4 +316,31 @@ public class DatabaseHelper {
             throw new RuntimeException(e);
         }
     }
+
+    public static void updateUserStatus(String username, boolean enabled) {
+        User user = getUser(username);
+        UserEnabled userEnabled = getUserStatus(username);
+
+        if (userEnabled == null) {
+            if (user != null && !user.isIsAdmin()) {
+                userEnabled = new UserEnabled();
+                userEnabled.setUsername(username);
+            }
+        }
+
+        userEnabled.setEnabled(enabled);
+
+        em.getTransaction().begin();
+        em.merge(userEnabled);
+        em.getTransaction().commit();
+    }
+
+    private static UserEnabled getUserStatus(String user) {
+        try {
+            return (UserEnabled) em.createQuery("SELECT ue FROM UserEnabled ue WHERE LOWER(ue.username) = '" + user.toLowerCase() + "'").getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
 }

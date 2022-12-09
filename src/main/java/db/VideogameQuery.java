@@ -324,7 +324,7 @@ public class VideogameQuery {
                 try {
                     BufferedImage b = ImageIO.read(new File(v.getImagePath()));
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    ImageIO.write(b, "png", bos);
+                    ImageIO.write(b, "jpeg", bos);
                     byte[] img = bos.toByteArray();
                     v.setGameImage(img);
                 } catch (IOException e) {
@@ -378,7 +378,6 @@ public class VideogameQuery {
 
     public static int newScore(double score, String usern, String videogamen) {
 
-        GameScore gameScore = findScore(usern, videogamen);
         User user = DatabaseHelper.getUser(usern);
         if (user == null) {
             return 2;
@@ -388,6 +387,8 @@ public class VideogameQuery {
         if (videogame == null) {
             return 3;
         }
+
+        GameScore gameScore = findScore(usern, videogamen);
 
         try {
             if (gameScore == null) {
