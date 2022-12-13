@@ -485,25 +485,27 @@ public class VideogameQuery {
                 rental.setUsername(username);
                 user.getRental().add(rental);
                 vgame.getRentals().add(rental);
-            } else {
-                user.getRental().stream().forEach(r -> {
-                    if (r.getVideogame().equalsIgnoreCase(videogame) && r.getUsername().equalsIgnoreCase(username)) {
-                        r.setRentalDate(DateHelper.getDate(initialDate));
-                        r.setFinalDate(DateHelper.getDate(finalDate));
-                    }
-                });
+                DatabaseHelper.getEm().getTransaction().begin();
+                DatabaseHelper.getEm().merge(videogame);
+                DatabaseHelper.getEm().merge(user);
+                DatabaseHelper.getEm().merge(rental);
+                DatabaseHelper.getEm().getTransaction().commit();
+                return 0;
             }
 
-            DatabaseHelper.getEm().getTransaction().begin();
-            DatabaseHelper.getEm().merge(videogame);
-            DatabaseHelper.getEm().merge(user);
-            DatabaseHelper.getEm().merge(rental);
-            DatabaseHelper.getEm().getTransaction().commit();
-            return 0;
+            if (rental != null) {
+                rental.setRentalDate(DateHelper.getDate(initialDate));
+                rental.setFinalDate(DateHelper.getDate(finalDate));
 
+                DatabaseHelper.getEm().getTransaction().begin();
+                DatabaseHelper.getEm().merge(rental);
+                DatabaseHelper.getEm().getTransaction().commit();
+                return 1;
+            }
         } catch (Exception ex) {
             return 4;
         }
+        return -1;
     }
 
     public static Rental getRental(String username, String videogame) {
