@@ -104,7 +104,7 @@ public class DatabaseHelper {
     public static User checkLogin(String username, String password) {
         try {
             User user = getUser(username);
-            if (user != null && getUserStatus(username).isEnabled() && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
+            if (user != null && (getUserStatus(username) == null || getUserStatus(username).isEnabled()) && Encrypter.getDecryptedString(user.getPassword()).equals(password)) {
                 em.detach(user);
                 return user;
             }

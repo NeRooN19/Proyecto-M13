@@ -116,7 +116,11 @@ public class ServerConnexion extends Thread {
                     }
 
                     case NEW_RENTAL -> {
-
+                        String username = dis.readUTF();
+                        String videogame = dis.readUTF();
+                        String initialDate = dis.readUTF();
+                        String finalDate = dis.readUTF();
+                        dos.write(VideogameQuery.newRental(username, videogame, initialDate, finalDate));
                     }
 
                     case NEW_SCORE -> {

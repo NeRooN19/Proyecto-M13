@@ -5,6 +5,7 @@
 package db;
 
 import data.*;
+import helpers.DateHelper;
 import helpers.EditVideogame;
 import helpers.QueryFilter;
 import jakarta.persistence.NoResultException;
@@ -453,4 +454,65 @@ public class VideogameQuery {
 
         return round(finalScore[0], 2);
     }
+
+
+    public static int newRental(String username, String videogame, String initialDate, String finalDate) {
+
+
+        User user = DatabaseHelper.getUser(username);
+        if (user == null) {
+            return 2;
+        }
+
+        Videogame vgame = getVideogameByName(videogame);
+        if (vgame == null) {
+            return 3;
+        }
+
+        if (initialDate == null) {
+            return 4;
+        }
+
+        if (finalDate == null) {
+            return 5;
+        }
+
+        Rental rental = getRental(username, videogame);
+        try {
+            if (rental == null) {
+                rental = new Rental(DateHelper.getDate(initialDate), DateHelper.getDate(finalDate));
+                rental.setVideogame(videogame);
+                rental.setUsername(username);
+                user.getRental().add(rental);
+                vgame.getRentals().add(rental);
+            } else {
+                user.getRental().stream().forEach(r -> {
+                    if (r.getVideogame().equalsIgnoreCase(videogame) && r.getUsername().equalsIgnoreCase(username)) {
+                        r.setRentalDate(DateHelper.getDate(initialDate));
+                        r.setFinalDate(DateHelper.getDate(finalDate));
+                    }
+                });
+            }
+
+            DatabaseHelper.getEm().getTransaction().begin();
+            DatabaseHelper.getEm().merge(videogame);
+            DatabaseHelper.getEm().merge(user);
+            DatabaseHelper.getEm().merge(rental);
+            DatabaseHelper.getEm().getTransaction().commit();
+            return 0;
+
+        } catch (Exception ex) {
+            return 4;
+        }
+    }
+
+    public static Rental getRental(String username, String videogame) {
+        try {
+            Rental rental = (Rental) DatabaseHelper.getEm().createNativeQuery("SELECT * FROM Rental WHERE LOWER(username) = '" + username.toLowerCase() + "' and LOWER(videogame) = '" + videogame.toLowerCase() + "'", Rental.class).getSingleResult();
+            return rental;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
 }

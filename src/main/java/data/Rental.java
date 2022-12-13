@@ -59,4 +59,19 @@ public class Rental implements Serializable {
         this.finalDate = finalDate;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getVideogame() {
+        return videogame;
+    }
+
+    public void setVideogame(String videogame) {
+        this.videogame = videogame;
+    }
 }
