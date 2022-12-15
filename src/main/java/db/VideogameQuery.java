@@ -409,7 +409,10 @@ public class VideogameQuery {
             }
 
             if (gameScore != null) {
+                GameScore g = findScoreInGame(usern, videogame);
                 gameScore.setScore(score);
+                int index = videogame.getScores().indexOf(g);
+                videogame.getScores().set(index, gameScore);
                 videogame.setFinalScore(getAverage(videogame));
                 DatabaseHelper.getEm().getTransaction().begin();
                 DatabaseHelper.getEm().merge(videogame);
@@ -432,6 +435,11 @@ public class VideogameQuery {
             return null;
         }
     }
+
+    public static GameScore findScoreInGame(String user, Videogame videogame) {
+        return videogame.getScores().stream().filter(r -> r.getUsername().equals(user)).findFirst().orElse(null);
+    }
+
 
     private static double round(double value, int places) {
         if (places < 0) {
