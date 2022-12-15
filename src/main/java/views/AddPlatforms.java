@@ -6,6 +6,8 @@ package views;
 
 import data.Platforms;
 import db.VideogameQuery;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,7 @@ public class AddPlatforms extends javax.swing.JFrame {
     public AddPlatforms() {
         initComponents();
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

@@ -120,7 +120,7 @@ public class ServerConnexion extends Thread {
                         String videogame = dis.readUTF();
                         String initialDate = dis.readUTF();
                         String finalDate = dis.readUTF();
-                        dos.write(VideogameQuery.newRental(username, videogame, initialDate, finalDate));
+                        dos.writeInt(VideogameQuery.newRental(username, videogame, initialDate, finalDate));
                     }
 
                     case NEW_SCORE -> {
@@ -128,6 +128,7 @@ public class ServerConnexion extends Thread {
                         String videogame = dis.readUTF();
                         double score = dis.readDouble();
                         dos.writeInt(VideogameQuery.newScore(score, username, videogame));
+                        oos.writeObject(VideogameQuery.getVideogameByName(videogame));
                     }
 
                     case GET_USER_LIST -> {

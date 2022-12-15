@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class DateHelper {
 
-    static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     public static boolean isValidDate(String dateStr) {
         dateFormat.setLenient(false);
@@ -28,8 +28,8 @@ public class DateHelper {
         }
     }
 
-    public static String convertDateToString(Calendar calendar) {
-        return dateFormat.format(calendar.getTime());
+    public static String convertDateToString(Date date) {
+        return dateFormat.format(date.getTime());
     }
 
     private static Calendar convertStringToCalendar(String date) {

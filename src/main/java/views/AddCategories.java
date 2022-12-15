@@ -5,6 +5,8 @@
 package views;
 
 import db.VideogameQuery;
+
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class AddCategories extends javax.swing.JFrame {
     public AddCategories() {
         initComponents();
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

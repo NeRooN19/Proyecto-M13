@@ -241,7 +241,7 @@ public class VideogameQuery {
         }
 
         if (filter.getCategoryName() != null) {
-            queryBuilder.append(" LEFT JOIN videogame_category on videogame_category.videogame_id = Videogame.id LEFT JOIN category on videogame_category.category_id = category.id");
+            queryBuilder.append(" LEFT JOIN videogame_category on videogame_category.videogame_id = Videogame.id LEFT JOIN category on videogame_category.categories_id = category.id");
         }
 
         queryBuilder.append(" WHERE 1=1");
@@ -486,7 +486,7 @@ public class VideogameQuery {
                 user.getRental().add(rental);
                 vgame.getRentals().add(rental);
                 DatabaseHelper.getEm().getTransaction().begin();
-                DatabaseHelper.getEm().merge(videogame);
+                DatabaseHelper.getEm().merge(vgame);
                 DatabaseHelper.getEm().merge(user);
                 DatabaseHelper.getEm().merge(rental);
                 DatabaseHelper.getEm().getTransaction().commit();
@@ -503,7 +503,7 @@ public class VideogameQuery {
                 return 1;
             }
         } catch (Exception ex) {
-            return 4;
+            return 6;
         }
         return -1;
     }

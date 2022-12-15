@@ -187,7 +187,7 @@ public class DatabaseHelper {
      * @return
      */
     public static List<User> getUsers() {
-        return (List<User>) em.createQuery("SELECT u FROM User u").getResultList();
+        return (List<User>) em.createNativeQuery("select usuarios.id, usuarios.admin, usuarios.mail, usuarios.name, usuarios.password, usuarios.username from usuarios left join userenabled on usuarios.username = userenabled.username where userenabled.isenabled = false", User.class).getResultList();
     }
 
     /**

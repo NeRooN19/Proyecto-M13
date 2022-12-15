@@ -294,7 +294,7 @@ public class ServerTest {
     @DisplayName("Create new game")
     public void saveNewGameTest() {
         //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
-        Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null);
+        Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null, null, null);
         int result = DatabaseHelper.saveNewGame(videogame);
         assertEquals(0, result);
     }
@@ -306,7 +306,7 @@ public class ServerTest {
     @DisplayName("Create repeated game")
     public void saveExistingGameTest() {
         //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
-        Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null);
+        Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null, null, null);
         int result = DatabaseHelper.saveNewGame(videogame);
         assertEquals(1, result);
     }
@@ -391,7 +391,7 @@ public class ServerTest {
             List<Platforms> platforms = new ArrayList<>();
             platforms.add(new Platforms("Switch"));
 
-            Videogame videogame = new Videogame("test", "test", "test: game 1", "test", new Date(), img);
+            Videogame videogame = new Videogame("test", "test", "test: game 1", "test", new Date(), img, null, null);
             videogame.setPlatforms(platforms);
             int result = DatabaseHelper.saveNewGame(videogame);
             assertEquals(0, result);

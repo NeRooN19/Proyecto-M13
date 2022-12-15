@@ -40,7 +40,7 @@ public class Videogame implements Serializable {
     public Videogame() {
     }
 
-    public Videogame(String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage) {
+    public Videogame(String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage, List<Platforms> platforms, List<Category> categories) {
         this.description = description;
         this.developer = developer;
         this.name = name;
@@ -49,6 +49,8 @@ public class Videogame implements Serializable {
         this.gameImage = gameImage;
         this.scores = new ArrayList<>();
         this.rentals = new ArrayList<>();
+        this.platforms = platforms;
+        this.categories = categories;
     }
 
     //Constructor de EclipseLink - Base Datos
