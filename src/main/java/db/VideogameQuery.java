@@ -417,8 +417,8 @@ public class VideogameQuery {
                 int index2 = user.getScores().indexOf(g);
 
                 videogame.getScores().set(index, gameScore);
-                videogame.setFinalScore(getAverage(videogame));
                 user.getScores().set(index2, gameScore);
+                videogame.setFinalScore(getAverage(videogame));
                 DatabaseHelper.getEm().getTransaction().begin();
                 DatabaseHelper.getEm().merge(videogame);
                 DatabaseHelper.getEm().merge(user);
