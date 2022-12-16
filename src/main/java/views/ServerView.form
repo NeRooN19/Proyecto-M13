@@ -46,10 +46,11 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="newAdmin" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="addData" alignment="0" max="32767" attributes="0"/>
+                              <Component id="newAdmin" alignment="0" max="32767" attributes="0"/>
                               <Component id="addPlatforms" alignment="0" max="32767" attributes="0"/>
-                              <Component id="addCategories" max="32767" attributes="0"/>
+                              <Component id="addCategories" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="test" min="-2" pref="97" max="-2" attributes="0"/>
@@ -85,9 +86,11 @@
                           <Component id="addPlatforms" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="addCategories" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="addData" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="51" max="32767" attributes="0"/>
+                  <EmptySpace pref="32" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="statusText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -178,6 +181,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="addData">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add data"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addDataActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

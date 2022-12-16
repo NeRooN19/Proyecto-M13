@@ -319,7 +319,7 @@ public class VideogameQuery {
      * @param videogames
      * @return List of videogames with the image set
      */
-    private static List<Videogame> getGamesWithImage(List<Videogame> videogames) {
+    public static List<Videogame> getGamesWithImage(List<Videogame> videogames) {
         videogames.forEach(v -> {
             if (v.getImagePath() != null && !v.getImagePath().equals("")) {
                 try {
@@ -410,12 +410,18 @@ public class VideogameQuery {
 
             if (gameScore != null) {
                 GameScore g = findScoreInGame(usern, videogame);
+
                 gameScore.setScore(score);
+
                 int index = videogame.getScores().indexOf(g);
+                int index2 = user.getScores().indexOf(g);
+
                 videogame.getScores().set(index, gameScore);
                 videogame.setFinalScore(getAverage(videogame));
+                user.getScores().set(index2, gameScore);
                 DatabaseHelper.getEm().getTransaction().begin();
                 DatabaseHelper.getEm().merge(videogame);
+                DatabaseHelper.getEm().merge(user);
                 DatabaseHelper.getEm().merge(gameScore);
                 DatabaseHelper.getEm().getTransaction().commit();
 
@@ -438,6 +444,10 @@ public class VideogameQuery {
 
     public static GameScore findScoreInGame(String user, Videogame videogame) {
         return videogame.getScores().stream().filter(r -> r.getUsername().equals(user)).findFirst().orElse(null);
+    }
+
+    public static GameScore findScoreInUser(User user, String videogame) {
+        return user.getScores().stream().filter(r -> r.getUsername().equals(videogame)).findFirst().orElse(null);
     }
 
 
