@@ -217,6 +217,15 @@ public class Videogame implements Serializable {
         } else {
             out.writeInt(0);
         }
+
+        if (this.rentals != null && this.rentals.size() > 0) {
+            out.writeInt(this.rentals.size());
+            for (Rental ren : this.getRentals()) {
+                out.writeObject(ren);
+            }
+        } else {
+            out.writeInt(0);
+        }
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -251,6 +260,13 @@ public class Videogame implements Serializable {
         if (scoresNum > 0) {
             for (int i = 0; i < scoresNum; i++) {
                 this.scores.add((GameScore) in.readObject());
+            }
+        }
+
+        int rentalsNum = in.readInt();
+        if (rentalsNum > 0) {
+            for (int i = 0; i < scoresNum; i++) {
+                this.rentals.add((Rental) in.readObject());
             }
         }
     }
