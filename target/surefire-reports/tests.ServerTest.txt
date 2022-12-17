@@ -1,0 +1,108 @@
+-------------------------------------------------------------------------------
+Test set: Database connections testing
+-------------------------------------------------------------------------------
+Tests run: 31, Failures: 0, Errors: 26, Skipped: 0, Time elapsed: 1.44 s <<< FAILURE! - in tests.ServerTest
+tests.ServerTest.createPlatformTest  Time elapsed: 0.047 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.createPlatformTest(ServerTest.java:514)
+
+tests.ServerTest.loginTestNoOk  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "java.io.DataOutputStream.writeByte(int)" because "tests.ServerTest.dos" is null
+	at tests.ServerTest.loginTestNoOk(ServerTest.java:204)
+
+tests.ServerTest.createMultipleCategoriesTest  Time elapsed: 0.004 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.createMultipleCategoriesTest(ServerTest.java:491)
+
+tests.ServerTest.checkGameExistCategoriesTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.checkGameExistCategoriesTest(ServerTest.java:402)
+
+tests.ServerTest.createCategoryTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.createCategoryTest(ServerTest.java:467)
+
+tests.ServerTest.checkGameExistPlatformsTest  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.checkGameExistPlatformsTest(ServerTest.java:378)
+
+tests.ServerTest.checkGameNoExistPlatformsTest  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.checkGameNoExistPlatformsTest(ServerTest.java:366)
+
+tests.ServerTest.checkGameNoExistCategoriesTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.checkGameNoExistCategoriesTest(ServerTest.java:390)
+
+tests.ServerTest.getQueryPaginatedTest  Time elapsed: 0.005 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getQueryPaginatedTest(ServerTest.java:413)
+
+tests.ServerTest.getGamesTop5Test  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getGamesTop5Test(ServerTest.java:564)
+
+tests.ServerTest.makeAdminTrueTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "data.User.isIsAdmin()" because "user" is null
+	at tests.ServerTest.makeAdminTrueTest(ServerTest.java:331)
+
+tests.ServerTest.getPlatformsTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getPlatformsTest(ServerTest.java:524)
+
+tests.ServerTest.saveExistingGameTest  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.saveExistingGameTest(ServerTest.java:354)
+
+tests.ServerTest.getGamesPaginatedTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getGamesPaginatedTest(ServerTest.java:538)
+
+tests.ServerTest.getVideogameByNameTest  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getVideogameByNameTest(ServerTest.java:574)
+
+tests.ServerTest.getUsersTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because "db.DatabaseHelper.em" is null
+	at tests.ServerTest.getUsersTest(ServerTest.java:298)
+
+tests.ServerTest.getCategoriesTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getCategoriesTest(ServerTest.java:477)
+
+tests.ServerTest.updateUserTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "data.User.getMail()" because "user" is null
+	at tests.ServerTest.updateUserTest(ServerTest.java:317)
+
+tests.ServerTest.saveNewGameTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.saveNewGameTest(ServerTest.java:342)
+
+tests.ServerTest.loginTestOk  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "java.io.DataOutputStream.writeByte(int)" because "tests.ServerTest.dos" is null
+	at tests.ServerTest.loginTestOk(ServerTest.java:180)
+
+tests.ServerTest.getGamesTotalPageCountTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getGamesTotalPageCountTest(ServerTest.java:554)
+
+tests.ServerTest.saveImageTest  Time elapsed: 0.203 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.saveImageTest(ServerTest.java:440)
+
+tests.ServerTest.getPlatformTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getPlatformTest(ServerTest.java:503)
+
+tests.ServerTest.getUserTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "data.User.getName()" because "user" is null
+	at tests.ServerTest.getUserTest(ServerTest.java:289)
+
+tests.ServerTest.getCategoryTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
+	at tests.ServerTest.getCategoryTest(ServerTest.java:456)
+
+tests.ServerTest  Time elapsed: 1.44 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "java.io.DataInputStream.close()" because "tests.ServerTest.dis" is null
+	at tests.ServerTest.tearDownClass(ServerTest.java:156)
+

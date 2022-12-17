@@ -4,9 +4,7 @@
  */
 package db;
 
-import data.User;
-import data.UserEnabled;
-import data.Videogame;
+import data.*;
 import encrypt.Encrypter;
 import helpers.EditUser;
 import jakarta.persistence.EntityManager;
@@ -16,10 +14,7 @@ import jakarta.persistence.Persistence;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author NeRooN
@@ -175,7 +170,7 @@ public class DatabaseHelper {
      */
     public static User getUser(String username) {
         try {
-            return (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER(?1)").setParameter(1, username).getSingleResult();
+            return (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER('" + username.toLowerCase() + "')").getSingleResult();
         } catch (Exception ex) {
             return null;
         }
@@ -187,7 +182,7 @@ public class DatabaseHelper {
      * @return
      */
     public static List<User> getUsers() {
-        return (List<User>) em.createNativeQuery("select usuarios.id, usuarios.admin, usuarios.mail, usuarios.name, usuarios.password, usuarios.username from usuarios left join userenabled on usuarios.username = userenabled.username where userenabled.isenabled = false", User.class).getResultList();
+        return (List<User>) em.createNativeQuery("select usuarios.id, usuarios.admin, usuarios.mail, usuarios.name, usuarios.password, usuarios.username from usuarios left join userenabled on usuarios.username = userenabled.username where (userenabled.isenabled IS null OR userenabled.isenabled = false)", User.class).getResultList();
     }
 
     /**
@@ -335,11 +330,46 @@ public class DatabaseHelper {
         em.getTransaction().commit();
     }
 
-    private static UserEnabled getUserStatus(String user) {
+    public static UserEnabled getUserStatus(String user) {
         try {
             return (UserEnabled) em.createQuery("SELECT ue FROM UserEnabled ue WHERE LOWER(ue.username) = '" + user.toLowerCase() + "'").getSingleResult();
         } catch (Exception ex) {
             return null;
+        }
+    }
+
+    public static void generateData() {
+        Random r = new Random();
+        List<String> platforms = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            categories.add("Category" + i);
+            platforms.add("Platform" + i);
+            VideogameQuery.createMultipleCategories(categories);
+            VideogameQuery.createMultiplePlatforms(platforms);
+        }
+
+        List<Videogame> v = new ArrayList<>();
+        List<Platforms> platforms2 = new ArrayList<>();
+        List<Category> categories2 = new ArrayList<>();
+        for (int i = 1; i < 26; i++) {
+            int random = r.nextInt(5);
+            if (i == 1) {
+                platforms2.add(new Platforms(platforms.get(random)));
+                categories2.add(new Category(categories.get(random)));
+            }
+            Videogame video = new Videogame("Description " + i, "Developer" + i, "Videogame " + i, "Publisher" + i, new Date(), null, platforms2, categories2);
+            video.setImagePath("default-placeholder.jpeg");
+            v.add(video);
+        }
+        VideogameQuery.getGamesWithImage(v);
+        v.forEach(x -> DatabaseHelper.saveNewGame(x));
+
+        for (int i = 0; i < 5; i++) {
+            User user = new User(Encrypter.getEncodedString("123456"), "user" + i, "Name" + i, "mail" + i + "@mail.com");
+            //user.setIsAdmin(r.nextInt(100) < 80 ? false : true);
+            user.setIsAdmin(false);
+            DatabaseHelper.tryRegister(user);
         }
     }
 

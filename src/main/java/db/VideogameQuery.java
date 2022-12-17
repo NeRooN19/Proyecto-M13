@@ -321,16 +321,17 @@ public class VideogameQuery {
      */
     public static List<Videogame> getGamesWithImage(List<Videogame> videogames) {
         videogames.forEach(v -> {
-            if (v.getImagePath() != null && !v.getImagePath().equals("")) {
-                try {
-                    BufferedImage b = ImageIO.read(new File(v.getImagePath()));
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    ImageIO.write(b, "jpeg", bos);
-                    byte[] img = bos.toByteArray();
-                    v.setGameImage(img);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            if (v.getImagePath() == null || v.getImagePath().equals("")) {
+                v.setImagePath("default-placeholder.jpeg");
+            }
+            try {
+                BufferedImage b = ImageIO.read(new File(v.getImagePath()));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(b, "jpeg", bos);
+                byte[] img = bos.toByteArray();
+                v.setGameImage(img);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
         return videogames;
@@ -461,7 +462,7 @@ public class VideogameQuery {
         return bd.doubleValue();
     }
 
-    private static double getAverage(Videogame videogame) {
+    public static double getAverage(Videogame videogame) {
         double[] finalScore = {0};
 
         videogame.getScores().forEach(s -> {

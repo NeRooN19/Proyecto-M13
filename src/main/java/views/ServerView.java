@@ -5,19 +5,12 @@
 package views;
 
 import connexions.ServerThread;
-import data.Category;
-import data.Platforms;
 import data.User;
-import data.Videogame;
 import db.DatabaseHelper;
-import db.VideogameQuery;
 import encrypt.Encrypter;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -235,41 +228,10 @@ public class ServerView extends javax.swing.JFrame {
 
     private void addDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataActionPerformed
         // TODO add your handling code here:
-        Random r = new Random();
         String message = "By pressing Yes you will create 5 categories and platforms, 25 videogames and 5 users that can be admin.";
         String tittle = "Warning";
         if (JOptionPane.showConfirmDialog(null, message, tittle, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE) == 0) {
-            List<String> platforms = new ArrayList<>();
-            List<String> categories = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                categories.add("Category" + i);
-                platforms.add("Platform" + i);
-                VideogameQuery.createMultipleCategories(categories);
-                VideogameQuery.createMultiplePlatforms(platforms);
-            }
-
-            List<Videogame> v = new ArrayList<>();
-            List<Platforms> platforms2 = new ArrayList<>();
-            List<Category> categories2 = new ArrayList<>();
-            for (int i = 1; i < 26; i++) {
-                int random = r.nextInt(5);
-                if (i == 1) {
-                    platforms2.add(new Platforms(platforms.get(random)));
-                    categories2.add(new Category(categories.get(random)));
-                }
-                Videogame video = new Videogame("Description " + i, "Developer" + i, "Videogame " + i, "Publisher" + i, new Date(), null, platforms2, categories2);
-                video.setImagePath("default-placeholder.jpeg");
-                v.add(video);
-            }
-            VideogameQuery.getGamesWithImage(v);
-            v.forEach(x -> DatabaseHelper.saveNewGame(x));
-            
-            for (int i = 0; i < 5; i++) {
-                User user = new User(Encrypter.getEncodedString("123456"), "user" + i, "Name" + i, "mail" + i + "@mail.com");
-                user.setIsAdmin(r.nextInt(100) < 80 ? false : true);
-                DatabaseHelper.tryRegister(user);
-            }
-
+            DatabaseHelper.generateData();
         }
     }//GEN-LAST:event_addDataActionPerformed
 
