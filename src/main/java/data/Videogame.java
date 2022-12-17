@@ -263,6 +263,10 @@ public class Videogame implements Serializable {
             }
         }
 
+        if (this.rentals == null) {
+            this.rentals = new ArrayList<>();
+        }
+
         int rentalsNum = in.readInt();
         if (rentalsNum > 0) {
             for (int i = 0; i < scoresNum; i++) {
