@@ -269,7 +269,7 @@ public class Videogame implements Serializable {
 
         int rentalsNum = in.readInt();
         if (rentalsNum > 0) {
-            for (int i = 0; i < scoresNum; i++) {
+            for (int i = 0; i < rentalsNum; i++) {
                 this.rentals.add((Rental) in.readObject());
             }
         }
