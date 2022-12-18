@@ -21,12 +21,12 @@ import java.util.logging.Logger;
  */
 public class ServerThread extends Thread {
 
-    private SSLServerSocket server;
-    private SSLServerSocketFactory serverSocketFactory;
     private final ArrayList<SSLSocket> socketList = new ArrayList<>();
     private final int portNumber;
-    private SSLSocket socket;
     private final ServerView serverView;
+    private SSLServerSocket server;
+    private SSLServerSocketFactory serverSocketFactory;
+    private SSLSocket socket;
 
     /**
      * Constructor of the class

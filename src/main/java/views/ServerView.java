@@ -5,9 +5,7 @@
 package views;
 
 import connexions.ServerThread;
-import data.User;
 import db.DatabaseHelper;
-import encrypt.Encrypter;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -23,6 +21,19 @@ public class ServerView extends javax.swing.JFrame {
     private static boolean statusOn = false;
     private static ServerThread serverThread;
     private final int DEFAULT_PORT = 5000;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addCategories;
+    private javax.swing.JButton addData;
+    private javax.swing.JButton addPlatforms;
+    private javax.swing.JButton disconnectBtn;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton newAdmin;
+    private javax.swing.JList<String> socketList;
+    private javax.swing.JButton startButton;
+    private javax.swing.JLabel statusText;
+    private javax.swing.JButton test;
+    private javax.swing.JButton updateList;
 
     /**
      * Creates new form ServerView
@@ -37,6 +48,41 @@ public class ServerView extends javax.swing.JFrame {
         addCategories.setEnabled(false);
         addPlatforms.setEnabled(false);
         setResizable(false);
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ServerView().setVisible(true);
+            }
+        });
     }
 
     /**
@@ -222,8 +268,10 @@ public class ServerView extends javax.swing.JFrame {
     }//GEN-LAST:event_addCategoriesActionPerformed
 
     private void testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testActionPerformed
-        DatabaseHelper.updateUserStatus("user", true);
-        User user = DatabaseHelper.checkLogin("user", Encrypter.getEncodedString("123456"));
+        Random r = new Random();
+        for (int i = 0; i < 5; i++) {
+            System.out.println(r.nextInt(5));
+        }
     }//GEN-LAST:event_testActionPerformed
 
     private void addDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataActionPerformed
@@ -265,54 +313,5 @@ public class ServerView extends javax.swing.JFrame {
         return Integer.parseInt(DEFAULT_PORT + "");
 
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServerView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ServerView().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addCategories;
-    private javax.swing.JButton addData;
-    private javax.swing.JButton addPlatforms;
-    private javax.swing.JButton disconnectBtn;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton newAdmin;
-    private javax.swing.JList<String> socketList;
-    private javax.swing.JButton startButton;
-    private javax.swing.JLabel statusText;
-    private javax.swing.JButton test;
-    private javax.swing.JButton updateList;
     // End of variables declaration//GEN-END:variables
 }

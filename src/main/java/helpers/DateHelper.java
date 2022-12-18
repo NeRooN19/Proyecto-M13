@@ -46,41 +46,6 @@ public class DateHelper {
         }
     }
 
-    public static String getFecha(Calendar cal) {
-        return getDay(cal.get(Calendar.DAY_OF_WEEK)) + " " + cal.get(Calendar.DAY_OF_MONTH) + " " + getMonth(cal.get(Calendar.MONTH)) + " " + cal.get(Calendar.YEAR);
-    }
-
-    public static String getMonth(int month) {
-        return switch (month) {
-            case Calendar.JANUARY -> "Enero";
-            case Calendar.FEBRUARY -> "Febrero";
-            case Calendar.MARCH -> "Marzo";
-            case Calendar.APRIL -> "Abril";
-            case Calendar.MAY -> "Mayo";
-            case Calendar.JUNE -> "Junio";
-            case Calendar.JULY -> "Julio";
-            case Calendar.AUGUST -> "Agosto";
-            case Calendar.SEPTEMBER -> "Septiembre";
-            case Calendar.OCTOBER -> "Octubre";
-            case Calendar.NOVEMBER -> "Noviembre";
-            case Calendar.DECEMBER -> "Diciembre";
-            default -> "error";
-        };
-    }
-
-    public static String getDay(int day) {
-
-        return switch (day) {
-            case Calendar.SUNDAY -> "Dom";
-            case Calendar.MONDAY -> "Lun";
-            case Calendar.TUESDAY -> "Mar";
-            case Calendar.WEDNESDAY -> "Mier";
-            case Calendar.THURSDAY -> "Jue";
-            case Calendar.FRIDAY -> "Vie";
-            case Calendar.SATURDAY -> "Sab";
-            default -> "";
-        };
-    }
 
     public static boolean isDateCorrect(String date) {
         Calendar calendar = convertStringToCalendar(date);

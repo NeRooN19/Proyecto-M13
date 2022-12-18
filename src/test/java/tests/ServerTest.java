@@ -38,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ServerTest {
 
+    static QueryFilter queryFilter = new QueryFilter();
     /**
      * Declarem totes les variables necessaries per dbHelper les probes
      */
@@ -76,7 +77,7 @@ public class ServerTest {
             //User to test register username already exists, same as userRegOk
             userRegNoOk = new User();
             userRegNoOk.setIsAdmin(true);
-            userRegNoOk.setMail("mock@mock.com");
+            userRegNoOk.setMail("mock2@mock.com");
             userRegNoOk.setName("Mock");
             userRegNoOk.setPassword("mock");
             userRegNoOk.setUsername("mock");
@@ -249,6 +250,9 @@ public class ServerTest {
         }
     }
 
+    /* TEA 3 */
+    /* DatabaseHelper */
+
     /*
      * Mitjançant Mockito, simularem una busqueda dbHelper la base de dades sobre un usuari.
      * Si envien els credencials d'un usuari NO existent, ens retornará un usuari null.
@@ -262,9 +266,6 @@ public class ServerTest {
             assertNull(DatabaseHelper.checkLogin("admin5", "admin"));
         }
     }
-
-    /* TEA 3 */
-    /* DatabaseHelper */
 
     /*
      * Indicant un nom d'usuari per String, ens retorna l'objecte usuari amb les seves dades
@@ -300,6 +301,7 @@ public class ServerTest {
         editUser.setUsername("user0");
         editUser.setMail("test@test.com");
         DatabaseHelper.updateUser(editUser);
+
         User user = DatabaseHelper.getUser("user0");
         assertEquals(editUser.getMail(), user.getMail());
     }
@@ -323,7 +325,6 @@ public class ServerTest {
     @Order(12)
     @DisplayName("Create new game")
     public void saveNewGameTest() {
-        //String description, String developer, String name, String publisher, Date releaseDate, byte[] gameImage
         Videogame videogame = new Videogame("description", "developer", "name", "publisher", new Date(), null, null, null);
         int result = DatabaseHelper.saveNewGame(videogame);
         assertEquals(0, result);
@@ -406,6 +407,8 @@ public class ServerTest {
         assertEquals(10, a.size());
     }
 
+    /* VideogameQuery */
+
     /*
      * Crearem un videojoc amb una imatge. Es crearà aquesta mateixa imatge a la carpeta img i s'indicarà el path a la base de dades.
      */
@@ -436,9 +439,6 @@ public class ServerTest {
             throw new RuntimeException(e);
         }
     }
-
-    /* VideogameQuery */
-
 
     /*
      * Cerca de categoria per nom
@@ -524,8 +524,6 @@ public class ServerTest {
         List<Platforms> plat = VideogameQuery.getAllPlatforms();
         assertEquals("Platform0", plat.get(0).getName());
     }
-
-    static QueryFilter queryFilter = new QueryFilter();
 
     /*
      * Mostra d'obtenció de videojocs paginats
@@ -616,10 +614,9 @@ public class ServerTest {
     @Test
     @Order(34)
     @DisplayName("Find score in a videogame")
-    public void findScoreInGameTest() throws InterruptedException {
+    public void findScoreInGameTest() {
         Videogame videogame = VideogameQuery.getVideogameByName("TestVideogame");
         GameScore gameScore = VideogameQuery.findScoreInGame("user1", videogame);
-        Thread.sleep(500);
         assertEquals(7.2, gameScore.getScore());
     }
 

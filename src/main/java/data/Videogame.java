@@ -30,7 +30,6 @@ public class Videogame implements Serializable {
     private String name;
     private String publisher;
     private Date releaseDate;
-    private int stock;
     private transient List<Rental> rentals;
     private transient List<GameScore> scores;
     private transient List<Platforms> platforms;
@@ -64,7 +63,6 @@ public class Videogame implements Serializable {
         this.name = name;
         this.publisher = publisher;
         this.releaseDate = releaseDate;
-        this.stock = stock;
         this.platforms = platforms;
     }
 
@@ -120,14 +118,6 @@ public class Videogame implements Serializable {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public double getFinalScore() {

@@ -57,6 +57,7 @@ public class VideogameQuery {
             DatabaseHelper.getEm().getTransaction().begin();
             DatabaseHelper.getEm().persist(c);
             DatabaseHelper.getEm().getTransaction().commit();
+            DatabaseHelper.getEm().clear();
             return 0;
         } catch (Exception ex) {
             return 1;
@@ -79,6 +80,7 @@ public class VideogameQuery {
             DatabaseHelper.getEm().persist(s);
         });
         DatabaseHelper.getEm().getTransaction().commit();
+        DatabaseHelper.getEm().clear();
     }
 
     /**
@@ -132,6 +134,7 @@ public class VideogameQuery {
             DatabaseHelper.getEm().getTransaction().begin();
             DatabaseHelper.getEm().persist(p);
             DatabaseHelper.getEm().getTransaction().commit();
+            DatabaseHelper.getEm().clear();
             return 0;
         } catch (Exception ex) {
             return 1;
@@ -168,6 +171,7 @@ public class VideogameQuery {
             DatabaseHelper.getEm().persist(s);
         });
         DatabaseHelper.getEm().getTransaction().commit();
+        DatabaseHelper.getEm().clear();
     }
 
     /**
@@ -247,7 +251,7 @@ public class VideogameQuery {
      */
     public static StringBuilder getGamesWithoutPagination(QueryFilter filter) {
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Videogame");
-        if (filter.getPlatformName() != null && filter.getPlatformName().trim().equals("")) {
+        if (filter.getPlatformName() != null && !filter.getPlatformName().trim().equals("")) {
             queryBuilder.append(" LEFT JOIN videogame_platforms on videogame_platforms.videogame_id = Videogame.id LEFT JOIN platforms on videogame_platforms.platforms_id = platforms.id");
         }
 
@@ -257,11 +261,11 @@ public class VideogameQuery {
 
         queryBuilder.append(" WHERE 1=1");
 
-        if (filter.getPlatformName() != null && filter.getPlatformName().trim().equals("")) {
+        if (filter.getPlatformName() != null && !filter.getPlatformName().trim().equals("")) {
             queryBuilder.append(" AND platforms.name = '" + filter.getPlatformName() + "'");
         }
 
-        if (filter.getCategoryName() != null && filter.getCategoryName().trim().equals("")) {
+        if (filter.getCategoryName() != null && !filter.getCategoryName().trim().equals("")) {
             queryBuilder.append(" AND category.category = '" + filter.getCategoryName() + "'");
         }
 
@@ -273,7 +277,7 @@ public class VideogameQuery {
             queryBuilder.append(" AND videogame.finalscore >= " + filter.getScore());
         }
 
-        if (filter.getDate() != null && filter.getDate().trim().equals("")) {
+        if (filter.getDate() != null && !filter.getDate().trim().equals("")) {
             queryBuilder.append(" AND videogame.releasedate >= '" + filter.getDate() + "'");
         }
 
@@ -286,7 +290,7 @@ public class VideogameQuery {
      * @return List of the top 5 videogames
      */
     public static List<Videogame> getGamesTop5() {
-        Query query = DatabaseHelper.getEm().createNativeQuery("SELECT * FROM Videogame order by Videogame.finalscore DESC limit 5", Videogame.class);
+        Query query = DatabaseHelper.getEm().createNativeQuery("SELECT * FROM Videogame order by Videogame.finalscore DESC, Videogame.name ASC limit 5", Videogame.class);
         List<Videogame> vi = query.getResultList();
         vi.forEach(v -> System.out.println(v.getName()));
         return getGamesWithImage(vi);
@@ -318,7 +322,9 @@ public class VideogameQuery {
      */
     public static Videogame getVideogameByName(String name) {
         try {
-            return (Videogame) DatabaseHelper.getEm().createQuery("SELECT v FROM Videogame v WHERE LOWER(v.name) = '" + name.toLowerCase() + "'").getSingleResult();
+            Query query = DatabaseHelper.getEm().createQuery("SELECT v FROM Videogame v WHERE LOWER(v.name) = ?1");
+            query.setParameter(1, name.toLowerCase());
+            return (Videogame) query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
@@ -384,9 +390,12 @@ public class VideogameQuery {
                 query.append(" WHERE id = " + game.getID());
 
                 String finalQuery = query.toString().replace(", WHERE", " WHERE");
+                Query queryFinal = DatabaseHelper.getEm().createNativeQuery(finalQuery);
+
                 DatabaseHelper.getEm().getTransaction().begin();
-                DatabaseHelper.getEm().createNativeQuery(finalQuery).executeUpdate();
+                queryFinal.executeUpdate();
                 DatabaseHelper.getEm().getTransaction().commit();
+                DatabaseHelper.getEm().clear();
             }
             return true;
         } catch (Exception ex) {
@@ -431,6 +440,7 @@ public class VideogameQuery {
                 DatabaseHelper.getEm().merge(user);
                 DatabaseHelper.getEm().merge(gameScore);
                 DatabaseHelper.getEm().getTransaction().commit();
+                DatabaseHelper.getEm().clear();
                 return 0;
             }
 
@@ -450,6 +460,7 @@ public class VideogameQuery {
                 DatabaseHelper.getEm().merge(user);
                 DatabaseHelper.getEm().merge(gameScore);
                 DatabaseHelper.getEm().getTransaction().commit();
+                DatabaseHelper.getEm().clear();
 
                 return 1;
             }
@@ -576,6 +587,7 @@ public class VideogameQuery {
                 DatabaseHelper.getEm().merge(user);
                 DatabaseHelper.getEm().merge(rental);
                 DatabaseHelper.getEm().getTransaction().commit();
+                DatabaseHelper.getEm().clear();
                 return 0;
             }
 
@@ -586,6 +598,7 @@ public class VideogameQuery {
                 DatabaseHelper.getEm().getTransaction().begin();
                 DatabaseHelper.getEm().merge(rental);
                 DatabaseHelper.getEm().getTransaction().commit();
+                DatabaseHelper.getEm().clear();
                 return 1;
             }
         } catch (Exception ex) {

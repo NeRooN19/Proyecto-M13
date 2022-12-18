@@ -10,6 +10,7 @@ import helpers.EditUser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -110,29 +111,6 @@ public class DatabaseHelper {
     }
 
     /**
-     * Method to manage the petitions from a login It will receive the username and the password as a plain string Then it checks if the user exists Finally it
-     * will send a boolean to the client. If it's true, it will also send the user.
-     */
-    public void doLogin() {
-        try {
-            String username = dis.readUTF();
-            String password = dis.readUTF();
-
-            User user = checkLogin(username, password);
-
-            if (user == null) {
-                dos.writeBoolean(false);
-            } else {
-                dos.writeBoolean(true);
-                user.setPassword(null);
-                oos.writeObject(user);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
      * Method to register a user into the databse.
      *
      * @param user User object to register into the database
@@ -144,6 +122,7 @@ public class DatabaseHelper {
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
+            DatabaseHelper.getEm().clear();
             return 0;
         } catch (Exception ex) {
             if (ex.getMessage().contains("usuarios_pkey")) {
@@ -160,10 +139,6 @@ public class DatabaseHelper {
     }
 
     /**
-     * Nuevo para TEA3
-     */
-
-    /**
      * Method to get a user from the database from a given String
      *
      * @param username
@@ -171,11 +146,16 @@ public class DatabaseHelper {
      */
     public static User getUser(String username) {
         try {
-            return (User) em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = LOWER('" + username.toLowerCase() + "')").getSingleResult();
+            Query query = em.createQuery("SELECT u FROM User u WHERE LOWER(u.username) = ?1").setParameter(1, username.toLowerCase());
+            return (User) query.getSingleResult();
         } catch (Exception ex) {
             return null;
         }
     }
+
+    /**
+     * Nuevo para TEA3
+     */
 
     /**
      * Method to get all the users from the database
@@ -195,28 +175,48 @@ public class DatabaseHelper {
         try {
             User user = getUser(editData.getUsername());
 
+
             if (user != null) {
+                int index = 1;
                 StringBuilder query = new StringBuilder("UPDATE Usuarios SET");
 
                 if (editData.getName() != null) {
-                    query.append(" name = '" + editData.getName() + "',");
+                    query.append(" name = ?" + (index++) + ",");
                 }
 
                 if (editData.getMail() != null) {
-                    query.append(" mail = '" + editData.getMail() + "',");
+                    query.append(" mail = ?" + (index++) + ",");
                 }
 
                 if (editData.getPassword() != null) {
-                    query.append(" password = '" + Encrypter.getEncodedString(editData.getPassword()) + "'");
+                    query.append(" password =  ?" + (index++));
                 }
 
-                query.append(" WHERE username = '" + editData.getUsername() + "'");
+                query.append(" WHERE username =  ?" + (index++) + "");
 
                 String finalQuery = query.toString().replace(", WHERE", " WHERE");
 
+                Query query1 = em.createNativeQuery(finalQuery);
+                index = 1;
+
+                if (editData.getName() != null) {
+                    query1.setParameter(index++, editData.getName());
+                }
+
+                if (editData.getMail() != null) {
+                    query1.setParameter(index++, editData.getMail());
+                }
+
+                if (editData.getPassword() != null) {
+                    query1.setParameter(index++, editData.getPassword());
+                }
+
+                query1.setParameter(index++, editData.getUsername());
+
                 em.getTransaction().begin();
-                em.createNativeQuery(finalQuery).executeUpdate();
+                query1.executeUpdate();
                 em.getTransaction().commit();
+                em.clear();
             }
             return true;
         } catch (Exception ex) {
@@ -235,13 +235,13 @@ public class DatabaseHelper {
         try {
             User user = getUser(username);
             if (user != null) {
-                String query = "UPDATE User SET isAdmin = " + admin + " WHERE username = '" + username + "'";
                 em.getTransaction().begin();
-                em.createQuery(query).executeUpdate();
+                em.createQuery("UPDATE User SET isAdmin = ?1 WHERE username = ?2").setParameter(1, admin).setParameter(2, username).executeUpdate();
                 em.getTransaction().commit();
+                DatabaseHelper.getEm().clear();
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
@@ -268,6 +268,7 @@ public class DatabaseHelper {
             em.getTransaction().begin();
             em.persist(videogame);
             em.getTransaction().commit();
+            DatabaseHelper.getEm().clear();
             return 0;
         }
         return 1;
@@ -314,10 +315,6 @@ public class DatabaseHelper {
     }
 
     /**
-     * Nuevo para TEA4
-     */
-
-    /**
      * Method to update the status of a given user
      *
      * @param username
@@ -339,7 +336,12 @@ public class DatabaseHelper {
         em.getTransaction().begin();
         em.merge(userEnabled);
         em.getTransaction().commit();
+        DatabaseHelper.getEm().clear();
     }
+
+    /**
+     * Nuevo para TEA4
+     */
 
     /**
      * Method to get the status of a user
@@ -370,26 +372,56 @@ public class DatabaseHelper {
             VideogameQuery.createMultiplePlatforms(platforms);
         }
 
+
+        List<List<Platforms>> platforms2 = new ArrayList<>();
+        List<List<Category>> categories2 = new ArrayList<>();
+        Videogame video;
         List<Videogame> v = new ArrayList<>();
-        List<Platforms> platforms2 = new ArrayList<>();
-        List<Category> categories2 = new ArrayList<>();
-        for (int i = 1; i < 26; i++) {
+        for (int i = 0; i < 25; i++) {
             int random = r.nextInt(5);
-            if (i == 1) {
-                platforms2.add(new Platforms(platforms.get(random)));
-                categories2.add(new Category(categories.get(random)));
-            }
-            Videogame video = new Videogame("Description " + i, "Developer" + i, "Videogame " + i, "Publisher" + i, new Date(), null, platforms2, categories2);
+
+            platforms2.add(new ArrayList<Platforms>());
+            categories2.add(new ArrayList<Category>());
+
+            platforms2.get(i).add(new Platforms(platforms.get(random)));
+            categories2.get(i).add(new Category(categories.get(random)));
+            video = new Videogame("Description " + i, "Developer" + i, "Videogame " + i, "Publisher" + i, new Date(), null, platforms2.get(i), categories2.get(i));
             video.setImagePath("default-placeholder.jpeg");
             v.add(video);
         }
         VideogameQuery.getGamesWithImage(v);
-        v.forEach(x -> DatabaseHelper.saveNewGame(x));
+        v.forEach(x -> {
+            System.out.println(x.getPlatforms().get(0).getName());
+            DatabaseHelper.saveNewGame(x);
+        });
 
         for (int i = 0; i < 5; i++) {
             User user = new User(Encrypter.getEncodedString("123456"), "user" + i, "Name" + i, "mail" + i + "@mail.com");
             user.setIsAdmin(false);
             DatabaseHelper.tryRegister(user);
+        }
+    }
+
+    /**
+     * Method to manage the petitions from a login It will receive the username and the password as a plain string Then it checks if the user exists Finally it
+     * will send a boolean to the client. If it's true, it will also send the user.
+     */
+    public void doLogin() {
+        try {
+            String username = dis.readUTF();
+            String password = dis.readUTF();
+
+            User user = checkLogin(username, password);
+
+            if (user == null) {
+                dos.writeBoolean(false);
+            } else {
+                dos.writeBoolean(true);
+                user.setPassword(null);
+                oos.writeObject(user);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

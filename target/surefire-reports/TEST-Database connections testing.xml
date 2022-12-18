@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Database connections testing" time="1.44" tests="31" errors="26" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="Database connections testing" time="4.678" tests="38" errors="0" skipped="0" failures="3">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,9 +15,8 @@
     <property name="user.country" value="ES"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17.0.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\NeRooN\AppData\Local\Temp\surefire5010320955579645645\surefirebooter3760461087210150975.jar C:\Users\NeRooN\AppData\Local\Temp\surefire5010320955579645645 2022-12-17T18-50-53_017-jvmRun1 surefire7204554997578287244tmp surefire_0698662821751588365tmp"/>
+    <property name="sun.java.command" value="C:\Users\NeRooN\AppData\Local\Temp\surefire2608962192875164974\surefirebooter8318754955384791349.jar C:\Users\NeRooN\AppData\Local\Temp\surefire2608962192875164974 2022-12-18T21-55-32_736-jvmRun1 surefire11884984929231202939tmp surefire_05845931664549919065tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="tests.ServerTest"/>
     <property name="surefire.test.class.path" value="C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\test-classes;C:\Users\NeRooN\Documents\NetBeansProjects\Ludox\target\classes;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\eclipselink\4.0.0\eclipselink-4.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.0\jakarta.xml.bind-api-4.0.0.jar;C:\Users\NeRooN\.m2\repository\com\sun\xml\bind\jaxb-xjc\4.0.0\jaxb-xjc-4.0.0.jar;C:\Users\NeRooN\.m2\repository\com\sun\xml\bind\jaxb-core\4.0.0\jaxb-core-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\postgresql\postgresql\42.5.0\postgresql-42.5.0.jar;C:\Users\NeRooN\.m2\repository\org\checkerframework\checker-qual\3.5.0\checker-qual-3.5.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.asm\9.4.0\org.eclipse.persistence.asm-9.4.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.core\4.0.0\org.eclipse.persistence.core-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.corba\4.0.0\org.eclipse.persistence.corba-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\glassfish\corba\glassfish-corba-omgapi\4.2.4\glassfish-corba-omgapi-4.2.4.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.oracle\4.0.0\org.eclipse.persistence.oracle-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.json\4.0.0\org.eclipse.persistence.json-4.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\json\jakarta.json-api\2.1.1\jakarta.json-api-2.1.1.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa\4.0.0\org.eclipse.persistence.jpa-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.jpql\4.0.0\org.eclipse.persistence.jpa.jpql-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.moxy\4.0.0\org.eclipse.persistence.moxy-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\angus\angus-activation\1.0.0\angus-activation-1.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\angus\angus-mail\1.0.0\angus-mail-1.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\mail\jakarta.mail-api\2.1.0\jakarta.mail-api-2.1.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.moxy.utils.xjc\4.0.0\org.eclipse.persistence.moxy.utils.xjc-4.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.0\jakarta.activation-api-2.1.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.sdo\4.0.0\org.eclipse.persistence.sdo-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.dbws\4.0.0\org.eclipse.persistence.dbws-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.dbws.builder\4.0.0\org.eclipse.persistence.dbws.builder-4.0.0.jar;C:\Users\NeRooN\.m2\repository\wsdl4j\wsdl4j\1.6.3\wsdl4j-1.6.3.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.extension\4.0.0\org.eclipse.persistence.extension-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.modelgen.processor\4.0.0\org.eclipse.persistence.jpa.modelgen.processor-4.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpars\4.0.0\org.eclipse.persistence.jpars-4.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\ws\rs\jakarta.ws.rs-api\3.1.0\jakarta.ws.rs-api-3.1.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpars.server\4.0.0\org.eclipse.persistence.jpars.server-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.oracleddlparser\3.0.0\org.eclipse.persistence.oracleddlparser-3.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.utils.rename\4.0.0\org.eclipse.persistence.utils.rename-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.nosql\4.0.0\org.eclipse.persistence.nosql-4.0.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\resource\jakarta.resource-api\2.1.0\jakarta.resource-api-2.1.0.jar;C:\Users\NeRooN\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\NeRooN\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.oracle.nosql\4.0.0\org.eclipse.persistence.oracle.nosql-4.0.0.jar;C:\Users\NeRooN\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.0\junit-jupiter-engine-5.9.0.jar;C:\Users\NeRooN\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\NeRooN\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.0\junit-jupiter-api-5.9.0.jar;C:\Users\NeRooN\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\NeRooN\.m2\repository\org\junit\platform\junit-platform-commons\1.9.0\junit-platform-commons-1.9.0.jar;C:\Users\NeRooN\.m2\repository\org\junit\platform\junit-platform-engine\1.9.0\junit-platform-engine-1.9.0.jar;C:\Users\NeRooN\.m2\repository\org\mockito\mockito-inline\4.9.0\mockito-inline-4.9.0.jar;C:\Users\NeRooN\.m2\repository\org\mockito\mockito-core\4.9.0\mockito-core-4.9.0.jar;C:\Users\NeRooN\.m2\repository\net\bytebuddy\byte-buddy\1.12.16\byte-buddy-1.12.16.jar;C:\Users\NeRooN\.m2\repository\net\bytebuddy\byte-buddy-agent\1.12.16\byte-buddy-agent-1.12.16.jar;C:\Users\NeRooN\.m2\repository\org\objenesis\objenesis\3.2\objenesis-3.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\NeRooN"/>
@@ -29,9 +28,10 @@
     <property name="basedir" value="C:\Users\NeRooN\Documents\NetBeansProjects\Ludox"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
+    <property name="javax.net.ssl.keyStorePassword" value="Ludox123."/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\NeRooN\AppData\Local\Temp\surefire5010320955579645645\surefirebooter3760461087210150975.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\NeRooN\AppData\Local\Temp\surefire2608962192875164974\surefirebooter8318754955384791349.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.1+12-LTS-39"/>
@@ -42,6 +42,7 @@
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
     <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-12.6\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="javax.net.ssl.keyStore" value="Cert/mykeystore.jks"/>
     <property name="localRepository" value="C:\Users\NeRooN\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\NeRooN\AppData\Local\Temp\"/>
@@ -58,23 +59,97 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="Create platform by name" classname="Database connections testing" time="0.047">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.createPlatformTest(ServerTest.java:514)
-]]></error>
-    <system-err><![CDATA[dic 17, 2022 6:50:54 P. M. tests.ServerTest setUpClass
-SEVERE: null
-java.net.ConnectException: Connection refused: connect
-	at java.base/sun.nio.ch.Net.connect0(Native Method)
-	at java.base/sun.nio.ch.Net.connect(Net.java:579)
-	at java.base/sun.nio.ch.Net.connect(Net.java:568)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:588)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at java.base/sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:299)
-	at java.base/sun.security.ssl.SSLSocketImpl.<init>(SSLSocketImpl.java:158)
-	at java.base/sun.security.ssl.SSLSocketFactoryImpl.createSocket(SSLSocketFactoryImpl.java:88)
-	at tests.ServerTest.setUpClass(ServerTest.java:126)
+  <testcase name="Login test true" classname="Database connections testing" time="0.154">
+    <system-out><![CDATA[[EL Info]: 2022-12-18 21:55:33.99--ServerSession(1565588522)--EclipseLink, version: Eclipse Persistence Services - 4.0.0.v202210051929
+not null
+]]></system-out>
+  </testcase>
+  <testcase name="Login test false" classname="Database connections testing" time="0.002">
+    <system-err><![CDATA[jakarta.persistence.NoResultException: getSingleResult() did not retrieve any entities.
+	at org.eclipse.persistence.internal.jpa.QueryImpl.throwNoResultException(QueryImpl.java:980)
+	at org.eclipse.persistence.internal.jpa.QueryImpl.getSingleResult(QueryImpl.java:536)
+	at org.eclipse.persistence.internal.jpa.EJBQueryImpl.getSingleResult(EJBQueryImpl.java:400)
+	at db.DatabaseHelper.getUser(DatabaseHelper.java:149)
+	at db.DatabaseHelper.checkLogin(DatabaseHelper.java:102)
+	at db.DatabaseHelper.doLogin(DatabaseHelper.java:407)
+	at connexions.ServerConnexion.run(ServerConnexion.java:78)
+]]></system-err>
+  </testcase>
+  <testcase name="Register new user" classname="Database connections testing" time="0.83">
+    <system-out><![CDATA[[EL Warning]: 2022-12-18 21:55:35.401--UnitOfWork(356691811)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 4.0.0.v202210051929): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.postgresql.util.PSQLException: ERROR: llave duplicada viola restricción de unicidad «usuarios_mail_key»
+  Detail: Ya existe la llave (mail)=(mock@mock.com).
+Error Code: 0
+Call: INSERT INTO Usuarios (admin, mail, name, password, username) VALUES (?, ?, ?, ?, ?)
+	bind => [5 parameters bound]
+Query: InsertObjectQuery(data.User@6d4a65c6)
+mail
+]]></system-out>
+  </testcase>
+  <testcase name="Register username already exist" classname="Database connections testing" time="0.09">
+    <system-out><![CDATA[[EL Warning]: 2022-12-18 21:55:35.518--UnitOfWork(1941598182)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 4.0.0.v202210051929): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.postgresql.util.PSQLException: ERROR: llave duplicada viola restricción de unicidad «usuarios_username_key»
+  Detail: Ya existe la llave (username)=(mock).
+Error Code: 0
+Call: INSERT INTO Usuarios (admin, mail, name, password, username) VALUES (?, ?, ?, ?, ?)
+	bind => [5 parameters bound]
+Query: InsertObjectQuery(data.User@22d9c961)
+]]></system-out>
+  </testcase>
+  <testcase name="Register mail already exist" classname="Database connections testing" time="0.038">
+    <system-out><![CDATA[[EL Warning]: 2022-12-18 21:55:35.559--UnitOfWork(685219002)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 4.0.0.v202210051929): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.postgresql.util.PSQLException: ERROR: llave duplicada viola restricción de unicidad «usuarios_mail_key»
+  Detail: Ya existe la llave (mail)=(mock@mock.com).
+Error Code: 0
+Call: INSERT INTO Usuarios (admin, mail, name, password, username) VALUES (?, ?, ?, ?, ?)
+	bind => [5 parameters bound]
+Query: InsertObjectQuery(data.User@281f23f2)
+mail
+]]></system-out>
+  </testcase>
+  <testcase name="Check existing user" classname="Database connections testing" time="0.04"/>
+  <testcase name="Check non existing user" classname="Database connections testing" time="0.006">
+    <system-err><![CDATA[jakarta.persistence.NoResultException: getSingleResult() did not retrieve any entities.
+	at org.eclipse.persistence.internal.jpa.QueryImpl.throwNoResultException(QueryImpl.java:980)
+	at org.eclipse.persistence.internal.jpa.QueryImpl.getSingleResult(QueryImpl.java:536)
+	at org.eclipse.persistence.internal.jpa.EJBQueryImpl.getSingleResult(EJBQueryImpl.java:400)
+	at db.DatabaseHelper.getUser(DatabaseHelper.java:149)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+	at org.mockito.internal.util.reflection.InstrumentationMemberAccessor$Dispatcher$ByteBuddy$w5WeoTQJ.invokeWithArguments(Unknown Source)
+	at org.mockito.internal.util.reflection.InstrumentationMemberAccessor.invoke(InstrumentationMemberAccessor.java:242)
+	at org.mockito.internal.util.reflection.ModuleMemberAccessor.invoke(ModuleMemberAccessor.java:55)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.tryInvoke(MockMethodAdvice.java:314)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.access$500(MockMethodAdvice.java:64)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice$StaticMethodCall.invoke(MockMethodAdvice.java:306)
+	at org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:142)
+	at org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:45)
+	at org.mockito.Answers.answer(Answers.java:90)
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:111)
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
+	at org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.handleStatic(MockMethodAdvice.java:148)
+	at db.DatabaseHelper.getUser(DatabaseHelper.java:149)
+	at db.DatabaseHelper.checkLogin(DatabaseHelper.java:102)
+	at java.base/java.lang.invoke.MethodHandle.invokeWithArguments(MethodHandle.java:732)
+	at org.mockito.internal.util.reflection.InstrumentationMemberAccessor$Dispatcher$ByteBuddy$w5WeoTQJ.invokeWithArguments(Unknown Source)
+	at org.mockito.internal.util.reflection.InstrumentationMemberAccessor.invoke(InstrumentationMemberAccessor.java:242)
+	at org.mockito.internal.util.reflection.ModuleMemberAccessor.invoke(ModuleMemberAccessor.java:55)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.tryInvoke(MockMethodAdvice.java:314)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.access$500(MockMethodAdvice.java:64)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice$StaticMethodCall.invoke(MockMethodAdvice.java:306)
+	at org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:142)
+	at org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:45)
+	at org.mockito.Answers.answer(Answers.java:90)
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:111)
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34)
+	at org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.handleStatic(MockMethodAdvice.java:148)
+	at db.DatabaseHelper.checkLogin(DatabaseHelper.java:102)
+	at tests.ServerTest.lambda$checkLoginNoOk$4(ServerTest.java:265)
+	at org.mockito.internal.MockedStaticImpl.when(MockedStaticImpl.java:49)
+	at tests.ServerTest.checkLoginNoOk(ServerTest.java:265)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -83,8 +158,8 @@ java.net.ConnectException: Connection refused: connect
 	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
 	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptLifecycleMethod(TimeoutExtension.java:128)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptBeforeAllMethod(TimeoutExtension.java:70)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
@@ -93,12 +168,22 @@ java.net.ConnectException: Connection refused: connect
 	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
 	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeBeforeAllMethods$13(ClassBasedTestDescriptor.java:411)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeBeforeAllMethods(ClassBasedTestDescriptor.java:409)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:215)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:84)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:148)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
 	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
 	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
 	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
@@ -136,143 +221,162 @@ java.net.ConnectException: Connection refused: connect
 	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:562)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:548)
-
 ]]></system-err>
   </testcase>
-  <testcase name="Login test false" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.io.DataOutputStream.writeByte(int)" because "tests.ServerTest.dos" is null
-	at tests.ServerTest.loginTestNoOk(ServerTest.java:204)
-]]></error>
+  <testcase name="Get user by name" classname="Database connections testing" time="0.001"/>
+  <testcase name="Get all users" classname="Database connections testing" time="0.009"/>
+  <testcase name="Update user mail" classname="Database connections testing" time="0.012"/>
+  <testcase name="Make admin True" classname="Database connections testing" time="0.01"/>
+  <testcase name="Create new game" classname="Database connections testing" time="0.017">
+    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+	at tests.ServerTest.saveNewGameTest(ServerTest.java:330)
+]]></failure>
   </testcase>
-  <testcase name="Create multiple categories" classname="Database connections testing" time="0.004">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.createMultipleCategoriesTest(ServerTest.java:491)
-]]></error>
-  </testcase>
-  <testcase name="Check existing category" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.checkGameExistCategoriesTest(ServerTest.java:402)
-]]></error>
-  </testcase>
-  <testcase name="Create category by name" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.createCategoryTest(ServerTest.java:467)
-]]></error>
-  </testcase>
-  <testcase name="Register new user" classname="Database connections testing" time="0.034"/>
-  <testcase name="Check existing platform" classname="Database connections testing" time="0.002">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.checkGameExistPlatformsTest(ServerTest.java:378)
-]]></error>
-  </testcase>
-  <testcase name="Check not existing platform" classname="Database connections testing" time="0.002">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.checkGameNoExistPlatformsTest(ServerTest.java:366)
-]]></error>
-  </testcase>
-  <testcase name="Check not existing category" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.checkGameNoExistCategoriesTest(ServerTest.java:390)
-]]></error>
-  </testcase>
-  <testcase name="Query paginated" classname="Database connections testing" time="0.005">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getQueryPaginatedTest(ServerTest.java:413)
-]]></error>
+  <testcase name="Create repeated game" classname="Database connections testing" time="0.011"/>
+  <testcase name="Check not existing platform" classname="Database connections testing" time="0.004"/>
+  <testcase name="Check existing platform" classname="Database connections testing" time="0.001"/>
+  <testcase name="Check not existing category" classname="Database connections testing" time="0.004"/>
+  <testcase name="Check existing category" classname="Database connections testing" time="0.002"/>
+  <testcase name="Query paginated" classname="Database connections testing" time="0.589">
     <system-out><![CDATA[SELECT * FROM Videogame WHERE 1=1 AND videogame.finalscore >= 0.0 ORDER BY Videogame.id OFFSET 0 FETCH NEXT 10 ROWS ONLY
 ]]></system-out>
   </testcase>
-  <testcase name="Get top 5 videogames" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getGamesTop5Test(ServerTest.java:564)
-]]></error>
+  <testcase name="Save image method test" classname="Database connections testing" time="0.11">
+    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+	at tests.ServerTest.saveImageTest(ServerTest.java:437)
+]]></failure>
   </testcase>
-  <testcase name="Make admin True" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "data.User.isIsAdmin()" because "user" is null
-	at tests.ServerTest.makeAdminTrueTest(ServerTest.java:331)
-]]></error>
+  <testcase name="Get category by name" classname="Database connections testing" time="0.001"/>
+  <testcase name="Create category by name" classname="Database connections testing" time="0.036">
+    <system-out><![CDATA[[EL Warning]: 2022-12-18 21:55:36.392--UnitOfWork(2049121789)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 4.0.0.v202210051929): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.postgresql.util.PSQLException: ERROR: llave duplicada viola restricción de unicidad «category_category_key»
+  Detail: Ya existe la llave (category)=(Test 00).
+Error Code: 0
+Call: INSERT INTO CATEGORY (CATEGORY) VALUES (?)
+	bind => [1 parameter bound]
+Query: InsertObjectQuery(data.Category@3bead518)
+]]></system-out>
   </testcase>
-  <testcase name="Get all platforms" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getPlatformsTest(ServerTest.java:524)
-]]></error>
+  <testcase name="Get all categories" classname="Database connections testing" time="0.005"/>
+  <testcase name="Create multiple categories" classname="Database connections testing" time="0.008"/>
+  <testcase name="Get platform by name" classname="Database connections testing" time="0.003"/>
+  <testcase name="Create platform by name" classname="Database connections testing" time="0.034">
+    <system-out><![CDATA[[EL Warning]: 2022-12-18 21:55:36.445--UnitOfWork(148353618)--Exception [EclipseLink-4002] (Eclipse Persistence Services - 4.0.0.v202210051929): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.postgresql.util.PSQLException: ERROR: llave duplicada viola restricción de unicidad «platforms_name_key»
+  Detail: Ya existe la llave (name)=(Platform test).
+Error Code: 0
+Call: INSERT INTO PLATFORMS (NAME) VALUES (?)
+	bind => [1 parameter bound]
+Query: InsertObjectQuery(data.Platforms@252f626c)
+]]></system-out>
   </testcase>
-  <testcase name="Create repeated game" classname="Database connections testing" time="0.002">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.saveExistingGameTest(ServerTest.java:354)
-]]></error>
-  </testcase>
-  <testcase name="Get videogames paginated" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getGamesPaginatedTest(ServerTest.java:538)
-]]></error>
+  <testcase name="Get all platforms" classname="Database connections testing" time="0.003"/>
+  <testcase name="Get videogames paginated" classname="Database connections testing" time="1.431">
     <system-out><![CDATA[SELECT * FROM Videogame WHERE 1=1 AND videogame.finalscore >= 0.0 ORDER BY Videogame.id OFFSET 0 FETCH NEXT 10 ROWS ONLY
+SELECT * FROM Videogame WHERE 1=1 AND videogame.finalscore >= 0.0 ORDER BY Videogame.id OFFSET 10 FETCH NEXT 10 ROWS ONLY
+SELECT * FROM Videogame WHERE 1=1 AND videogame.finalscore >= 0.0 ORDER BY Videogame.id OFFSET 20 FETCH NEXT 10 ROWS ONLY
 ]]></system-out>
   </testcase>
-  <testcase name="Get videogame by name" classname="Database connections testing" time="0.002">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getVideogameByNameTest(ServerTest.java:574)
-]]></error>
-  </testcase>
-  <testcase name="Check non existing user" classname="Database connections testing" time="0.004"/>
-  <testcase name="Check existing user" classname="Database connections testing" time="0.003"/>
-  <testcase name="Register mail already exist" classname="Database connections testing" time="0.003"/>
-  <testcase name="Register username already exist" classname="Database connections testing" time="0.003"/>
-  <testcase name="Get all users" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because "db.DatabaseHelper.em" is null
-	at tests.ServerTest.getUsersTest(ServerTest.java:298)
-]]></error>
-  </testcase>
-  <testcase name="Get all categories" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getCategoriesTest(ServerTest.java:477)
-]]></error>
-  </testcase>
-  <testcase name="Update user mail" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "data.User.getMail()" because "user" is null
-	at tests.ServerTest.updateUserTest(ServerTest.java:317)
-]]></error>
-  </testcase>
-  <testcase name="Create new game" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.saveNewGameTest(ServerTest.java:342)
-]]></error>
-  </testcase>
-  <testcase name="Login test true" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.io.DataOutputStream.writeByte(int)" because "tests.ServerTest.dos" is null
-	at tests.ServerTest.loginTestOk(ServerTest.java:180)
-]]></error>
-  </testcase>
-  <testcase name="Get total videogame pages" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNativeQuery(String, java.lang.Class)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getGamesTotalPageCountTest(ServerTest.java:554)
-]]></error>
-  </testcase>
-  <testcase name="Save image method test" classname="Database connections testing" time="0.203">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.saveImageTest(ServerTest.java:440)
-]]></error>
-    <system-out><![CDATA[[EL Info]: 2022-12-17 18:50:55.228--ServerSession(316972274)--EclipseLink, version: Eclipse Persistence Services - 4.0.0.v202210051929
+  <testcase name="Get total videogame pages" classname="Database connections testing" time="0.003"/>
+  <testcase name="Get top 5 videogames" classname="Database connections testing" time="0.255">
+    <system-out><![CDATA[TestVideogame
+Videogame 4
+Videogame 5
+Videogame 6
+Videogame 3
 ]]></system-out>
   </testcase>
-  <testcase name="Get platform by name" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getPlatformTest(ServerTest.java:503)
-]]></error>
+  <testcase name="Get videogame by name" classname="Database connections testing" time="0.008"/>
+  <testcase name="Update a game" classname="Database connections testing" time="0.018">
+    <system-err><![CDATA[jakarta.persistence.NoResultException: getSingleResult() did not retrieve any entities.
+	at org.eclipse.persistence.internal.jpa.QueryImpl.throwNoResultException(QueryImpl.java:980)
+	at org.eclipse.persistence.internal.jpa.QueryImpl.getSingleResult(QueryImpl.java:536)
+	at org.eclipse.persistence.internal.jpa.EJBQueryImpl.getSingleResult(EJBQueryImpl.java:400)
+	at db.VideogameQuery.getVideogameByName(VideogameQuery.java:328)
+	at db.VideogameQuery.updateGame(VideogameQuery.java:367)
+	at tests.ServerTest.updateGameTest(ServerTest.java:589)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:727)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:217)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:213)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:138)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:188)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:154)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:128)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:428)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:562)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:548)
+]]></system-err>
   </testcase>
-  <testcase name="Get user by name" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "data.User.getName()" because "user" is null
-	at tests.ServerTest.getUserTest(ServerTest.java:289)
-]]></error>
+  <testcase name="Add new score" classname="Database connections testing" time="0.031"/>
+  <testcase name="Find score" classname="Database connections testing" time="0.001"/>
+  <testcase name="Find score in a videogame" classname="Database connections testing" time="0.009"/>
+  <testcase name="Get average score" classname="Database connections testing" time="0.014"/>
+  <testcase name="Add new rental" classname="Database connections testing" time="0.015">
+    <failure type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+	at tests.ServerTest.newRentalTest(ServerTest.java:639)
+]]></failure>
   </testcase>
-  <testcase name="Get category by name" classname="Database connections testing" time="0.001">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String)" because the return value of "db.DatabaseHelper.getEm()" is null
-	at tests.ServerTest.getCategoryTest(ServerTest.java:456)
-]]></error>
-  </testcase>
-  <testcase name="" classname="Database connections testing" time="1.44">
-    <error type="java.lang.NullPointerException"><![CDATA[java.lang.NullPointerException: Cannot invoke "java.io.DataInputStream.close()" because "tests.ServerTest.dis" is null
-	at tests.ServerTest.tearDownClass(ServerTest.java:156)
-]]></error>
-  </testcase>
+  <testcase name="Get a rental" classname="Database connections testing" time="0.002"/>
+  <testcase name="Update and Get user status" classname="Database connections testing" time="0.006"/>
 </testsuite>
