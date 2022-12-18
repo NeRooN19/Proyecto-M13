@@ -581,6 +581,7 @@ public class ServerTest {
 
     /* TEA 4 */
 
+    /* Actualitza la informació d'un videojoc */
     @Test
     @Order(31)
     @DisplayName("Update a game")
@@ -592,6 +593,7 @@ public class ServerTest {
         assertEquals("TestVideogame", v.getName());
     }
 
+    /* Afegeix un now score */
     @Test
     @Order(32)
     @DisplayName("Add new score")
@@ -601,6 +603,7 @@ public class ServerTest {
         assertEquals(7.2, v.getScores().get(0).getScore());
     }
 
+    /* Busca un socre */
     @Test
     @Order(33)
     @DisplayName("Find score")
@@ -609,6 +612,7 @@ public class ServerTest {
         assertEquals(7.2, gameScore.getScore());
     }
 
+    /* Busca un score dins d'un objecte videojoc */
     @Test
     @Order(34)
     @DisplayName("Find score in a videogame")
@@ -619,15 +623,16 @@ public class ServerTest {
         assertEquals(7.2, gameScore.getScore());
     }
 
+    /* Mitjana de puntuacions d'un videojoc */
     @Test
     @Order(35)
     @DisplayName("Get average score")
-    public void getAverageTest() throws InterruptedException {
+    public void getAverageTest() {
         Videogame videogame = VideogameQuery.getVideogameByName("TestVideogame");
-        Thread.sleep(500);
         assertEquals(7.2, VideogameQuery.getAverage(videogame));
     }
 
+    /* Afegeix un nou lloguer */
     @Test
     @Order(36)
     @DisplayName("Add new rental")
@@ -637,16 +642,17 @@ public class ServerTest {
         assertEquals(0, result);
     }
 
+    /* Busca un lloguer */
     @Test
     @Order(37)
     @DisplayName("Get a rental")
-    public void getRentalTest() throws InterruptedException {
+    public void getRentalTest() {
         Rental rental = VideogameQuery.getRental("user1", "TestVideogame");
-        Thread.sleep(500);
         assertEquals(DateHelper.getDate("2022/10/20"), rental.getRentalDate());
         assertEquals(DateHelper.getDate("2022/10/27"), rental.getFinalDate());
     }
 
+    /* Actualitza l'estat d'un usuari i comproba que s'hagi actualitzat */
     @Test
     @Order(38)
     @DisplayName("Update and Get user status")
@@ -655,5 +661,4 @@ public class ServerTest {
         UserEnabled userEnabled = DatabaseHelper.getUserStatus("user1");
         assertFalse(userEnabled.isEnabled());
     }
-
 }

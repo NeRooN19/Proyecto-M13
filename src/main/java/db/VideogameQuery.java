@@ -100,6 +100,12 @@ public class VideogameQuery {
         return cats;
     }
 
+    /**
+     * Method to check if the categories exists or not in the database
+     *
+     * @param categories
+     * @return list of categories with only the existing ones
+     */
     public static List<Category> checkExistsGameCategories(List<Category> categories) {
         List<Category> cats = new ArrayList<>();
         if (categories.size() != 0) {
@@ -183,6 +189,12 @@ public class VideogameQuery {
         return plats;
     }
 
+    /**
+     * Method to check if the platforms exists or not in the database
+     *
+     * @param platforms
+     * @return list of platforms with only the existing ones
+     */
     public static List<Platforms> checkExistPlatforms(List<Platforms> platforms) {
         List<Platforms> plats = new ArrayList<>();
         if (platforms.size() != 0) {
@@ -195,7 +207,6 @@ public class VideogameQuery {
         }
         return plats;
     }
-
 
     /**
      * Method to get a List of videogames with a query filter and pagination
@@ -236,7 +247,7 @@ public class VideogameQuery {
      */
     public static StringBuilder getGamesWithoutPagination(QueryFilter filter) {
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Videogame");
-        if (filter.getPlatformName() != null) {
+        if (filter.getPlatformName() != null && filter.getPlatformName().trim().equals("")) {
             queryBuilder.append(" LEFT JOIN videogame_platforms on videogame_platforms.videogame_id = Videogame.id LEFT JOIN platforms on videogame_platforms.platforms_id = platforms.id");
         }
 
@@ -246,11 +257,11 @@ public class VideogameQuery {
 
         queryBuilder.append(" WHERE 1=1");
 
-        if (filter.getPlatformName() != null) {
+        if (filter.getPlatformName() != null && filter.getPlatformName().trim().equals("")) {
             queryBuilder.append(" AND platforms.name = '" + filter.getPlatformName() + "'");
         }
 
-        if (filter.getCategoryName() != null) {
+        if (filter.getCategoryName() != null && filter.getCategoryName().trim().equals("")) {
             queryBuilder.append(" AND category.category = '" + filter.getCategoryName() + "'");
         }
 
@@ -258,11 +269,11 @@ public class VideogameQuery {
             queryBuilder.append(" AND LOWER(videogame.name) LIKE '%" + filter.getName().toLowerCase() + "%'");
         }
 
-        if (filter.getScore() > -1) {
+        if (filter.getScore() >= 0) {
             queryBuilder.append(" AND videogame.finalscore >= " + filter.getScore());
         }
 
-        if (filter.getDate() != null) {
+        if (filter.getDate() != null && filter.getDate().trim().equals("")) {
             queryBuilder.append(" AND videogame.releasedate >= '" + filter.getDate() + "'");
         }
 
@@ -337,6 +348,12 @@ public class VideogameQuery {
         return videogames;
     }
 
+    /**
+     * Method to update the information of a game
+     *
+     * @param editVideogame
+     * @return boolean with the result of the operation
+     */
     public static boolean updateGame(EditVideogame editVideogame) {
         try {
             Videogame game = getVideogameByName(editVideogame.getCurrentName());
@@ -378,6 +395,14 @@ public class VideogameQuery {
         }
     }
 
+    /**
+     * Method to add a new score for the given user and videogame
+     *
+     * @param score
+     * @param usern
+     * @param videogamen
+     * @return int with the result of the operation
+     */
     public static int newScore(double score, String usern, String videogamen) {
 
         User user = DatabaseHelper.getUser(usern);
@@ -434,6 +459,13 @@ public class VideogameQuery {
         return -1;
     }
 
+    /**
+     * Find a specific score from the database
+     *
+     * @param user
+     * @param videogame
+     * @return the gamescore or null
+     */
     public static GameScore findScore(String user, String videogame) {
         try {
             GameScore gs = (GameScore) DatabaseHelper.getEm().createNativeQuery("SELECT * FROM GameScore WHERE LOWER(username) = '" + user.toLowerCase() + "' and LOWER(videogame) = '" + videogame.toLowerCase() + "'", GameScore.class).getSingleResult();
@@ -443,15 +475,36 @@ public class VideogameQuery {
         }
     }
 
+    /**
+     * Method to find a specific score in a given videogame
+     *
+     * @param user
+     * @param videogame
+     * @return the gamescore
+     */
     public static GameScore findScoreInGame(String user, Videogame videogame) {
         return videogame.getScores().stream().filter(r -> r.getUsername().equals(user)).findFirst().orElse(null);
     }
 
+    /**
+     * Method to find a specific score in a given user (Not used)
+     *
+     * @param user
+     * @param videogame
+     * @return the gamescore
+     */
     public static GameScore findScoreInUser(User user, String videogame) {
         return user.getScores().stream().filter(r -> r.getUsername().equals(videogame)).findFirst().orElse(null);
     }
 
 
+    /**
+     * Method to round a double to N decimals.
+     *
+     * @param value
+     * @param places
+     * @return the double with N decimals
+     */
     private static double round(double value, int places) {
         if (places < 0) {
             throw new IllegalArgumentException();
@@ -462,6 +515,12 @@ public class VideogameQuery {
         return bd.doubleValue();
     }
 
+    /**
+     * Method to get the average score from a given videogame
+     *
+     * @param videogame
+     * @return the average score
+     */
     public static double getAverage(Videogame videogame) {
         double[] finalScore = {0};
 
@@ -474,7 +533,15 @@ public class VideogameQuery {
         return round(finalScore[0], 2);
     }
 
-
+    /**
+     * Method to add new Rental to the database for a specific user and videogame
+     *
+     * @param username
+     * @param videogame
+     * @param initialDate
+     * @param finalDate
+     * @return int with the result of the operation
+     */
     public static int newRental(String username, String videogame, String initialDate, String finalDate) {
 
 
@@ -527,6 +594,13 @@ public class VideogameQuery {
         return -1;
     }
 
+    /**
+     * Method to get a rental searching by username and videogame name
+     *
+     * @param username
+     * @param videogame
+     * @return Specific rental
+     */
     public static Rental getRental(String username, String videogame) {
         try {
             Rental rental = (Rental) DatabaseHelper.getEm().createNativeQuery("SELECT * FROM Rental WHERE LOWER(username) = '" + username.toLowerCase() + "' and LOWER(videogame) = '" + videogame.toLowerCase() + "'", Rental.class).getSingleResult();

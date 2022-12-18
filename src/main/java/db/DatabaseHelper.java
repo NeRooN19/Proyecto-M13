@@ -162,6 +162,7 @@ public class DatabaseHelper {
     /**
      * Nuevo para TEA3
      */
+
     /**
      * Method to get a user from the database from a given String
      *
@@ -312,6 +313,16 @@ public class DatabaseHelper {
         }
     }
 
+    /**
+     * Nuevo para TEA4
+     */
+
+    /**
+     * Method to update the status of a given user
+     *
+     * @param username
+     * @param enabled
+     */
     public static void updateUserStatus(String username, boolean enabled) {
         User user = getUser(username);
         UserEnabled userEnabled = getUserStatus(username);
@@ -330,6 +341,12 @@ public class DatabaseHelper {
         em.getTransaction().commit();
     }
 
+    /**
+     * Method to get the status of a user
+     *
+     * @param user
+     * @return UserEnabled object with the information
+     */
     public static UserEnabled getUserStatus(String user) {
         try {
             return (UserEnabled) em.createQuery("SELECT ue FROM UserEnabled ue WHERE LOWER(ue.username) = '" + user.toLowerCase() + "'").getSingleResult();
@@ -338,6 +355,10 @@ public class DatabaseHelper {
         }
     }
 
+    /**
+     * Method to generate 25 videogames, 5 platforms, 5 categories, 5 users
+     * Test purpose only
+     */
     public static void generateData() {
         Random r = new Random();
         List<String> platforms = new ArrayList<>();
@@ -367,7 +388,6 @@ public class DatabaseHelper {
 
         for (int i = 0; i < 5; i++) {
             User user = new User(Encrypter.getEncodedString("123456"), "user" + i, "Name" + i, "mail" + i + "@mail.com");
-            //user.setIsAdmin(r.nextInt(100) < 80 ? false : true);
             user.setIsAdmin(false);
             DatabaseHelper.tryRegister(user);
         }

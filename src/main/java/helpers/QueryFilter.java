@@ -8,14 +8,14 @@ public class QueryFilter implements Serializable {
 
     private String platformName;
     private String categoryName;
-    private float score;
+    private double score;
     private String date;
     private String name;
 
     public QueryFilter() {
     }
 
-    public QueryFilter(String platformName, String categoryName, float score, String date, String name) {
+    public QueryFilter(String platformName, String categoryName, double score, String date, String name) {
         this.platformName = platformName;
         this.categoryName = categoryName;
         this.score = score;
@@ -39,11 +39,11 @@ public class QueryFilter implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public float getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(float score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
