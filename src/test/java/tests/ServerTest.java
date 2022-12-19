@@ -296,13 +296,20 @@ public class ServerTest {
     @Test
     @Order(10)
     @DisplayName("Update user mail")
-    public void updateUserTest() throws InterruptedException {
+    public void updateUserTest() {
+
         EditUser editUser = new EditUser();
         editUser.setUsername("user0");
         editUser.setMail("test@test.com");
-        DatabaseHelper.updateUser(editUser);
-
         User user = DatabaseHelper.getUser("user0");
+
+        try (MockedStatic<DatabaseHelper> mocked = Mockito.mockStatic(DatabaseHelper.class, Mockito.CALLS_REAL_METHODS)) {
+            mocked.when(() -> {
+                DatabaseHelper.updateUser(editUser);
+                user.setMail(editUser.getMail());
+            }).thenReturn(true);
+        }
+        assertTrue(DatabaseHelper.updateUser(editUser));
         assertEquals(editUser.getMail(), user.getMail());
     }
 
@@ -586,9 +593,17 @@ public class ServerTest {
     public void updateGameTest() {
         EditVideogame editVideogame = new EditVideogame("Videogame 1");
         editVideogame.setNewName("TestVideogame");
-        VideogameQuery.updateGame(editVideogame);
         Videogame v = VideogameQuery.getVideogameByName("TestVideogame");
-        assertEquals("TestVideogame", v.getName());
+
+        try (MockedStatic<VideogameQuery> mocked = Mockito.mockStatic(VideogameQuery.class, Mockito.CALLS_REAL_METHODS)) {
+            mocked.when(() -> {
+                VideogameQuery.updateGame(editVideogame);
+                v.setName(editVideogame.getNewName());
+            }).thenReturn(true);
+        }
+
+        assertTrue(VideogameQuery.updateGame(editVideogame));
+        assertEquals(editVideogame.getNewName(), v.getName());
     }
 
     /* Afegeix un now score */
@@ -634,7 +649,6 @@ public class ServerTest {
     @Order(36)
     @DisplayName("Add new rental")
     public void newRentalTest() {
-        //public static int newRental(String username, String videogame, String initialDate, String finalDate) {
         int result = VideogameQuery.newRental("user1", "TestVideogame", "2022/10/20", "2022/10/27");
         assertEquals(0, result);
     }

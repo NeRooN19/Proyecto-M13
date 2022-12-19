@@ -175,43 +175,43 @@ public class DatabaseHelper {
 
             if (user != null) {
                 int index = 1;
-                StringBuilder query = new StringBuilder("UPDATE Usuarios SET");
+                StringBuilder queryBuilder = new StringBuilder("UPDATE Usuarios SET");
 
                 if (editData.getName() != null) {
-                    query.append(" name = ?" + (index++) + ",");
+                    queryBuilder.append(" name = ?" + (index++) + ",");
                 }
 
                 if (editData.getMail() != null) {
-                    query.append(" mail = ?" + (index++) + ",");
+                    queryBuilder.append(" mail = ?" + (index++) + ",");
                 }
 
                 if (editData.getPassword() != null) {
-                    query.append(" password =  ?" + (index++));
+                    queryBuilder.append(" password =  ?" + (index++));
                 }
 
-                query.append(" WHERE username =  ?" + (index++) + "");
+                queryBuilder.append(" WHERE username =  ?" + (index++) + "");
 
-                String finalQuery = query.toString().replace(", WHERE", " WHERE");
+                String queryReplace = queryBuilder.toString().replace(", WHERE", " WHERE");
 
-                Query query1 = em.createNativeQuery(finalQuery);
+                Query query = em.createNativeQuery(queryReplace);
                 index = 1;
 
                 if (editData.getName() != null) {
-                    query1.setParameter(index++, editData.getName());
+                    query.setParameter(index++, editData.getName());
                 }
 
                 if (editData.getMail() != null) {
-                    query1.setParameter(index++, editData.getMail());
+                    query.setParameter(index++, editData.getMail());
                 }
 
                 if (editData.getPassword() != null) {
-                    query1.setParameter(index++, editData.getPassword());
+                    query.setParameter(index++, editData.getPassword());
                 }
 
-                query1.setParameter(index++, editData.getUsername());
+                query.setParameter(index++, editData.getUsername());
 
                 em.getTransaction().begin();
-                query1.executeUpdate();
+                query.executeUpdate();
                 em.getTransaction().commit();
                 em.clear();
             }

@@ -53,7 +53,7 @@ public class Videogame implements Serializable {
     }
 
     //Constructor de EclipseLink - Base Datos
-    public Videogame(List<Category> categories, String description, String developer, double finalScore, int ID, String imagePath, String name, String publisher, Date releaseDate, int stock, List<Platforms> platforms) {
+    public Videogame(List<Category> categories, String description, String developer, double finalScore, int ID, String imagePath, String name, String publisher, Date releaseDate, List<Platforms> platforms) {
         this.categories = categories;
         this.description = description;
         this.developer = developer;

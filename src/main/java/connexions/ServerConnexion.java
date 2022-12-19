@@ -144,7 +144,7 @@ public class ServerConnexion extends Thread {
                 }
             }
         } catch (IOException ex) {
-
+            Logger.getLogger(ServerConnexion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServerConnexion.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
