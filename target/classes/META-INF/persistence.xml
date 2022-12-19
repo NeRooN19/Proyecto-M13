@@ -12,7 +12,6 @@
         <class>data.Videogame</class>
         <class>data.UserEnabled</class>
         <properties>
-            <property name="javax.persistence.cache.storeMode" value="CacheStoreMode.REFRESH"/>
         </properties>
     </persistence-unit>
 </persistence>

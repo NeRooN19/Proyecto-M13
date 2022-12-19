@@ -44,9 +44,6 @@ public class DatabaseHelper {
         this.dos = dos;
         this.ois = ois;
         this.oos = oos;
-        if (em != null) {
-            System.out.println("not null");
-        }
     }
 
     public static void initDatabaseConnection() {
