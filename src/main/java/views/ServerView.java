@@ -5,11 +5,13 @@
 package views;
 
 import connexions.ServerThread;
+import data.Videogame;
 import db.DatabaseHelper;
+import db.VideogameQuery;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.Random;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -268,10 +270,8 @@ public class ServerView extends javax.swing.JFrame {
     }//GEN-LAST:event_addCategoriesActionPerformed
 
     private void testActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testActionPerformed
-        Random r = new Random();
-        for (int i = 0; i < 5; i++) {
-            System.out.println(r.nextInt(5));
-        }
+        List<Videogame> v = VideogameQuery.getVideogames();
+        v.forEach(vs -> System.out.println(vs.getName()));
     }//GEN-LAST:event_testActionPerformed
 
     private void addDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataActionPerformed

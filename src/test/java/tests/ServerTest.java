@@ -593,7 +593,7 @@ public class ServerTest {
     public void updateGameTest() {
         EditVideogame editVideogame = new EditVideogame("Videogame 1");
         editVideogame.setNewName("TestVideogame");
-        Videogame v = VideogameQuery.getVideogameByName("TestVideogame");
+        Videogame v = VideogameQuery.getVideogameByName("Videogame 1");
 
         try (MockedStatic<VideogameQuery> mocked = Mockito.mockStatic(VideogameQuery.class, Mockito.CALLS_REAL_METHODS)) {
             mocked.when(() -> {

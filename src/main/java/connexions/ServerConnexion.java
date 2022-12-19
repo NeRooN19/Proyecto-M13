@@ -139,6 +139,9 @@ public class ServerConnexion extends Thread {
                         boolean isEnabled = dis.readBoolean();
                         DatabaseHelper.updateUserStatus(user, isEnabled);
                     }
+                    case GET_VIDEOGAME_LIST -> {
+                        oos.writeObject(DatabaseHelper.getUsers());
+                    }
 
                     default -> System.out.println();
                 }

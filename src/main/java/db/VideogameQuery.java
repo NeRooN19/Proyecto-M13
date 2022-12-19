@@ -623,4 +623,11 @@ public class VideogameQuery {
         }
     }
 
+    /**
+     * @return List of all videogames
+     */
+    public static List<Videogame> getVideogames() {
+        return (List<Videogame>) DatabaseHelper.getEm().createNativeQuery("select * from videogame order by id asc;", Videogame.class).getResultList();
+    }
+
 }

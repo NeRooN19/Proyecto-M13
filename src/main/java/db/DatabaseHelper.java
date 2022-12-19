@@ -151,10 +151,6 @@ public class DatabaseHelper {
     }
 
     /**
-     * Nuevo para TEA3
-     */
-
-    /**
      * Method to get all the users from the database
      *
      * @return
@@ -337,10 +333,6 @@ public class DatabaseHelper {
     }
 
     /**
-     * Nuevo para TEA4
-     */
-
-    /**
      * Method to get the status of a user
      *
      * @param user
@@ -386,6 +378,7 @@ public class DatabaseHelper {
             video.setImagePath("default-placeholder.jpeg");
             v.add(video);
         }
+
         VideogameQuery.getGamesWithImage(v);
         v.forEach(x -> {
             System.out.println(x.getPlatforms().get(0).getName());
