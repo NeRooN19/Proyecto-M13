@@ -140,7 +140,7 @@ public class ServerConnexion extends Thread {
                         DatabaseHelper.updateUserStatus(user, isEnabled);
                     }
                     case GET_VIDEOGAME_LIST -> {
-                        oos.writeObject(DatabaseHelper.getUsers());
+                        oos.writeObject(VideogameQuery.getVideogames());
                     }
 
                     default -> System.out.println();
