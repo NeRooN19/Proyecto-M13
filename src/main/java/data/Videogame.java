@@ -178,8 +178,7 @@ public class Videogame implements Serializable {
     public void setGameImage(byte[] gameImage) {
         this.gameImage = gameImage;
     }
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
+       private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
         if (this.categories != null && this.categories.size() > 0) {
             out.writeInt(this.categories.size());

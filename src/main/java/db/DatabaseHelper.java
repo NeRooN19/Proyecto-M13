@@ -168,7 +168,6 @@ public class DatabaseHelper {
         try {
             User user = getUser(editData.getUsername());
 
-
             if (user != null) {
                 int index = 1;
                 StringBuilder queryBuilder = new StringBuilder("UPDATE Usuarios SET");
@@ -360,7 +359,6 @@ public class DatabaseHelper {
             VideogameQuery.createMultipleCategories(categories);
             VideogameQuery.createMultiplePlatforms(platforms);
         }
-
 
         List<List<Platforms>> platforms2 = new ArrayList<>();
         List<List<Category>> categories2 = new ArrayList<>();
